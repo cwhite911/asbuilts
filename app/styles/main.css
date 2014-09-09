@@ -77,3 +77,17 @@ body {
     border-bottom: 0;
   }
 }
+table tbody tr{
+   -webkit-transition: all  0.3s ease-out; /* For Safari 3.1 to 6.0 */
+   -moz-transition: all 0.3s ease-out;
+   -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+table tbody tr:hover{
+  background-color: rgba(176,196,222, 0.5);
+  color: white;
+  -webkit-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+
+};

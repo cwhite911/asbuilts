@@ -24,23 +24,25 @@
 		<div class="col-md-8">
 			<div ng-show="sheets === false" class="alert alert-info" role="alert">No Sheets are Currently Attached to this Project...</div>
 			<div ng-show="sheets">
-				<table class="table table-striped">
-					<tr>
+				<table class="table">
+					<thead>
 						<th class="text-primary">DOCTYPE</th>
 						<th class="text-primary">DOCID</th>
 						<th class="text-primary">WATER</th>
 						<th class="text-primary">SEWER</th>
 						<th class="text-primary">REUSE</th>
 						<th class="text-primary">STORM</th>
-					</tr>
-					<tr ng-repeat="sheet in sheets | orderBy: DOCID ">
-						<td>{{sheet.attributes.DOCTYPE}}</td>
-						<td>{{sheet.attributes.DOCID}}</td>
-						<td>{{sheet.attributes.WATER}}</td>
-						<td>{{sheet.attributes.SEWER}}</td>
-						<td>{{sheet.attributes.REUSE}}</td>
-						<td>{{sheet.attributes.STORM}}</td>
-					</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="sheet in sheets | orderBy: DOCID ">
+							<td>{{sheet.attributes.DOCTYPE}}</td>
+							<td>{{sheet.attributes.DOCID}}</td>
+							<td>{{sheet.attributes.WATER}}</td>
+							<td>{{sheet.attributes.SEWER}}</td>
+							<td>{{sheet.attributes.REUSE}}</td>
+							<td>{{sheet.attributes.STORM}}</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>
