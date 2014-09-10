@@ -87,7 +87,7 @@ table tbody tr{
 table tbody tr:hover{
   background-color: rgba(176,196,222, 0.5);
   color: white;
-  -webkit-transform: scale(1.2);
-  -webkit-transform: scale(1.2);
+  -webkit-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
 
 };
