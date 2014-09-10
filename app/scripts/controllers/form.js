@@ -20,10 +20,16 @@ angular.module('asbuiltsApp')
     			'id': null,
     			'name': 'Project Tracking'
     		},
-    		'tables': {
-    			'id': null,
-    			'name': 'RPUD.ASBUILTS'
-    		}
+    		'tables': [
+          {
+    			 'id': null,
+    			 'name': 'RPUD.ASBUILTS'
+    		  },
+          {
+            'id': null,
+            'name': 'RPUD.EngineeringFirms'
+          }
+        ]
     	}
     }];
 
@@ -37,48 +43,74 @@ angular.module('asbuiltsApp')
 
     //Set ID's for tables and layers from feature service
     function setId (data, type, sname){
-    	for (var each in data[type]){
-    		if (data[type][each].name === sname){
-    			$scope.servers[0].test[type].id = data[type][each].id;
-    		}
-    	}	
+    	 for (var each in data[type]){
+    		  if (data[type][each].name === sname){
+            if (type === 'layers'){
+              $scope.servers[0].test[type].id = data[type][each].id;
+            }
+    			   else {
+                for (var t in $scope.servers[0].test.tables){
+                  if ($scope.servers[0].test[type][t].name === sname){
+                    $scope.servers[0].test[type][t].id = data[type][each].id;
+                  }
+                }
+             }
+    		  }
+    	 }
     };
 
     $http.get($scope.servers[0].test.FeatureServer, {params: { f: 'json'}})
         .success(function(data){
-          console.log(data);
           setId(data, 'layers', $scope.servers[0].test.layers.name);
-          setId(data, 'tables', $scope.servers[0].test.tables.name);          
+          for (var t in $scope.servers[0].test.tables){
+            setId(data, 'tables', $scope.servers[0].test.tables[t].name)
+          }          
      });
 
     //Get Field Names for table
     setTimeout(function(){
-    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables.id, {params: {f: 'json'}, cache: true})
+    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id, {params: {f: 'json'}, cache: true})
     		.success(function(res){
           	console.log(res);
           	$scope.fields = res.fields;
-     	})
+     	});
 
-    	var getProjects = function (count){
+    	var getProjects = function (count, order, type){
     		var options = {
             	f: 'json',
             	outFields: '*',
             	where: 'OBJECTID >' + count,
-            	orderByFields: 'PROJECTNAME ASC',
+            	orderByFields: order + ' ASC',
             	returnGeometry: false
         	};
-
-    		$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers.id + '/query', {params: options})
+        if (type === 'layers'){
+          var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test[type].id + '/query';
+        }
+        else{
+          var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test[type][1].id + '/query'
+          console.log(conn);
+          console.log($scope.servers);
+        }
+        //Gets Project Details
+    		$http.get(conn, {params: options})
     			.success(function(res){
           			console.log(res);
-          			$scope.projects = res.features;
-     		})
+                if (type === 'layers'){
+                  $scope.projects = res.features;
+                }
+                else{
+                  $scope.engfirms = res.features;
+                }
+          			
+     		});
     	}
 
-    	getProjects(count);
+
+    	getProjects(count, 'PROJECTNAME', 'layers');
+      getProjects(count, 'SIMPLIFIEDNAME', 'tables');
     	
 
-    }, 500);
+    }, 1000);
 
     function getPageNumber(pages){
       var temp = [];
@@ -102,7 +134,7 @@ angular.module('asbuiltsApp')
             	orderByFields: 'PROJECTNAME ASC',
             	returnGeometry: false
         	};
-    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables.id + '/query', {params: options})
+    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/query', {params: options})
     			.success(function(res){
           			console.log(res);
           			$scope.sheets = res.features;
