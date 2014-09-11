@@ -11,8 +11,13 @@
 				<div class="form-group" ng-repeat="info in fields">
 		    		<label ng-if="info.name !== 'PROJECTNAME' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'OBJECTID'" for="info.name">{{info.name}}</label>
 		    		<!-- <input ng-if="info.type === 'esriFieldTypeOID'" class="form-control" type="text" placeholder="---------Auto Populated--------" readonly> -->
-		    		<input ng-if="info.type === 'esriFieldTypeString' && info.name !== 'PROJECTNAME' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'ENGINEERINGFIRM'" type="text" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
+		    		<input ng-if="info.type === 'esriFieldTypeString' && info.name !== 'PROJECTNAME' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'ENGINEERINGFIRM' && info.name !== 'STREET_1' && info.name !== 'STREET_2' && info.name !== 'STREET_3' && info.name !== 'STREET_4'" type="text" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
 		    		<input ng-if="info.type === 'esriFieldTypeDate' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON'" type="date" class="form-control" id="info.name" ng-model="form[info.name]">
+
+		    		<autocomplete ng-if="info.name === 'STREET_1'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_2'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_3'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 
 		    		<select ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name !== 'DOCID'" ng-options="boo.name for boo in selections" class="form-control" id="info.name" ng-model="form[info.name]">
 		    		</select>

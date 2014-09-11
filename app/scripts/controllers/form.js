@@ -31,7 +31,12 @@ angular.module('asbuiltsApp')
           }
         ]
     	}
-    }];
+    },
+    {
+      'WAKE': {
+          'Addresses' : 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query'
+       }
+  }];
 
     var config = {
     	params: {
@@ -162,6 +167,26 @@ angular.module('asbuiltsApp')
           $scope.form[fromProject[p]] = atts.PROJECTNAME.attributes[fromProject[p]];
         }
     };
+
+    $scope.autoFill = function (typed) {
+      var options = {
+        f: 'json',
+        outFields: 'ADDRESS',
+        text: typed,
+        returnGeometry: false,
+        orderByFields: 'ADDRESS ASC'
+      };
+      var url = $scope.servers[1].WAKE.Addresses;
+      $http.get(url, {params: options, cache: true})
+        .success(function(res){
+          console.log(res);
+          $scope.streets = [];
+          for (var s in res.features){
+            $scope.streets.push(res.features[s].attributes.ADDRESS);
+          }
+          
+        });
+    }
 
     $scope.submit = function (data){
       var values = {
