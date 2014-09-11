@@ -11,6 +11,7 @@ angular.module('asbuiltsApp')
   .controller('FormCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
     $scope.fields = null;
     $scope.projects = null;
+    $scope.stat = true;
     $scope.selections = [{'name': true, 'id': 1}, {'name': false, 'id': 0}];
     var count = 0;
     $scope.servers = [{
@@ -189,13 +190,15 @@ angular.module('asbuiltsApp')
     }
 
     $scope.submit = function (data){
+      console.log('HEllo');
+      console.log(data);
       var values = {
           PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
           SEALDATE: data.SEALDATE,
           SEALNUMBER: data.SEALNUMBER,
           DOCTYPE: data.DOCTYPE,
           DOCID: data.DOCID,
-          ENGINEERINGFIRM: data.ENGINEERINGFIRM,
+          ENGINEERINGFIRM: data.ENGINEERINGFIRM.SIMPLIFIEDNAME,
           WATER: data.WATER.id,
           SEWER: data.SEWER.id,
           REUSE: data.REUSE.id,
@@ -211,10 +214,14 @@ angular.module('asbuiltsApp')
           TAGS: data.TAGS || null,
           PROJECTID: data.PROJECTNAME.attributes.PROJECTID
       };
-      if (sheets !== false){
-        values.SEALDATE = sheets.SEALDATE;
+      if ($scope.sheets !== false){
+        values.SEALDATE = $scope.sheets.SEALDATE;
       }
+      $scope.stat = false;
+      $scope.entry = values;
     };
+
+
         
 
   }]);

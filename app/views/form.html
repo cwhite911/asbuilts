@@ -5,7 +5,7 @@
 			<form name="form" ng-submit="submit(form)">
 				<div class="form-group">
 					<label for="PROJECTNAME">PROJECTNAME</label>
-					<select ng-options="boo.attributes.PROJECTNAME for boo in projects" class="form-control" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)">
+					<select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)">
 		    		</select>
 				</div>
 				<div class="form-group" ng-repeat="info in fields">
@@ -33,8 +33,8 @@
 			</form>
 		</div>
 		<div class="col-md-8">
-			<div ng-show="sheets === false" class="alert alert-info" role="alert">No Sheets are Currently Attached to this Project...</div>
-			<div ng-show="sheets">
+			<div ng-hide="stat" ng-show="sheets === false" class="alert alert-info" role="alert">No Sheets are Currently Attached to this Project...</div>
+			<div ng-hide="stat" ng-show="sheets">
 				<table class="table"> 
 					<thead>
 						<th class="text-primary">DOCTYPE</th>
@@ -56,6 +56,7 @@
 					</tbody>
 				</table>
 			</div>
+			<div ng-show="entry" class="alert alert-info" role="alert">{{entry | json}}</div>
 		</div>
 	</div>
 	{{form | json}}
