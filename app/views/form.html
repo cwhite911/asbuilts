@@ -6,6 +6,7 @@
 				<div class="form-group">
 					<label for="PROJECTNAME">PROJECTNAME</label>
 					<select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)" required>
+						<option value="">---Please Select Project---</option>
 		    		</select>
 				</div>
 				<div class="form-group" ng-repeat="info in fields">
@@ -20,15 +21,18 @@
 		    		<autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 
 		    		<select ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name !== 'DOCID'" ng-options="boo.name for boo in selections" class="form-control" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">---Please Select---</option>
 		    		</select>
 
 		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'ENGINEERINGFIRM'" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engfirms" class="form-control" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">---Please Select Engineering Firm---</option>
 		    		</select>
 
 		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'DOCTYPE'" ng-options="doc.type for doc in doctypes" class="form-control" id="info.name" ng-model="form[info.name]" required>
 		    		</select>
 
 		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'SHEETDESCRIPTION'" ng-options="desc.type for desc in sheetdisc" class="form-control" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">---Please Select Sheet Description---</option>
 		    		</select>
 
 		    		<input ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name === 'DOCID'" type="number" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="" required>
