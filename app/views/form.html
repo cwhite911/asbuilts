@@ -2,32 +2,38 @@
 	<h1>As-Built Form</h1>
 	<div class="row">
 		<div class="col-md-4">
-			<form name="form" ng-submit="submit(form)">
+			<form name="form" ng-submit="submit(form)" validate class="css-form">
 				<div class="form-group">
 					<label for="PROJECTNAME">PROJECTNAME</label>
-					<select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)">
+					<select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)" required>
 		    		</select>
 				</div>
 				<div class="form-group" ng-repeat="info in fields">
 		    		<label ng-if="info.name !== 'PROJECTNAME' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'OBJECTID'" for="info.name">{{info.name}}</label>
 		    		<!-- <input ng-if="info.type === 'esriFieldTypeOID'" class="form-control" type="text" placeholder="---------Auto Populated--------" readonly> -->
-		    		<input ng-if="info.type === 'esriFieldTypeString' && info.name !== 'PROJECTNAME' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'ENGINEERINGFIRM' && info.name !== 'STREET_1' && info.name !== 'STREET_2' && info.name !== 'STREET_3' && info.name !== 'STREET_4'" type="text" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
-		    		<input ng-if="info.type === 'esriFieldTypeDate' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON'" type="date" class="form-control" id="info.name" ng-model="form[info.name]">
+		    		<input ng-if="info.type === 'esriFieldTypeString' && info.name !== 'PROJECTNAME' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'ENGINEERINGFIRM' && info.name !== 'STREET_1' && info.name !== 'STREET_2' && info.name !== 'STREET_3' && info.name !== 'STREET_4' && info.name !== 'DOCTYPE' && info.name !== 'SHEETDESCRIPTION'" type="text" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
+		    		<input ng-if="info.type === 'esriFieldTypeDate' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON'" type="date" class="form-control" id="info.name" ng-model="form[info.name]" required>
 
 		    		<autocomplete ng-if="info.name === 'STREET_1'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 		    		<autocomplete ng-if="info.name === 'STREET_2'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 		    		<autocomplete ng-if="info.name === 'STREET_3'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 		    		<autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill"></autocomplete>
 
-		    		<select ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name !== 'DOCID'" ng-options="boo.name for boo in selections" class="form-control" id="info.name" ng-model="form[info.name]">
+		    		<select ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name !== 'DOCID'" ng-options="boo.name for boo in selections" class="form-control" id="info.name" ng-model="form[info.name]" required>
 		    		</select>
 
-		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'ENGINEERINGFIRM'" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engfirms" class="form-control" id="info.name" ng-model="form[info.name]">
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'ENGINEERINGFIRM'" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engfirms" class="form-control" id="info.name" ng-model="form[info.name]" required>
 		    		</select>
 
-		    		<input ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name === 'DOCID'" type="number" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'DOCTYPE'" ng-options="doc.type for doc in doctypes" class="form-control" id="info.name" ng-model="form[info.name]" required>
+		    		</select>
 
-		    		<input ng-if="info.type === 'esriFieldTypeInteger'" type="number" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="">
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'SHEETDESCRIPTION'" ng-options="desc.type for desc in sheetdisc" class="form-control" id="info.name" ng-model="form[info.name]" required>
+		    		</select>
+
+		    		<input ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name === 'DOCID'" type="number" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="" required>
+
+		    		<input ng-if="info.type === 'esriFieldTypeInteger'" type="number" class="form-control" id="info.name" ng-model="form[info.name]" placeholder="" required>
 		  		</div>
 		  		<input type="submit" id="submit" value="Submit" class="btn btn-primary" />
 			</form>
@@ -37,8 +43,9 @@
 			<div ng-hide="stat" ng-show="sheets">
 				<table class="table"> 
 					<thead>
-						<th class="text-primary">DOCTYPE</th>
 						<th class="text-primary">DOCID</th>
+						<th class="text-primary">DOCTYPE</th>
+						<th class="text-primary">SHEET DESCRIPTION</th>
 						<th class="text-primary">WATER</th>
 						<th class="text-primary">SEWER</th>
 						<th class="text-primary">REUSE</th>
@@ -46,8 +53,9 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="sheet in sheets | orderBy: DOCID ">
-							<td>{{sheet.attributes.DOCTYPE}}</td>
 							<td>{{sheet.attributes.DOCID}}</td>
+							<td>{{sheet.attributes.DOCTYPE}}</td>
+							<td>{{sheet.attributes.SHEETDESCRIPTION}}</td>
 							<td>{{sheet.attributes.WATER}}</td>
 							<td>{{sheet.attributes.SEWER}}</td>
 							<td>{{sheet.attributes.REUSE}}</td>

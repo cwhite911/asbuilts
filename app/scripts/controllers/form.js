@@ -39,6 +39,39 @@ angular.module('asbuiltsApp')
        }
   }];
 
+
+//Options for DOCTYPE selection --- TODO - Move out of controller!!!!
+  $scope.doctypes = [
+        {type: 'AS-BUILT DRAWING'},
+        {type: 'CONSTRUCTION DRAWING'},
+        {type: 'WARRANTY LETTER'},
+        {type: 'ACCEPTANCE LETTER'},
+        {type: 'STATEMENT OF COST'}
+  ];
+
+  //Options for SHEETDESCRITION selection --- TODO - Move out of controller!!!!
+    $scope.sheetdisc = [
+        {type: 'COVER SHEET'},
+        {type: 'OVERALL PLAN'},
+        {type: 'EXISTING CONDITIONS'},
+        {type: 'UTILITY PLAN'},
+        {type: 'GRADING & DRAINAGE'},
+        {type: 'PLAN/PROFILE'},
+        {type: 'DETAILS'},
+        {type: 'NOTES/LEGEND'},
+        {type: 'DEMOLITION PLAN'},
+        {type: 'EROSION CONTROL PLAN'},
+        {type: 'LANDSCAPE PLAN'},
+        {type: 'ROAD CROSS SECTIONS'},
+        {type: 'SUBDIVISION PLAN'},
+        {type: 'OTHER'}
+    ];
+
+    //Alphabetically orders options in selection
+    $scope.sheetdisc = $filter('orderBy')($scope.sheetdisc, 'type');
+    $scope.doctypes = $filter('orderBy')($scope.doctypes, 'type');
+
+
     var config = {
     	params: {
     		f: 'json',
@@ -144,6 +177,14 @@ angular.module('asbuiltsApp')
     			.success(function(res){
           			console.log(res);
           			$scope.sheets = res.features;
+                //Adds leading zeros in front of IDs for sorting
+                for (var i in $scope.sheets){
+                  if ($scope.sheets[i].attributes.DOCID < 10){
+                    var temp = '0' + $scope.sheets[i].attributes.DOCID.toString();
+                    $scope.sheets[i].attributes.DOCID = parseInt(temp);
+                    console.log($scope.sheets[i].attributes.DOCID);
+                  } 
+                }
           			$scope.sheetFields = res.fields;
                 //Checks if other sheets exisits
           			if ($scope.sheets.length === 0){
@@ -196,7 +237,7 @@ angular.module('asbuiltsApp')
           PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
           SEALDATE: data.SEALDATE,
           SEALNUMBER: data.SEALNUMBER,
-          DOCTYPE: data.DOCTYPE,
+          DOCTYPE: data.DOCTYPE.type,
           DOCID: data.DOCID,
           ENGINEERINGFIRM: data.ENGINEERINGFIRM.SIMPLIFIEDNAME,
           WATER: data.WATER.id,
@@ -212,7 +253,8 @@ angular.module('asbuiltsApp')
           STREET_4: data.STREET_4 || null,
           NOTES: data.NOTES || null,
           TAGS: data.TAGS || null,
-          PROJECTID: data.PROJECTNAME.attributes.PROJECTID
+          PROJECTID: data.PROJECTNAME.attributes.PROJECTID,
+          SHEETDESCRIPTION: data.SHEETDESCRIPTION.type
       };
       if ($scope.sheets !== false){
         values.SEALDATE = $scope.sheets.SEALDATE;
