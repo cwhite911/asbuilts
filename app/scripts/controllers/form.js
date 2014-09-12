@@ -7,6 +7,12 @@
  * # MainCtrl
  * Controller of the asbuiltsApp
  */
+angular.module('asbuiltsApp').config(['$httpProvider', function($httpProvider) {
+    // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+    delete $httpProvider.defaults.headers.common["X-Requested-With"];
+}]);
+
+
 angular.module('asbuiltsApp')
   .controller('FormCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
     $scope.fields = null;
@@ -71,14 +77,6 @@ angular.module('asbuiltsApp')
     $scope.sheetdisc = $filter('orderBy')($scope.sheetdisc, 'type');
     $scope.doctypes = $filter('orderBy')($scope.doctypes, 'type');
 
-
-    var config = {
-    	params: {
-    		f: 'json',
-    		features: []
-    	}
-    };
-    
 
     //Set ID's for tables and layers from feature service
     function setId (data, type, sname){
@@ -261,7 +259,28 @@ angular.module('asbuiltsApp')
       }
       $scope.stat = false;
       $scope.entry = values;
+
+      var config = {
+        params: {
+          f: 'json',
+          features: [
+            {
+              attributes: values
+            }
+          ]
+        }
+        // headers: {
+        //   'content-type': 'application/json'
+        // }
+      };
+
+    $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/addFeatures', values, config)
+      .success(function(res){
+        console.log(res);
+
+      });
     };
+
 
 
         
