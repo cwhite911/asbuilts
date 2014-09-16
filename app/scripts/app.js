@@ -18,7 +18,7 @@ angular
     'ngTouch',
     'autocomplete'
   ])
-  .config(function ($routeProvider) {
+  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/form.html',
@@ -35,4 +35,7 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+
+      $httpProvider.defaults.useXDomain = true;
+      delete $httpProvider.defaults.headers.common["X-Requested-With"];
+  }]);

@@ -7,10 +7,7 @@
  * # MainCtrl
  * Controller of the asbuiltsApp
  */
-angular.module('asbuiltsApp').config(['$httpProvider', function($httpProvider) {
-    // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-    delete $httpProvider.defaults.headers.common["X-Requested-With"];
-}]);
+
 
 
 angular.module('asbuiltsApp')
@@ -18,10 +15,18 @@ angular.module('asbuiltsApp')
     $scope.fields = null;
     $scope.projects = null;
     $scope.stat = true;
+    $scope.formSuccess = false;
     $scope.selections = [{'name': true, 'id': 1}, {'name': false, 'id': 0}];
+    $scope.selectionOptions = {
+      project: '--Please Select Project--',
+      doctype: '--Please Select Document Type--',
+      engineer: '--Please Select Engineering Firm--',
+      tf: '--Please Select--',
+      sheet: '--Please Select Sheet--'
+    };
     var count = 0;
     $scope.servers = [{
-    	'test': { 
+    	'test': {
     		'FeatureServer': 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer',
     		'layers': {
     			'id': null,
@@ -101,7 +106,7 @@ angular.module('asbuiltsApp')
           setId(data, 'layers', $scope.servers[0].test.layers.name);
           for (var t in $scope.servers[0].test.tables){
             setId(data, 'tables', $scope.servers[0].test.tables[t].name)
-          }          
+          }
      });
 
     //Get Field Names for table
@@ -138,14 +143,14 @@ angular.module('asbuiltsApp')
                 else{
                   $scope.engfirms = res.features;
                 }
-          			
+
      		});
     	}
 
 
     	getProjects(count, 'PROJECTNAME', 'layers');
       getProjects(count, 'SIMPLIFIEDNAME', 'tables');
-    	
+
 
     }, 1000);
 
@@ -157,7 +162,7 @@ angular.module('asbuiltsApp')
       temp.sort(function(a, b){return b-a});
       return temp[0];
     };
-    
+
     $scope.change = function(atts){
     	var docid = null;
     	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGINEERINGFIRM', 'FORMERNAME', 'ALIAS'];
@@ -180,17 +185,17 @@ angular.module('asbuiltsApp')
                   if ($scope.sheets[i].attributes.DOCID < 10){
                     var temp = '0' + $scope.sheets[i].attributes.DOCID.toString();
                     $scope.sheets[i].attributes.DOCID = parseInt(temp);
-                    console.log($scope.sheets[i].attributes.DOCID);
-                  } 
+                    // console.log($scope.sheets[i].attributes.DOCID);
+                  }
                 }
           			$scope.sheetFields = res.fields;
                 //Checks if other sheets exisits
           			if ($scope.sheets.length === 0){
           				$scope.sheets = false;
-                  
+
                   for (var f in fromSheets){
                     $scope.form[fromSheets[f]] = null;
-                  } 
+                  }
                   $scope.form.DOCID = 1;
           			}
                 //Adds values to form if other sheets exisit
@@ -199,7 +204,8 @@ angular.module('asbuiltsApp')
                   for (var f in fromSheets){
                     $scope.form[fromSheets[f]] = $scope.sheets[0].attributes[fromSheets[f]];
                     $scope.form.SEALDATE = $filter('date')($scope.sheets[0].attributes.SEALDATE, 'yyyy-MM-dd');
-                  } 
+                    $scope.selectionOptions.engineer = $scope.sheets[0].attributes.ENGINEERINGFIRM;
+                  }
                 }
      		});
         //Adds data from Project Tracking layer
@@ -224,20 +230,50 @@ angular.module('asbuiltsApp')
           for (var s in res.features){
             $scope.streets.push(res.features[s].attributes.ADDRESS);
           }
-          
+
         });
     }
 
+    $scope.nextSheet = function (){
+      $scope.selectionOptions.project = $scope.entry.PROJECTNAME;
+      $scope.selectionOptions.engineer = $scope.entry.ENGINEERINGFIRM;
+
+      $scope.form = {
+        PROJECTNAME: $scope.entry.PROJECTNAME,
+        SEALDATE:  $scope.lastDate,
+        SEALNUMBER: $scope.entry.SEALNUMBER,
+        ENGINEERINGFIRM: $scope.entry.ENGINEERINGFIRM,
+        DEVPLANID: $scope.entry.DEVPLANID,
+        JURISDICTION: $scope.entry.JURISDICTION,
+        PROJECTID: $scope.entry.PROJECTID
+      };
+      // $scope.form.PROJECTNAME.$setTouched();
+    };
+
+    $scope.delete= function (objectid){
+      $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/deleteFeatures',
+        $scope.postResults, {params: { f: 'json', objectIds: $scope.postResults.objectId}, headers: {
+          'Content-Type': 'text/plain'
+        }  })
+        .success(function(res){
+          console.log(res);
+          $scope.sheets.pop();
+        });
+    };
+
     $scope.submit = function (data){
-      console.log('HEllo');
       console.log(data);
+      $scope.lastDate = data.SEALDATE;
+      var date = data.SEALDATE.split('-');
+      var newDate = date[1] + '/' + date[2] + '/' + date[0];
+      console.log(newDate);
       var values = {
           PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
-          SEALDATE: data.SEALDATE,
+          SEALDATE: newDate,
           SEALNUMBER: data.SEALNUMBER,
           DOCTYPE: data.DOCTYPE.type,
           DOCID: data.DOCID,
-          ENGINEERINGFIRM: data.ENGINEERINGFIRM.SIMPLIFIEDNAME,
+          ENGINEERINGFIRM: data.ENGINEERINGFIRM.attributes.SIMPLIFIEDNAME.toUpperCase(),
           WATER: data.WATER.id,
           SEWER: data.SEWER.id,
           REUSE: data.REUSE.id,
@@ -260,29 +296,34 @@ angular.module('asbuiltsApp')
       $scope.stat = false;
       $scope.entry = values;
 
-      var config = {
-        params: {
-          f: 'json',
-          features: [
-            {
-              attributes: values
-            }
-          ]
-        }
-        // headers: {
-        //   'content-type': 'application/json'
-        // }
-      };
+//Prepares Data For Post
+    var dirtyData = [{attributes: values}];
+    var readyData = angular.toJson(dirtyData);
+    var config = {
+      params: {
+        f: 'json',
+        features: readyData
+      },
+      headers: {
+        'Content-Type': 'text/plain'
+      }
+    };
 
+    //POST's form data to ArcGIS server
     $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/addFeatures', values, config)
       .success(function(res){
         console.log(res);
-
+        $scope.form.$setPristine();
+        $scope.formSuccess = true;
+        $scope.form = {};
+        $scope.postResults = res.addResults[0];
+        $scope.sheets.push({attributes: values});
       });
+
     };
 
 
 
-        
+
 
   }]);
