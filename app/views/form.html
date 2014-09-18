@@ -61,12 +61,14 @@
 					<tbody>
 						<tr ng-repeat="sheet in sheets | orderBy: DOCID ">
 							<td>{{sheet.attributes.DOCID}}</td>
+							<!-- <td ng-show=""><input type="text" ng-model="table.DOCID"></input></td> -->
 							<td>{{sheet.attributes.DOCTYPE}}</td>
 							<td>{{sheet.attributes.SHEETDESCRIPTION}}</td>
 							<td>{{sheet.attributes.WATER}}</td>
 							<td>{{sheet.attributes.SEWER}}</td>
 							<td>{{sheet.attributes.REUSE}}</td>
 							<td>{{sheet.attributes.STORM}}</td>
+							<td><button type="button" class="btn btn-danger" ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</button></td>
 						</tr>
 					</tbody>
 				</table>

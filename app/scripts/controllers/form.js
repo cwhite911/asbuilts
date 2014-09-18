@@ -242,6 +242,7 @@ angular.module('asbuiltsApp')
         PROJECTNAME: $scope.entry.PROJECTNAME,
         SEALDATE:  $scope.lastDate,
         SEALNUMBER: $scope.entry.SEALNUMBER,
+        DOCID: $scope.entry.DOCID + 1,
         ENGINEERINGFIRM: $scope.entry.ENGINEERINGFIRM,
         DEVPLANID: $scope.entry.DEVPLANID,
         JURISDICTION: $scope.entry.JURISDICTION,
@@ -257,6 +258,10 @@ angular.module('asbuiltsApp')
         }  })
         .success(function(res){
           console.log(res);
+          //Checks if user already clicked continue project button and sets DOCID back to original state
+          if ($scope.form.DOCID === $scope.entry.DOCID + 1){
+            $scope.form.DOCID = $scope.entry.DOCID;
+          }
           $scope.sheets.pop();
         });
     };
@@ -322,6 +327,54 @@ angular.module('asbuiltsApp')
 
     };
 
+//Edit table values
+  $scope.over;
+  $scope.tableEdits = {
+    edit: {
+        cell: function (id, field){
+          var data = {};
+          data.OBJECTID = id;
+          data[field] = $scope.table[field];
+          var dirtyData = [{attributes: data}];
+          var readyData = angular.toJson(dirtyData);
+          var config = {
+            params: {
+              f: 'json',
+              features: readyData
+            },
+            headers: {
+              'Content-Type': 'text/plain'
+            }
+          };
+          $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/updateFeatures', data, config)
+            .success(function(res){
+              console.log(res);
+            });
+        }
+    },
+    delete: {
+      row: function (id){
+          $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/deleteFeatures',
+            $scope.postResults, {params: {
+              f: 'json',
+              objectIds: id
+            }, headers: {
+              'Content-Type': 'text/plain'
+            }
+          })
+            .success(function(res){
+              console.log(res);
+              for (var i in $scope.sheets){
+                if ($scope.sheets[i].attributes.OBJECTID === id){
+                  console.log(i);
+                  // var index = $scope.sheet.indexOf($scope.sheets[i]);
+                  $scope.sheets.splice(i, 1);
+                }
+              }
+        });
+      }
+    }
+  };
 
 
 
