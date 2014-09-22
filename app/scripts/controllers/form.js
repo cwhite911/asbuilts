@@ -28,20 +28,7 @@ angular.module('asbuiltsApp')
     $scope.servers = [{
     	'test': {
     		'FeatureServer': 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer',
-    		'layers': {
-    			'id': null,
-    			'name': 'Project Tracking'
-    		},
-    		'tables': [
-          {
-    			 'id': null,
-    			 'name': 'RPUD.ASBUILTS'
-    		  },
-          {
-            'id': null,
-            'name': 'RPUD.EngineeringFirms'
-          }
-        ]
+    		'layers': []
     	}
     },
     {
@@ -51,108 +38,71 @@ angular.module('asbuiltsApp')
   }];
 
 
-//Options for DOCTYPE selection --- TODO - Move out of controller!!!!
-  $scope.doctypes = [
-        {type: 'AS-BUILT DRAWING'},
-        {type: 'CONSTRUCTION DRAWING'},
-        {type: 'WARRANTY LETTER'},
-        {type: 'ACCEPTANCE LETTER'},
-        {type: 'STATEMENT OF COST'}
-  ];
+var getData = function (count, order, name){
+  var options = {
+        f: 'json',
+        outFields: '*',
+        where: 'OBJECTID >' + count,
+        orderByFields: order + ' ASC',
+        returnGeometry: false
+    };
+  for (var i in $scope.servers[0].test.layers){
+    for (var each in $scope.servers[0].test.layers[i]){
+      if ($scope.servers[0].test.layers[i][each].name === name){
+        var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers[i][each].id + '/query';
+        $http.get(conn, {params: options})
+          .success(function(res){
+            if (name === 'RPUD.ENGINEERINGFIRM'){
+              $scope.engfirms = res.features;
+            }
+            if (name === 'Project Tracking'){
+              $scope.projects = res.features;
+            }
+            if (name === 'RPUD.PTK_DOCUMENTS'){
+              $scope.fields = res.fields;
+            }
+            if (name === 'RPUD.SHEETTYPES'){
+              $scope.sheetdisc = res.features;
+            }
+            if (name === 'RPUD.DOCUMENTTYPES'){
+              $scope.doctypes = res.features;
+            }
+          });
+      }
+    }
+  }
+}
 
-  //Options for SHEETDESCRITION selection --- TODO - Move out of controller!!!!
-    $scope.sheetdisc = [
-        {type: 'COVER SHEET'},
-        {type: 'OVERALL PLAN'},
-        {type: 'EXISTING CONDITIONS'},
-        {type: 'UTILITY PLAN'},
-        {type: 'GRADING & DRAINAGE'},
-        {type: 'PLAN/PROFILE'},
-        {type: 'DETAILS'},
-        {type: 'NOTES/LEGEND'},
-        {type: 'DEMOLITION PLAN'},
-        {type: 'EROSION CONTROL PLAN'},
-        {type: 'LANDSCAPE PLAN'},
-        {type: 'ROAD CROSS SECTIONS'},
-        {type: 'SUBDIVISION PLAN'},
-        {type: 'OTHER'}
-    ];
+$http.get($scope.servers[0].test.FeatureServer, {params: {f: 'json'}, cache: true})
+  .success(function(res){
+    $scope.servers[0].test.layers.push(res.layers);
+    $scope.servers[0].test.layers.push(res.tables);
+    setTimeout(function(){
+      getData(count, 'OBJECTID', 'RPUD.PTK_DOCUMENTS');
+      getData(count, 'PROJECTNAME', 'Project Tracking');
+      getData(count, 'SIMPLIFIEDNAME', 'RPUD.ENGINEERINGFIRM');
+      getData(count, 'SHEETTYPE', 'RPUD.SHEETTYPES');
+      getData(count, 'DOCUMENTTYPE', 'RPUD.DOCUMENTTYPES');
+    }, 1000);
+});
+
+console.log($scope.projects);
 
     //Alphabetically orders options in selection
     $scope.sheetdisc = $filter('orderBy')($scope.sheetdisc, 'type');
     $scope.doctypes = $filter('orderBy')($scope.doctypes, 'type');
 
-
-    //Set ID's for tables and layers from feature service
-    function setId (data, type, sname){
-    	 for (var each in data[type]){
-    		  if (data[type][each].name === sname){
-            if (type === 'layers'){
-              $scope.servers[0].test[type].id = data[type][each].id;
-            }
-    			   else {
-                for (var t in $scope.servers[0].test.tables){
-                  if ($scope.servers[0].test[type][t].name === sname){
-                    $scope.servers[0].test[type][t].id = data[type][each].id;
-                  }
-                }
-             }
-    		  }
-    	 }
-    };
-
-    $http.get($scope.servers[0].test.FeatureServer, {params: { f: 'json'}})
-        .success(function(data){
-          setId(data, 'layers', $scope.servers[0].test.layers.name);
-          for (var t in $scope.servers[0].test.tables){
-            setId(data, 'tables', $scope.servers[0].test.tables[t].name)
-          }
-     });
-
-    //Get Field Names for table
-    setTimeout(function(){
-    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id, {params: {f: 'json'}, cache: true})
-    		.success(function(res){
-          	console.log(res);
-          	$scope.fields = res.fields;
-     	});
-
-    	var getProjects = function (count, order, type){
-    		var options = {
-            	f: 'json',
-            	outFields: '*',
-            	where: 'OBJECTID >' + count,
-            	orderByFields: order + ' ASC',
-            	returnGeometry: false
-        	};
-        if (type === 'layers'){
-          var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test[type].id + '/query';
+    //Gets the connection string for any table of layer form server
+    function getConnection (dataset, type) {
+    for (var i in $scope.servers[0].test.layers){
+      for (var each in $scope.servers[0].test.layers[i]){
+        if ($scope.servers[0].test.layers[i][each].name === dataset){
+          var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers[i][each].id + '/' + type;
+          return conn;
         }
-        else{
-          var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test[type][1].id + '/query'
-          console.log(conn);
-          console.log($scope.servers);
-        }
-        //Gets Project Details
-    		$http.get(conn, {params: options})
-    			.success(function(res){
-          			console.log(res);
-                if (type === 'layers'){
-                  $scope.projects = res.features;
-                }
-                else{
-                  $scope.engfirms = res.features;
-                }
-
-     		});
-    	}
-
-
-    	getProjects(count, 'PROJECTNAME', 'layers');
-      getProjects(count, 'SIMPLIFIEDNAME', 'tables');
-
-
-    }, 1000);
+      }
+    }
+  }
 
     function getPageNumber(pages){
       var temp = [];
@@ -165,7 +115,7 @@ angular.module('asbuiltsApp')
 
     $scope.change = function(atts){
     	var docid = null;
-    	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGINEERINGFIRM', 'FORMERNAME', 'ALIAS'];
+    	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGID', 'FORMERNAME', 'ALIAS'];
       var fromProject = ['DEVPLANID', 'PROJECTID'];
     	// {{sheets[0].attributes[info.name] | date:'yyyy-MM-dd' }}
 // $scope.form.SEALNUMBER = $scope.sheets[0].attributes.SEALNUMBER;
@@ -176,7 +126,10 @@ angular.module('asbuiltsApp')
             	orderByFields: 'PROJECTNAME ASC',
             	returnGeometry: false
         	};
-    	$http.get($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/query', {params: options})
+
+      var conn = getConnection('RPUD.PTK_DOCUMENTS', 'query');
+
+    	$http.get(conn, {params: options})
     			.success(function(res){
           			console.log(res);
           			$scope.sheets = res.features;
@@ -204,7 +157,7 @@ angular.module('asbuiltsApp')
                   for (var f in fromSheets){
                     $scope.form[fromSheets[f]] = $scope.sheets[0].attributes[fromSheets[f]];
                     $scope.form.SEALDATE = $filter('date')($scope.sheets[0].attributes.SEALDATE, 'yyyy-MM-dd');
-                    $scope.selectionOptions.engineer = $scope.sheets[0].attributes.ENGINEERINGFIRM;
+                    $scope.selectionOptions.engineer = $scope.sheets[0].attributes.ENGID;
                   }
                 }
      		});
@@ -236,14 +189,14 @@ angular.module('asbuiltsApp')
 
     $scope.nextSheet = function (){
       $scope.selectionOptions.project = $scope.entry.PROJECTNAME;
-      $scope.selectionOptions.engineer = $scope.entry.ENGINEERINGFIRM;
+      $scope.selectionOptions.engineer = $scope.entry.ENGID;
 
       $scope.form = {
         PROJECTNAME: $scope.entry.PROJECTNAME,
         SEALDATE:  $scope.lastDate,
         SEALNUMBER: $scope.entry.SEALNUMBER,
         DOCID: $scope.entry.DOCID + 1,
-        ENGINEERINGFIRM: $scope.entry.ENGINEERINGFIRM,
+        ENGINEERINGFIRM: $scope.entry.ENGID,
         DEVPLANID: $scope.entry.DEVPLANID,
         JURISDICTION: $scope.entry.JURISDICTION,
         PROJECTID: $scope.entry.PROJECTID
@@ -252,7 +205,8 @@ angular.module('asbuiltsApp')
     };
 
     $scope.delete= function (objectid){
-      $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/deleteFeatures',
+      var conn = getConnection('RPUD.PTK_DOCUMENTS', 'deleteFeatures');
+      $http.post(conn,
         $scope.postResults, {params: { f: 'json', objectIds: $scope.postResults.objectId}, headers: {
           'Content-Type': 'text/plain'
         }  })
@@ -276,9 +230,9 @@ angular.module('asbuiltsApp')
           PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
           SEALDATE: newDate,
           SEALNUMBER: data.SEALNUMBER,
-          DOCTYPE: data.DOCTYPE.type,
+          DOCTYPEID: data.DOCTYPEID.attributes.DOCTYPEID,
           DOCID: data.DOCID,
-          ENGINEERINGFIRM: data.ENGINEERINGFIRM.attributes.SIMPLIFIEDNAME.toUpperCase(),
+          ENGID: data.ENGID.attributes.ENGID,
           WATER: data.WATER.id,
           SEWER: data.SEWER.id,
           REUSE: data.REUSE.id,
@@ -293,7 +247,7 @@ angular.module('asbuiltsApp')
           NOTES: data.NOTES || null,
           TAGS: data.TAGS || null,
           PROJECTID: data.PROJECTNAME.attributes.PROJECTID,
-          SHEETDESCRIPTION: data.SHEETDESCRIPTION.type
+          SHEETTYPEID: data.SHEETTYPEID.attributes.SHEETTYPEID
       };
       if ($scope.sheets !== false){
         values.SEALDATE = $scope.sheets.SEALDATE;
@@ -315,7 +269,8 @@ angular.module('asbuiltsApp')
     };
 
     //POST's form data to ArcGIS server
-    $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/addFeatures', values, config)
+    var conn = getConnection('RPUD.PTK_DOCUMENTS', 'addFeatures');
+    $http.post(conn, values, config)
       .success(function(res){
         console.log(res);
         $scope.form.$setPristine();
@@ -354,7 +309,8 @@ angular.module('asbuiltsApp')
     },
     delete: {
       row: function (id){
-          $http.post($scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.tables[0].id + '/deleteFeatures',
+        var conn = getConnection('RPUD.PTK_DOCUMENTS', 'deleteFeatures');
+          $http.post(conn,
             $scope.postResults, {params: {
               f: 'json',
               objectIds: id
