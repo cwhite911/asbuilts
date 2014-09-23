@@ -12,6 +12,12 @@
 
 angular.module('asbuiltsApp')
   .controller('FormCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+    $scope.pageControls = {
+      continueButton: false,
+      deleteLastRecord: false,
+      table: false,
+      noRecords: false
+    };
     $scope.fields = null;
     $scope.projects = null;
     $scope.stat = true;
@@ -89,8 +95,8 @@ $http.get($scope.servers[0].test.FeatureServer, {params: {f: 'json'}, cache: tru
 console.log($scope.projects);
 
     //Alphabetically orders options in selection
-    $scope.sheetdisc = $filter('orderBy')($scope.sheetdisc, 'type');
-    $scope.doctypes = $filter('orderBy')($scope.doctypes, 'type');
+    // $scope.sheetdisc = $filter('orderBy')($scope.sheetdisc, 'type');
+    // $scope.doctypes = $filter('orderBy')($scope.doctypes, 'type');
 
     //Gets the connection string for any table of layer form server
     function getConnection (dataset, type) {
@@ -99,6 +105,16 @@ console.log($scope.projects);
         if ($scope.servers[0].test.layers[i][each].name === dataset){
           var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers[i][each].id + '/' + type;
           return conn;
+        }
+      }
+    }
+  }
+
+  function joinTables (table1, table2, joinField, addField){
+    for (var r in table1){
+      for (var i in table2){
+        if (table1[r].attributes[joinField] === table2[i].attributes[joinField]){
+          table1[r].attributes[addField] = table2[i].attributes[addField];
         }
       }
     }
@@ -113,6 +129,18 @@ console.log($scope.projects);
       return temp[0];
     };
 
+//Sets the the permits to True or False vs. 0 or 1
+    function setBoolValue (name){
+      for (var i in $scope.sheets){
+        if ($scope.sheets[i].attributes[name] === 1){
+          $scope.sheets[i].attributes[name] = 'True';
+        }
+        else if ($scope.sheets[i].attributes[name] === 0){
+          $scope.sheets[i].attributes[name] = 'False';
+        }
+      }
+    }
+
     $scope.change = function(atts){
     	var docid = null;
     	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGID', 'FORMERNAME', 'ALIAS'];
@@ -123,7 +151,7 @@ console.log($scope.projects);
             	f: 'json',
             	outFields: '*',
             	where: "DEVPLANID =  '" + atts.PROJECTNAME.attributes.DEVPLANID + "'",
-            	orderByFields: 'PROJECTNAME ASC',
+            	orderByFields: 'DOCID ASC',
             	returnGeometry: false
         	};
 
@@ -133,19 +161,29 @@ console.log($scope.projects);
     			.success(function(res){
           			console.log(res);
           			$scope.sheets = res.features;
+
+                joinTables ($scope.sheets, $scope.doctypes, 'DOCTYPEID', 'DOCUMENTTYPE');
+                joinTables ($scope.sheets, $scope.sheetdisc, 'SHEETTYPEID', 'SHEETTYPE');
+                joinTables ($scope.sheets, $scope.engfirms, 'ENGID', 'SIMPLIFIEDNAME');
+
+                setBoolValue('WATER');
+                setBoolValue('SEWER');
+                setBoolValue('REUSE');
+                setBoolValue('STORM');
+
                 //Adds leading zeros in front of IDs for sorting
-                for (var i in $scope.sheets){
-                  if ($scope.sheets[i].attributes.DOCID < 10){
-                    var temp = '0' + $scope.sheets[i].attributes.DOCID.toString();
-                    $scope.sheets[i].attributes.DOCID = parseInt(temp);
-                    // console.log($scope.sheets[i].attributes.DOCID);
-                  }
-                }
+                // for (var i in $scope.sheets){
+                //   if ($scope.sheets[i].attributes.DOCID < 10){
+                //     var temp = '0' + $scope.sheets[i].attributes.DOCID.toString();
+                //     $scope.sheets[i].attributes.DOCID = temp;
+                //     // console.log($scope.sheets[i].attributes.DOCID);
+                //   }
+                // }
           			$scope.sheetFields = res.fields;
                 //Checks if other sheets exisits
           			if ($scope.sheets.length === 0){
-          				$scope.sheets = false;
-
+          				$scope.pageControls.table =false;
+                  $scope.pageControls.noRecords = true;
                   for (var f in fromSheets){
                     $scope.form[fromSheets[f]] = null;
                   }
@@ -153,11 +191,13 @@ console.log($scope.projects);
           			}
                 //Adds values to form if other sheets exisit
                 else{
+                  $scope.pageControls.table = true;
+                  $scope.pageControls.noRecords = false;
                   $scope.form.DOCID = getPageNumber($scope.sheets) + 1;
                   for (var f in fromSheets){
                     $scope.form[fromSheets[f]] = $scope.sheets[0].attributes[fromSheets[f]];
                     $scope.form.SEALDATE = $filter('date')($scope.sheets[0].attributes.SEALDATE, 'yyyy-MM-dd');
-                    $scope.selectionOptions.engineer = $scope.sheets[0].attributes.ENGID;
+                    $scope.selectionOptions.engineer = $scope.sheets[0].attributes.SIMPLIFIEDNAME;
                   }
                 }
      		});
@@ -167,6 +207,7 @@ console.log($scope.projects);
         }
     };
 
+//Auto fill function for street names
     $scope.autoFill = function (typed) {
       var options = {
         f: 'json',
@@ -187,16 +228,22 @@ console.log($scope.projects);
         });
     }
 
+
+//Gets shared data from previous sheet and adds it to the current form
     $scope.nextSheet = function (){
       $scope.selectionOptions.project = $scope.entry.PROJECTNAME;
-      $scope.selectionOptions.engineer = $scope.entry.ENGID;
+      for (var i in $scope.engfirms){
+        if ($scope.entry.ENGID === $scope.engfirms[i].attributes.ENGID){
+          $scope.selectionOptions.engineer = $scope.engfirms[i].attributes.SIMPLIFIEDNAME;
+        }
+      }
 
       $scope.form = {
         PROJECTNAME: $scope.entry.PROJECTNAME,
         SEALDATE:  $scope.lastDate,
         SEALNUMBER: $scope.entry.SEALNUMBER,
         DOCID: $scope.entry.DOCID + 1,
-        ENGINEERINGFIRM: $scope.entry.ENGID,
+        ENGID: $scope.entry.ENGID,
         DEVPLANID: $scope.entry.DEVPLANID,
         JURISDICTION: $scope.entry.JURISDICTION,
         PROJECTID: $scope.entry.PROJECTID
@@ -207,10 +254,16 @@ console.log($scope.projects);
     $scope.delete= function (objectid){
       var conn = getConnection('RPUD.PTK_DOCUMENTS', 'deleteFeatures');
       $http.post(conn,
-        $scope.postResults, {params: { f: 'json', objectIds: $scope.postResults.objectId}, headers: {
+        $scope.postResults, {
+          params: {
+            f: 'json',
+            objectIds: $scope.postResults.objectId
+          },
+          headers: {
           'Content-Type': 'text/plain'
-        }  })
-        .success(function(res){
+          }
+        }
+      ).success(function(res){
           console.log(res);
           //Checks if user already clicked continue project button and sets DOCID back to original state
           if ($scope.form.DOCID === $scope.entry.DOCID + 1){
@@ -218,14 +271,19 @@ console.log($scope.projects);
           }
           $scope.sheets.pop();
         });
+        //Set table to false
+        if ($scope.sheets.length === 0){
+          $scope.pageControls.table = false;
+          $scope.pageControls.noRecords = true;
+          $scope.sheets = [];
+        }
     };
-
     $scope.submit = function (data){
-      console.log(data);
+      //Re formats date for submission
       $scope.lastDate = data.SEALDATE;
       var date = data.SEALDATE.split('-');
       var newDate = date[1] + '/' + date[2] + '/' + date[0];
-      console.log(newDate);
+      //Object being sent in POST
       var values = {
           PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
           SEALDATE: newDate,
@@ -249,11 +307,14 @@ console.log($scope.projects);
           PROJECTID: data.PROJECTNAME.attributes.PROJECTID,
           SHEETTYPEID: data.SHEETTYPEID.attributes.SHEETTYPEID
       };
+      //Sets the seal date if it is avaliable from other sheets
       if ($scope.sheets !== false){
         values.SEALDATE = $scope.sheets.SEALDATE;
+        $scope.sheets = [];
       }
-      $scope.stat = false;
+      $scope.pageControls.table = false;
       $scope.entry = values;
+      $scope.entry.SIMPLIFIEDNAME = data.ENGID.attributes.SIMPLIFIEDNAME;
 
 //Prepares Data For Post
     var dirtyData = [{attributes: values}];
@@ -274,12 +335,12 @@ console.log($scope.projects);
       .success(function(res){
         console.log(res);
         $scope.form.$setPristine();
-        $scope.formSuccess = true;
         $scope.form = {};
         $scope.postResults = res.addResults[0];
         $scope.sheets.push({attributes: values});
       });
-
+$scope.pageControls.deleteLastRecord = true;
+$scope.pageControls.continueButton = true;
     };
 
 //Edit table values
@@ -328,6 +389,10 @@ console.log($scope.projects);
                 }
               }
         });
+        if ($scope.sheets.length === 0){
+          $scope.pageControls.noRecords = true;
+          $scope.pageControls.table = false;
+        }
       }
     }
   };
