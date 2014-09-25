@@ -20,7 +20,7 @@ angular.module('asbuiltsApp')
     };
     $scope.fields = null;
     $scope.projects = null;
-    $scope.stat = true;
+
     $scope.formSuccess = false;
     $scope.selections = [{'name': true, 'id': 1}, {'name': false, 'id': 0}];
     $scope.selectionOptions = {
@@ -232,12 +232,13 @@ console.log($scope.projects);
 //Gets shared data from previous sheet and adds it to the current form
     $scope.nextSheet = function (){
       $scope.selectionOptions.project = $scope.entry.PROJECTNAME;
+      $scope.pageControls.table = true;
       for (var i in $scope.engfirms){
         if ($scope.entry.ENGID === $scope.engfirms[i].attributes.ENGID){
           $scope.selectionOptions.engineer = $scope.engfirms[i].attributes.SIMPLIFIEDNAME;
         }
       }
-
+      // document.getElementById('PROJECTNAME').value = $scope.entry.PROJECTNAME + ':' + $scope.entry.DEVPLANID;
       $scope.form = {
         PROJECTNAME: $scope.entry.PROJECTNAME,
         SEALDATE:  $scope.lastDate,
