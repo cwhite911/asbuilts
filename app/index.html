@@ -10,6 +10,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/allmighty-autocomplete/style/autocomplete.css">
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -25,11 +26,11 @@
     <div class="container-fluid">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
+          <li class="active"><a ng-href="#">Form</a></li>
+          <li><a ng-href="#/about">Instructions</a></li>
+          <li><a ng-href="#/stats">Stats</a></li>
         </ul>
-        <h3 class="text-muted">asbuilts</h3>
+        <h3 class="text-muted">Project Tracking</h3>
       </div>
 
       <div ng-view=""></div>
@@ -72,12 +73,15 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/allmighty-autocomplete/script/autocomplete.js"></script>
     <script src="bower_components/allmighty-autocomplete/script/app.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/nv.d3.js"></script>
+    <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/form.js"></script>
         <!-- endbuild -->

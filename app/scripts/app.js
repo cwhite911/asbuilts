@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'autocomplete'
+    'autocomplete',
+    'nvd3ChartDirectives'
   ])
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
@@ -31,6 +32,10 @@ angular
       .when('/form', {
         templateUrl: 'views/form.html',
         controller: 'FormCtrl'
+      })
+      .when('/stats', {
+        templateUrl: 'views/stats.html',
+        controller: 'StatsCtrl'
       })
       .otherwise({
         redirectTo: '/'
