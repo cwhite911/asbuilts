@@ -63,6 +63,10 @@ var getData = function (count, order, name){
             }
             if (name === 'Project Tracking'){
               $scope.projects = res.features;
+              $scope.projectnames = [];
+              for (var s in $scope.projects){
+                $scope.projectnames.push($scope.projects[s].attributes.PROJECTNAME + ':' + $scope.projects[s].attributes.DEVPLANID + ':' + $scope.projects[s].attributes.PROJECTID);
+              }
             }
             if (name === 'RPUD.PTK_DOCUMENTS'){
               $scope.fields = res.fields;
@@ -141,16 +145,30 @@ console.log($scope.projects);
       }
     }
 
-    $scope.change = function(atts){
+    $scope.change = function(selected){
+      var selection = selected.split(':');
+      console.log(selected);
+      console.log(selection);
+      $scope.form.PROJECTID = selection[2];
+      console.log(selection[2]);
+      $scope.form.DEVPLANID = selection[1];
+      console.log(selection[1]);
+      $scope.form.PROJECTNAME = selection[0];
+      console.log(selection[0]);
+
     	var docid = null;
     	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGID', 'FORMERNAME', 'ALIAS'];
-      var fromProject = ['DEVPLANID', 'PROJECTID'];
+      var fromProject = ['PROJECTNAME','DEVPLANID','PROJECTID'];
+      //Adds data from Project Tracking layer
+      // for (var p in fromProject){
+      //   $scope.form[fromProject[p]] = $scope.form.PROJECTNAME.split(':')[p];
+      // }
     	// {{sheets[0].attributes[info.name] | date:'yyyy-MM-dd' }}
 // $scope.form.SEALNUMBER = $scope.sheets[0].attributes.SEALNUMBER;
     	var options = {
             	f: 'json',
             	outFields: '*',
-            	where: "DEVPLANID =  '" + atts.PROJECTNAME.attributes.DEVPLANID + "'",
+            	where: "DEVPLANID =  '" + selection[1] + "'",
             	orderByFields: 'DOCID ASC',
             	returnGeometry: false
         	};
@@ -201,10 +219,7 @@ console.log($scope.projects);
                   }
                 }
      		});
-        //Adds data from Project Tracking layer
-        for (var p in fromProject){
-          $scope.form[fromProject[p]] = atts.PROJECTNAME.attributes[fromProject[p]];
-        }
+
     };
 
 //Auto fill function for street names
@@ -227,6 +242,7 @@ console.log($scope.projects);
 
         });
     }
+
 
 
 //Gets shared data from previous sheet and adds it to the current form
@@ -286,7 +302,7 @@ console.log($scope.projects);
       var newDate = date[1] + '/' + date[2] + '/' + date[0];
       //Object being sent in POST
       var values = {
-          PROJECTNAME: data.PROJECTNAME.attributes.PROJECTNAME,
+          PROJECTNAME: data.PROJECTNAME,
           SEALDATE: newDate,
           SEALNUMBER: data.SEALNUMBER,
           DOCTYPEID: data.DOCTYPEID.attributes.DOCTYPEID,
@@ -305,7 +321,7 @@ console.log($scope.projects);
           STREET_4: data.STREET_4 || null,
           NOTES: data.NOTES || null,
           TAGS: data.TAGS || null,
-          PROJECTID: data.PROJECTNAME.attributes.PROJECTID,
+          PROJECTID: data.PROJECTID,
           SHEETTYPEID: data.SHEETTYPEID.attributes.SHEETTYPEID
       };
       //Sets the seal date if it is avaliable from other sheets

@@ -25,9 +25,8 @@ angular
         templateUrl: 'views/form.html',
         controller: 'FormCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+      .when('/instructions', {
+        templateUrl: 'views/instructions.html'
       })
       .when('/form', {
         templateUrl: 'views/form.html',
@@ -36,6 +35,10 @@ angular
       .when('/stats', {
         templateUrl: 'views/stats.html',
         controller: 'StatsCtrl'
+      })
+      .when('/map', {
+        templateUrl: 'views/map.html',
+        controller: 'MapCtrl'
       })
       .otherwise({
         redirectTo: '/'
