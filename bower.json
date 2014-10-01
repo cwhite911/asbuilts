@@ -15,7 +15,8 @@
     "allmighty-autocomplete": "*",
     "d3": "~3.4.11",
     "nvd3": "~1.1.15-beta",
-    "angularjs-nvd3-directives": "~0.0.7"
+    "angularjs-nvd3-directives": "~0.0.7",
+    "angular-leaflet": "~0.7.8"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

@@ -56,7 +56,7 @@ var getData = function (count, order, name){
     for (var each in $scope.servers[0].test.layers[i]){
       if ($scope.servers[0].test.layers[i][each].name === name){
         var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers[i][each].id + '/query';
-        $http.get(conn, {params: options})
+        $http.get(conn, {params: options, cache: true})
           .success(function(res){
             if (name === 'RPUD.ENGINEERINGFIRM'){
               $scope.engfirms = res.features;
@@ -149,7 +149,7 @@ console.log($scope.projects);
       var selection = selected.split(':');
       console.log(selected);
       console.log(selection);
-      $scope.form.PROJECTID = selection[2];
+      $scope.form.PROJECTID = parseInt(selection[2]);
       console.log(selection[2]);
       $scope.form.DEVPLANID = selection[1];
       console.log(selection[1]);
@@ -249,18 +249,20 @@ console.log($scope.projects);
     $scope.nextSheet = function (){
       $scope.selectionOptions.project = $scope.entry.PROJECTNAME;
       $scope.pageControls.table = true;
-      for (var i in $scope.engfirms){
-        if ($scope.entry.ENGID === $scope.engfirms[i].attributes.ENGID){
-          $scope.selectionOptions.engineer = $scope.engfirms[i].attributes.SIMPLIFIEDNAME;
-        }
-      }
+      // for (var i in $scope.engfirms){
+      //   if ($scope.entry.ENGID === $scope.engfirms[i].attributes.ENGID){
+      //     $scope.selectionOptions.engineer = $scope.engfirms[i].attributes.SIMPLIFIEDNAME;
+      //   }
+      // }
       // document.getElementById('PROJECTNAME').value = $scope.entry.PROJECTNAME + ':' + $scope.entry.DEVPLANID;
+      var sd = $filter('date')($scope.lastDate, 'yyyy-MM-dd')
+      console.log(sd);
       $scope.form = {
         PROJECTNAME: $scope.entry.PROJECTNAME,
-        SEALDATE:  $scope.lastDate,
+        SEALDATE: sd,
         SEALNUMBER: $scope.entry.SEALNUMBER,
         DOCID: $scope.entry.DOCID + 1,
-        ENGID: $scope.entry.ENGID,
+        // ENGID: $scope.entry.ENGID,
         DEVPLANID: $scope.entry.DEVPLANID,
         JURISDICTION: $scope.entry.JURISDICTION,
         PROJECTID: $scope.entry.PROJECTID
@@ -296,14 +298,21 @@ console.log($scope.projects);
         }
     };
     $scope.submit = function (data){
-      //Re formats date for submission
-      $scope.lastDate = data.SEALDATE;
-      var date = data.SEALDATE.split('-');
-      var newDate = date[1] + '/' + date[2] + '/' + date[0];
+      if (data.SEALDATE.indexOf('-') !== -1){
+        //Re formats date for submission
+        $scope.lastDate = data.SEALDATE;
+        var date = data.SEALDATE.split('-');
+        $scope.lastDate = date[1] + '/' + date[2] + '/' + date[0];
+        // var d = new Date(date[0],date[2],date[1]);
+        // $scope.a = d.getTime();
+
+
+      }
+
       //Object being sent in POST
       var values = {
           PROJECTNAME: data.PROJECTNAME,
-          SEALDATE: newDate,
+          SEALDATE: $scope.lastDate,
           SEALNUMBER: data.SEALNUMBER,
           DOCTYPEID: data.DOCTYPEID.attributes.DOCTYPEID,
           DOCID: data.DOCID,
