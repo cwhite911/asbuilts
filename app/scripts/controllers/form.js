@@ -147,15 +147,9 @@ console.log($scope.projects);
 
     $scope.change = function(selected){
       var selection = selected.split(':');
-      console.log(selected);
-      console.log(selection);
       $scope.form.PROJECTID = parseInt(selection[2]);
-      console.log(selection[2]);
       $scope.form.DEVPLANID = selection[1];
-      console.log(selection[1]);
       $scope.form.PROJECTNAME = selection[0];
-      console.log(selection[0]);
-
     	var docid = null;
     	var fromSheets = ['SEALDATE', 'SEALNUMBER', 'ENGID', 'FORMERNAME', 'ALIAS'];
       var fromProject = ['PROJECTNAME','DEVPLANID','PROJECTID'];
@@ -168,7 +162,7 @@ console.log($scope.projects);
     	var options = {
             	f: 'json',
             	outFields: '*',
-            	where: "DEVPLANID =  '" + selection[1] + "'",
+            	where: "PROJECTID =  '" + selection[2] + "'",
             	orderByFields: 'DOCID ASC',
             	returnGeometry: false
         	};
