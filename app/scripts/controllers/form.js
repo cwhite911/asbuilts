@@ -231,7 +231,10 @@ console.log($scope.projects);
           console.log(res);
           $scope.streets = [];
           for (var s in res.features){
-            $scope.streets.push(res.features[s].attributes.ADDRESS);
+            var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
+            if ($scope.streets.indexOf(withNoDigits) === -1){
+              $scope.streets.push(withNoDigits);
+            }
           }
 
         });
@@ -297,10 +300,6 @@ console.log($scope.projects);
         $scope.lastDate = data.SEALDATE;
         var date = data.SEALDATE.split('-');
         $scope.lastDate = date[1] + '/' + date[2] + '/' + date[0];
-        // var d = new Date(date[0],date[2],date[1]);
-        // $scope.a = d.getTime();
-
-
       }
 
       //Object being sent in POST
@@ -328,10 +327,10 @@ console.log($scope.projects);
           SHEETTYPEID: data.SHEETTYPEID.attributes.SHEETTYPEID
       };
       //Sets the seal date if it is avaliable from other sheets
-      if ($scope.sheets !== false){
-        values.SEALDATE = $scope.sheets.SEALDATE;
-        $scope.sheets = [];
-      }
+      // if ($scope.sheets !== false){
+      //   values.SEALDATE = $scope.sheets.SEALDATE;
+      //   $scope.sheets = [];
+      // }
       $scope.pageControls.table = false;
       $scope.entry = values;
       $scope.entry.SIMPLIFIEDNAME = data.ENGID.attributes.SIMPLIFIEDNAME;

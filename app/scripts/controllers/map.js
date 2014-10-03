@@ -189,21 +189,32 @@ var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/Pro
 // create a map in the "map" div, set the view to a given place and zoom
 var map = L.map('map').setView([35.843768, -78.6450559], 13);
 
-
-var parks = new L.esri.FeatureLayer(conn, {
-       style: {
-                      fillColor: "green",
-                      weight: 2,
-                      opacity: 1,
-                      color: 'white',
-                      dashArray: '3',
-                      fillOpacity: 0.7
-                  }
-      }).addTo(map);
-
 // add an OpenStreetMap tile layer
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+var projectTracking = L.esri.dynamicMapLayer('http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer', {
+      // simplifyFactor: 0.75,
+      // inSR: 2264,
+      // outSR: 4326,
+      // // fields: ['PROJECTID', 'DEVPLANID', 'WATER', 'SEWER'],
+      // // where: 'WATER NOT NULL',
+      // style: function (feature){
+      //   return {
+      //       fillColor: "red",
+      //       weight: 2,
+      //       opacity: 1,
+      //       color: 'white',
+      //       dashArray: '3',
+      //       fillOpacity: 0.7
+      //     }
+      // }
+}).addTo(map);
+console.dir(projectTracking);
+
+
+
+
+
 
   }]);
