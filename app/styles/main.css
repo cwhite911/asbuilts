@@ -1,5 +1,8 @@
 /* Space out content a bit */
-#map { height: 1000px; }
+#map {
+  width: 100%;
+  height: 700px;
+}
 body {
   padding-top: 20px;
   padding-bottom: 20px;

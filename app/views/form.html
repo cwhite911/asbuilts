@@ -8,7 +8,7 @@
 					<!-- <select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control form-inputs" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)" required>
 						<option value="" selected>{{selectionOptions.project}}</option>
 		    		</select> -->
-						<autocomplete ng-model="form.PROJECTNAME" data="projectnames" on-select="change" id="PROJECTNAME" ng-model="form.PROJECTNAME" required></autocomplete>
+						<autocomplete data="projectnames" on-select="change" id="PROJECTNAME" ng-model="form.PROJECTNAME" required></autocomplete>
 				</div>
 
 				<div class="form-group" ng-repeat="info in fields">

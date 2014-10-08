@@ -8,213 +8,179 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', function ($scope, $http) {
-
-$scope.projects = null;
-
-
-var count = 0;
-// $scope.servers = [{
-//   'test': {
-//     'FeatureServer': 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer',
-//     'layers': []
-//   }
-// },
-// {
-//   'WAKE': {
-//       'Addresses' : 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query'
-//    }
-// }];
-//
-//
-// var getData = function (count, order, name){
-// var options = {
-//     f: 'json',
-//     outFields: '*',
-//     where: 'OBJECTID >' + count,
-//     orderByFields: order + ' ASC',
-//     outSR: 4326,
-//     returnGeometry: true
-// };
-// for (var i in $scope.servers[0].test.layers){
-// for (var each in $scope.servers[0].test.layers[i]){
-//   if ($scope.servers[0].test.layers[i][each].name === name){
-//     var conn = $scope.servers[0].test.FeatureServer + '/' + $scope.servers[0].test.layers[i][each].id + '/query';
-//     $http.get(conn, {params: options, cache: true})
-//       .success(function(res){
-//         if (name === 'RPUD.ENGINEERINGFIRM'){
-//           $scope.engfirms = res.features;
-//         }
-//         if (name === 'Project Tracking'){
-//           $scope.projects = res.features;
-//
-//           console.log($scope.projects);
-//           $scope.projectnames = [];
-//            $scope.geojson = {
-//               data: {
-//                 "type": "FeatureCollection",
-//                 "features": []
-//               },
-//               style: {
-//                   fillColor: "green",
-//                   weight: 2,
-//                   opacity: 1,
-//                   color: 'white',
-//                   dashArray: '3',
-//                   fillOpacity: 0.7
-//               }
-//           };
-//           for (var each in $scope.projects){
-//              $scope.geojson.data.features.push({
-//                         "type": "Feature",
-//                         "geometry": {
-//                           "type": "Polygon",
-//                           "coordinates": $scope.projects[each].geometry.rings
-//                         },
-//                         "properties": $scope.projects[each].attributes
-//                       }
-//                     );
-//           }
-//           console.log($scope.geojson);
-//
-//
-//
-//
-//         }
-//         if (name === 'RPUD.PTK_DOCUMENTS'){
-//           $scope.fields = res.fields;
-//         }
-//         if (name === 'RPUD.SHEETTYPES'){
-//           $scope.sheetdisc = res.features;
-//         }
-//         if (name === 'RPUD.DOCUMENTTYPES'){
-//           $scope.doctypes = res.features;
-//         }
-//       });
-//   }
-// }
-// }
-// }
-//
-// $http.get($scope.servers[0].test.FeatureServer, {params: {f: 'json'}, cache: true})
-// .success(function(res){
-// $scope.servers[0].test.layers.push(res.layers);
-// $scope.servers[0].test.layers.push(res.tables);
-// setTimeout(function(){
-//   getData(count, 'OBJECTID', 'RPUD.PTK_DOCUMENTS');
-//   getData(count, 'PROJECTNAME', 'Project Tracking');
-//   getData(count, 'SIMPLIFIEDNAME', 'RPUD.ENGINEERINGFIRM');
-//   getData(count, 'SHEETTYPE', 'RPUD.SHEETTYPES');
-//   getData(count, 'DOCUMENTTYPE', 'RPUD.DOCUMENTTYPES');
-// }, 1000);
-// });
+  .controller('MapCtrl', ['$scope', '$http', 'leafletEvents', 'leafletData', function ($scope, $http, leafletEvents, leafletData) {
 
 
 
+  //create a map in the "map" div, set the view to a given place and zoom
+  // var map = L.map('map').setView([35.843768, -78.6450559], 13);
+  angular.extend($scope, {
+      center: {
+        lat: 35.843768,
+        lng: -78.6450559,
+        zoom: 13
+      },
+      layers: {
+            baselayers: {
+                xyz: {
+                    name: 'OpenStreetMap (XYZ)',
+                    url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
+                    type: 'xyz'
+                },
+                world: {
+					    	name: "Imagery",
+					        type: "dynamic",
+					        url: "http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer",
+					        visible: false,
+					        layerOptions: {
+					            layers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+				                opacity: 1,
+				                attribution: "Copyright:© 2014 2014 City of Raleigh"
+					        }
+				    	}
+            },
+            overlays: {
+              projects:{
+              name: "Project Tracking",
+                type: "dynamic",
+                url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer",
+                visible: true,
+                layerOptions: {
+                    layers: [2],
+                      opacity: 0.5,
+                      attribution: "Copyright:© 2014 City of Raleigh"
+                }
+            }
+            }
+      },
+      geojson: {
+          data: null,
+          style: {
+              fillColor: "green",
+              weight: 2,
+              opacity: 1,
+              color: 'white',
+              dashArray: '3',
+              fillOpacity: 0.7
+          }
+      }
+
+
+  });
+//   $scope.$watch('geojson', function(newVal, oldVal){
+//     console.log($scope.geojson);
+// }, true);
+// console.log($scope.layers.overlays.projects);
+
+  $scope.projects = [];
 
 var options = {
     f: 'json',
     outFields: '*',
     where: 'OBJECTID > 0',
     orderByFields:  'PROJECTNAME ASC',
-    outSR: 4326,
-    returnGeometry: true
+    returnGeometry: false
 };
-var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/1';
-// $http.get(conn, {params: options, cache: true})
-//   .success(function(res){
-//       $scope.projects = res.features;
-//       $scope.projectnames = [];
-//        $scope.geojson = {
-//           data: {
-//             "type": "FeatureCollection",
-//             "features": [{ "type": "Feature",
-//          "geometry": {
-//            "type": "Polygon",
-//            "coordinates": [
-//              [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
-//                [100.0, 1.0], [100.0, 0.0] ]
-//              ]
-//          },
-//          "properties": {
-//            "prop0": "value0",
-//            "prop1": {"this": "that"}
-//            }
-//          }]
-//           },
-//           style: {
-//               fillColor: "green",
-//               weight: 2,
-//               opacity: 1,
-//               color: 'white',
-//               dashArray: '3',
-//               fillOpacity: 0.7
-//           }
-//       };
-      // for (var each in $scope.projects){
-      //    $scope.geojson.data.features.push({
-      //               "type": "Feature",
-      //               "geometry": {
-      //                 "type": "Polygon",
-      //                 "coordinates": $scope.projects[each].geometry.rings
-      //               },
-      //               "properties": $scope.projects[each].attributes
-      //             }
-      //           );
-      // }
-//       console.dir($scope.geojson.data);
-//       var myLayer = L.geoJson().addTo(map);
-//       myLayer.addData($scope.geojson.data);
-// angular.extend($scope, {
-//   geojson: $scope.geojson
-// })
-//
-// });
 
+$scope.mygeojson = {
+   data: {
+     "type": "FeatureCollection",
+     "features": []
+   }
 
-  //
-  // angular.extend($scope, {
-  //       center: {
-  //                   lat: 35.843768,
-  //                   lng: -78.6450559,
-  //                   zoom: 10
-  //               },
-  //       defaults: {
-  //           scrollWheelZoom: false
-  //       }
-  //
-  //   });
+};
+var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
+$http.get(conn, {params: options, cache: true})
+  .success(function(res){
+    for (var i in res.features){
+      var poly = [];
+      $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID)
+    }
+});
 
-    // Get the countries geojson data from a JSON
-// create a map in the "map" div, set the view to a given place and zoom
-var map = L.map('map').setView([35.843768, -78.6450559], 13);
+$scope.searchControl = function (typed){
+  console.log(typed);
+  var selection = typed.split(':');
+  var options = {
+          f: 'json',
+          outFields: '*',
+          where: "PROJECTID =  '" + selection[2] + "'",
+          outSR: 4326,
+          returnGeometry: true
+      };
+  var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/1/query';
+  $http.get(conn, {params: options, cache: true})
+    .success(function(res){
+      console.log(res);
+      leafletData.getMap().then(function(map) {
+                var latlngs = [];
+                $scope.poly = [];
+                $scope.bound = [];
+                for (var i in res.features[0].geometry.rings[0]) {
+                    var coord = res.features[0].geometry.rings[0][i];
+                    for (var j in coord) {
+                      latlngs.push([coord[1], coord[0]]);
+                      $scope.poly.push([coord[0], coord[1]]);
+                      $scope.bound.push({lat: coord[1], lng: coord[0]});
+                    }
+                }
+                $scope.mygeojson.data.features.push({
+                    "type": "Feature",
+                    "id": res.features[0].attributes.PROJECTID,
+                    "properties": res.features[0].attributes,
+                    "geometry": {
+                      "type": "Polygon",
+                      "coordinates": [$scope.poly]
+                    }
+                  });
+                  console.log($scope.bound);
+                $scope.box = {
+                    p1:{
+                      latlngs: $scope.bound,
+                      type: 'polygon'
+                    }
+                  }
 
-// add an OpenStreetMap tile layer
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-var projectTracking = L.esri.dynamicMapLayer('http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer', {
-      // simplifyFactor: 0.75,
-      // inSR: 2264,
-      // outSR: 4326,
-      // // fields: ['PROJECTID', 'DEVPLANID', 'WATER', 'SEWER'],
-      // // where: 'WATER NOT NULL',
-      // style: function (feature){
-      //   return {
-      //       fillColor: "red",
-      //       weight: 2,
-      //       opacity: 1,
-      //       color: 'white',
-      //       dashArray: '3',
-      //       fillOpacity: 0.7
-      //     }
-      // }
-}).addTo(map);
-console.dir(projectTracking);
+                // $scope.paths['p1'] = {
+                //   latlngs: $scope.bound,
+                //   stroke: true,
+                //   fillColor: 'blue',
+                //   type: 'polygon'
+                // };
+                map.fitBounds(latlngs);
+            });
+    });
+    angular.extend($scope, {
+    geojson: {
+        data: $scope.mygeojson.data,
+    }
+});
 
+}
+$scope.box = {};
 
-
-
-
+// $scope.$watch('paths', function(newVal, oldVal){
+//   console.log($scope.paths);
+  angular.extend($scope, {
+    paths: {
+      p1:{
+        latlngs:[
+          {lat:35.782576451816226,lng:-78.73098391905037},
+          {lat:35.782576451816226,lng:-78.73098391905037},
+          {lat:35.7862303434081,lng:-78.7309717666737},
+          {lat:35.7862303434081,lng:-78.7309717666737},
+          {lat:35.786224531198386,lng:-78.72835236279661},
+          {lat:35.786224531198386,lng:-78.72835236279661},
+          {lat:35.782570639862065,lng:-78.72836463349489},
+          {lat:35.782570639862065,lng:-78.72836463349489},
+          {lat:35.782576451816226,lng:-78.73098391905037},
+          {lat:35.782576451816226,lng:-78.73098391905037}
+        ],
+      type:"polygon"
+      }
+    }
+  }
+  );
+// }, true);
 
   }]);
