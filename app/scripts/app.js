@@ -17,7 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'autocomplete',
-    'nvd3ChartDirectives',
+    // 'nvd3ChartDirectives',
     'leaflet-directive'
   ])
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {

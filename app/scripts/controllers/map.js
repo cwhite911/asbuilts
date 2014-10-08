@@ -52,24 +52,14 @@ angular.module('asbuiltsApp')
                 }
             }
             }
-      },
-      geojson: {
-          data: null,
-          style: {
-              fillColor: "green",
-              weight: 2,
-              opacity: 1,
-              color: 'white',
-              dashArray: '3',
-              fillOpacity: 0.7
-          }
       }
 
 
+
   });
-//   $scope.$watch('geojson', function(newVal, oldVal){
-//     console.log($scope.geojson);
-// }, true);
+  $scope.$watch('geojson', function(newVal, oldVal){
+    console.log($scope.geojson);
+}, true);
 // console.log($scope.layers.overlays.projects);
 
   $scope.projects = [];
@@ -133,54 +123,46 @@ $scope.searchControl = function (typed){
                       "coordinates": [$scope.poly]
                     }
                   });
-                  console.log($scope.bound);
-                $scope.box = {
-                    p1:{
-                      latlngs: $scope.bound,
-                      type: 'polygon'
-                    }
-                  }
+                  $scope.geojson.data.features = $scope.mygeojson.data.features;
 
-                // $scope.paths['p1'] = {
-                //   latlngs: $scope.bound,
-                //   stroke: true,
-                //   fillColor: 'blue',
-                //   type: 'polygon'
-                // };
+                  $scope.paths.p1.latlngs = $scope.bound;
+
+
                 map.fitBounds(latlngs);
             });
     });
-    angular.extend($scope, {
+
+
+angular.extend($scope, {
     geojson: {
-        data: $scope.mygeojson.data,
+        data: {
+          "type": "FeatureCollection",
+          "features": []
+        },
+        style: {
+            fillColor: "green",
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        }
     }
 });
 
 }
-$scope.box = {};
 
-// $scope.$watch('paths', function(newVal, oldVal){
-//   console.log($scope.paths);
+
+
   angular.extend($scope, {
     paths: {
       p1:{
-        latlngs:[
-          {lat:35.782576451816226,lng:-78.73098391905037},
-          {lat:35.782576451816226,lng:-78.73098391905037},
-          {lat:35.7862303434081,lng:-78.7309717666737},
-          {lat:35.7862303434081,lng:-78.7309717666737},
-          {lat:35.786224531198386,lng:-78.72835236279661},
-          {lat:35.786224531198386,lng:-78.72835236279661},
-          {lat:35.782570639862065,lng:-78.72836463349489},
-          {lat:35.782570639862065,lng:-78.72836463349489},
-          {lat:35.782576451816226,lng:-78.73098391905037},
-          {lat:35.782576451816226,lng:-78.73098391905037}
-        ],
+        latlngs:[],
       type:"polygon"
       }
     }
   }
   );
-// }, true);
+
 
   }]);
