@@ -210,4 +210,11 @@ table tbody tr:hover{
 }
 
 
+.panel-default > .panel-heading {
+color: #FCFAFA;
+background-color: #B3ABAB;
+border-color: #E02121;
 }
+
+.panel-body {
+border-top-color: #1C99E5;

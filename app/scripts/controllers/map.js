@@ -8,7 +8,7 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', 'leafletData', function ($scope, $http, $filter, leafletData) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', function ($scope, $http, $filter, $sce, leafletData) {
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
@@ -211,7 +211,7 @@ for (var i in document_types){
 
 function action (feature, layer){
   $scope.viewData = feature;
-  layer.bindPopup('<h4 style="color:black">PROJECT NAME:'+ feature.properties.PROJECTNAME +'</h4>');
+  layer.bindPopup('<h4>PROJECT NAME:'+ feature.properties.PROJECTNAME +'</h4>');
 
   layer.on('mouseover', function (e) {
     $scope.viewData = feature.properties;
@@ -267,9 +267,10 @@ $scope.searchControl = function (typed){
                 $scope.bound = [];
                 for (var i in res.features[0].geometry.rings[0]) {
                     var coord = res.features[0].geometry.rings[0][i];
+                    var geo = res.features[0].geometry.rings;
                     for (var j in coord) {
                       latlngs.push([coord[1], coord[0]]);
-                      $scope.poly.push([coord[0], coord[1]]);
+                      $scope.poly.push(geo);
                       $scope.bound.push({lat: coord[1], lng: coord[0]});
                     }
                 }
@@ -280,21 +281,21 @@ $scope.searchControl = function (typed){
                     "id": res.features[0].attributes.PROJECTID,
                     "properties": res.features[0].attributes,
                     "geometry": {
-                      "type": "Polygon",
-                      "coordinates": [$scope.poly]
+                      "type": "MultiPolygon",
+                      "coordinates": $scope.poly
                     }
                   }]
                 };
-
+                console.log($scope.mygeojson);
                 angular.extend($scope, {
                     geojson: {
                         data: $scope.mygeojson,
                         style: {
-                            fillColor: 'rgba(247,247,247, 0.1)',
+                            fillColor: 'rgba(252,141,0, 0.1)',
                             weight: 2,
                             opacity: 1,
                             color: 'rgb(252,141,89)',
-                            dashArray: '3',
+                            dashArray: '4',
                             fillOpacity: 0.7
                         },
                         onEachFeature: action,
@@ -316,17 +317,23 @@ $scope.searchControl = function (typed){
 
         $scope.project_docs = res.features.map(function (each){
           var url = {
-              url : document_base_url + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf",
-              name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID
+              url : $sce.trustAsResourceUrl(document_base_url + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
+              name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
+              resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
+              icon: "../images/" + each.attributes.DOCTYPEID.toLowerCase() + ".png"
           };
           return url;
         });
+        for (var a in $scope.project_docs){
+          var ele_id = "#" + $scope.project_docs[a].resid;
+          $(ele_id).resizable();
+        }
       });
 
 }
 
 
-
+$scope.list1 = {title: 'AngularJS - Drag Me'};
 
 
 

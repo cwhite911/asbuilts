@@ -32,11 +32,37 @@
     <leaflet center="center" layers="layers" geojson="geojson" paths="paths" markers="markers" width="100%" height="1000px">hello</leaflet>
   </div>
   <div class="col-md-3">
-    <h2 class="text-muted"><u>Documents</u></h2>
-      <ul ng-repeat="doc in project_docs">
-        <li><a href="{{doc.url}}"><span class="asbuits">{{doc.name}}</span></a></li>
-      </ul>
+    <div><h2 class="text-muted"><u>Documents</u></h2></div>
+
+    <!-- <div class="btn btn-primary" data-drag="true" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title">Documents</div> -->
+      <!-- <ul ng-repeat="doc in project_docs">
+        <li><a href="{{doc.url}}"><div class="asbuits">{{doc.name}}</span></a></li>
+      </ul> -->
+
+<!-- <div ng-repeat="doc in project_docs">
+<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#{{doc.name}}">
+  {{doc.name}}
+</button>
+
+<div id="{{doc.name}}" class="collapse in"><iframe name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a href="{{doc.url}}>">Full View</a></iframe></div>
+</div> -->
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default" ng-repeat="doc in project_docs" data-drag="true" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title" id="{{doc.resid}}">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" data-target="#{{doc.name}}">
+        <img src={{doc.icon}} width="20px" height="20px" /> {{doc.name}}
+        </a>
+      </h4>
+    </div>
+    <div id="{{doc.name}}" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <iframe name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a href="{{doc.url}}>">Full View</a></iframe>
+      </div>
+    </div>
   </div>
+</div>
+</div>
 <!-- <iframe width="940" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://ral.maps.arcgis.com/home/webmap/embedViewer.html?webmap=e5f5e66e9e6f4f46aece2b465738a70a&amp;extent=-78.6655,35.7723,-78.6239,35.7927"></iframe> -->
 </div>
 

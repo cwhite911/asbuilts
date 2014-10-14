@@ -17,7 +17,8 @@
     "nvd3": "~1.1.15-beta",
     "angularjs-nvd3-directives": "~0.0.7",
     "angular-leaflet": "~0.7.8",
-    "esri-leaflet": "~0.0.1-beta.4-patch-1"
+    "esri-leaflet": "~0.0.1-beta.4-patch-1",
+    "angular-dragdrop": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

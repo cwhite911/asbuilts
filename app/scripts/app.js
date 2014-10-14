@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'autocomplete',
     // 'nvd3ChartDirectives',
-    'leaflet-directive'
+    'leaflet-directive',
+    'ngDragDrop'
   ])
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
