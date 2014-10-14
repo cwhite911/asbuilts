@@ -8,12 +8,9 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', 'leafletEvents', 'leafletData', function ($scope, $http, leafletEvents, leafletData) {
-
-
-
+  .controller('MapCtrl', ['$scope', '$http', '$filter', 'leafletData', function ($scope, $http, $filter, leafletData) {
+  var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   //create a map in the "map" div, set the view to a given place and zoom
-  // var map = L.map('map').setView([35.843768, -78.6450559], 13);
   angular.extend($scope, {
       center: {
         lat: 35.843768,
@@ -26,43 +23,207 @@ angular.module('asbuiltsApp')
                     name: 'OpenStreetMap (XYZ)',
                     url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
                     type: 'xyz'
-                },
-                world: {
-					    	name: "Imagery",
-					        type: "dynamic",
-					        url: "http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer",
-					        visible: false,
-					        layerOptions: {
-					            layers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-				                opacity: 1,
-				                attribution: "Copyright:© 2014 2014 City of Raleigh"
-					        }
-				    	}
+                }
             },
             overlays: {
               projects:{
               name: "Project Tracking",
                 type: "dynamic",
                 url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer",
-                visible: true,
+                visible: false,
                 layerOptions: {
                     layers: [2],
                       opacity: 0.5,
                       attribution: "Copyright:© 2014 City of Raleigh"
                 }
             }
-            }
+          },
+
       }
 
 
 
   });
-  $scope.$watch('geojson', function(newVal, oldVal){
-    console.log($scope.geojson);
-}, true);
+//   $scope.$watch('geojson', function(newVal, oldVal){
+//     console.log($scope.geojson);
+// }, true);
 // console.log($scope.layers.overlays.projects);
 
   $scope.projects = [];
+
+
+
+var styles = {
+        paidStyle: {
+            fillColor: '#aa3939',
+            radius: 5,
+            color: '#550000',
+            weight: 1,
+            fillOpacity: 0.7
+        },
+        expiredStyle :{
+            fillColor: 'rgba(247,247,247, 0.1)',
+            weight: 5,
+            opacity: 1,
+            color: 'rgb(252,141,89)',
+            dashArray: '3',
+            fillOpacity: 0.7
+        },
+        hoverStyle: {
+            fillColor: '#0ab25d',
+            radius: 5,
+            color: '#0ab25d',
+            weight: 1,
+            fillOpacity: 0.7
+        }
+    };
+
+
+
+function getCentroid (arr) {
+    return arr.reduce(function (x,y) {
+        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
+    }, [0,0])
+}
+
+
+function removeMarkers(){
+  $scope.markers = {};
+}
+
+var document_types = [
+        {
+          name: 'ASBUILTS',
+          message: 'As-Built',
+          icon : {
+            iconUrl: '../images/ab.png',
+            iconSize:     [38, 38], // size of the icon
+            iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+            popupAnchor:  [5, 5] // point from which the popup should open relative to the iconAnchor
+          }
+        },
+        {
+          name: 'CONSTUCTION_PLAN',
+          message: 'Construction Plan',
+            icon: {
+              iconUrl: '../images/cp.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [5, 0] // point from which the popup should open relative to the iconAnchor
+            }
+          },
+          {
+            name: 'ACCEPTANCE_LETTER',
+            message: 'Acceptance Letter',
+            icon: {
+              iconUrl: '../images/al.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [-5, 5] // point from which the popup should open relative to the iconAnchor
+            }
+          },
+          {
+            name: 'WARRANTY_LETTER',
+            message: 'Warranty Letter',
+            icon: {
+              iconUrl: '../images/wl.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [5, -5] // point from which the popup should open relative to the iconAnchor
+            }
+          },
+          {
+            name: 'STATEMENT_OF_COST',
+            message: 'Statement of Cost',
+            icon: {
+              iconUrl: '../images/soc.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [-5, 0] // point from which the popup should open relative to the iconAnchor
+            }
+          },
+          {
+            name: 'PERMITS',
+            message: 'Permit',
+            icon: {
+              iconUrl: '../images/p.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [-5, -5] // point from which the popup should open relative to the iconAnchor
+            }
+          }
+        ];
+
+var document_fx = function (latlng){
+  //var names = ['ASBUILTS', 'CONSTUCTION_PLAN', 'ACCEPTANCE_LETTER', 'WARRANTY_LETTER', 'STATEMENT_OF_COST', 'PERMITS'];
+  latlng = {lat: latlng[0], lng: latlng[1]};
+  var docs = [
+          {
+            lat: latlng.lat + 0.001,
+            lng: latlng.lng + 0.001
+          },
+          {
+            lat: latlng.lat,
+            lng: latlng.lng + 0.002
+          },
+          {
+            lat: latlng.lat + 0.001,
+            lng: latlng.lng - 0.001
+          },
+          {
+            lat: latlng.lat - 0.001,
+            lng: latlng.lng + 0.001
+          },
+          {
+            lat: latlng.lat,
+            lng: latlng.lng - 0.002
+          },
+          {
+            lat: latlng.lat - 0.001,
+            lng: latlng.lng - 0.001
+          }
+    ];
+
+angular.extend($scope, {
+  markers:{},
+  paths: {}
+});
+
+
+
+// function myStopFunction(stop) {
+//     clearInterval(stop);
+// }
+
+for (var i in document_types){
+  var tempName = document_types[i].name;
+
+  $scope.markers[tempName] = docs[i];
+  $scope.markers[tempName].draggable = true;
+  $scope.markers[tempName].icon = document_types[i].icon;
+  $scope.markers[tempName].message = document_types[i].message;
+}
+
+
+
+};
+
+
+function action (feature, layer){
+  $scope.viewData = feature;
+  layer.bindPopup('<h4 style="color:black">PROJECT NAME:'+ feature.properties.PROJECTNAME +'</h4>');
+
+  layer.on('mouseover', function (e) {
+    $scope.viewData = feature.properties;
+    layer.setStyle(styles.paidStyle);
+    document_fx($scope.centroid);
+ });
+ layer.on('mouseout', function(){
+   layer.setStyle(styles.expiredStyle);
+   //removeMarkers();
+ });
+}
+
 
 var options = {
     f: 'json',
@@ -72,19 +233,12 @@ var options = {
     returnGeometry: false
 };
 
-$scope.mygeojson = {
-   data: {
-     "type": "FeatureCollection",
-     "features": []
-   }
-
-};
 var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
 $http.get(conn, {params: options, cache: true})
   .success(function(res){
     for (var i in res.features){
       var poly = [];
-      $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID)
+      $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
     }
 });
 
@@ -98,11 +252,16 @@ $scope.searchControl = function (typed){
           outSR: 4326,
           returnGeometry: true
       };
-  var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/1/query';
+
+  var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
+  var ptk_conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/5/query';
   $http.get(conn, {params: options, cache: true})
     .success(function(res){
-      console.log(res);
       leafletData.getMap().then(function(map) {
+          $scope.project_info = res.features[0].attributes;
+          $scope.project_info.CREATEDON = $filter('date')($scope.project_info.CREATEDON, 'MM/dd/yyyy');
+          $scope.project_info.DEVPLAN_APPROVAL = $filter('date')($scope.project_info.DEVPLAN_APPROVAL, 'MM/dd/yyyy');
+          $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
                 var latlngs = [];
                 $scope.poly = [];
                 $scope.bound = [];
@@ -114,7 +273,9 @@ $scope.searchControl = function (typed){
                       $scope.bound.push({lat: coord[1], lng: coord[0]});
                     }
                 }
-                $scope.mygeojson.data.features.push({
+                $scope.mygeojson ={
+                  "type": "FeatureCollection",
+                  "features":[{
                     "type": "Feature",
                     "id": res.features[0].attributes.PROJECTID,
                     "properties": res.features[0].attributes,
@@ -122,47 +283,54 @@ $scope.searchControl = function (typed){
                       "type": "Polygon",
                       "coordinates": [$scope.poly]
                     }
-                  });
-                  $scope.geojson.data.features = $scope.mygeojson.data.features;
+                  }]
+                };
 
-                  $scope.paths.p1.latlngs = $scope.bound;
+                angular.extend($scope, {
+                    geojson: {
+                        data: $scope.mygeojson,
+                        style: {
+                            fillColor: 'rgba(247,247,247, 0.1)',
+                            weight: 2,
+                            opacity: 1,
+                            color: 'rgb(252,141,89)',
+                            dashArray: '3',
+                            fillOpacity: 0.7
+                        },
+                        onEachFeature: action,
+                       resetStyleOnMouseout: true
+                    }
+                });
 
+                //Do not erase save for paths
+                  // $scope.paths.p1.latlngs = $scope.bound;
+                $scope.centroid = getCentroid(latlngs);
 
                 map.fitBounds(latlngs);
             });
     });
 
+    $http.get(ptk_conn, {params: options, cache: true})
+      .success(function(res){
+        console.log(res.features);
 
-angular.extend($scope, {
-    geojson: {
-        data: {
-          "type": "FeatureCollection",
-          "features": []
-        },
-        style: {
-            fillColor: "green",
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7
-        }
-    }
-});
+        $scope.project_docs = res.features.map(function (each){
+          var url = {
+              url : document_base_url + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf",
+              name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID
+          };
+          return url;
+        });
+      });
 
 }
 
 
 
-  angular.extend($scope, {
-    paths: {
-      p1:{
-        latlngs:[],
-      type:"polygon"
-      }
-    }
-  }
-  );
+
+
+
+
 
 
   }]);

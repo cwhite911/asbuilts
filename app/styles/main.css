@@ -194,3 +194,20 @@ table tbody tr:hover{
   text-shadow: 12px 5px 14px #b80e28;
   cursor:pointer;
 }
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+  background: rgb(84, 79, 73);
+}
+
+.asbuilts {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url(../images/ab.png) no-repeat;
+  width: 180px; /* Width of new image */
+  height: 236px; /* Height of new image */
+  padding-left: 180px; /* Equal to width of new image */
+}
+
+
+}
