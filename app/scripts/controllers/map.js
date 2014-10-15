@@ -39,7 +39,19 @@ angular.module('asbuiltsApp')
             }
           },
 
-      }
+      },
+      legend: {
+            position: 'bottomleft',
+            colors: [ '#FFF', '#28c9ff', '#0000ff', '#ecf386', '#28c9ff', '#0000ff', '#FFF'],
+            labels: [
+                '<img src="../images/ab.png" height="20px" width="20px" /> AS-Built',
+                '<img src="../images/cp.png" height="20px" width="20px" /> Construction Plan',
+                '<img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter',
+                '<img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter',
+                '<img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost',
+                '<img src="../images/p.png" height="20px" width="20px" /> Permits',
+                '<img src="../images/plat.png" height="20px" width="20px" /> Plats' ]
+        },
 
 
 
@@ -151,11 +163,20 @@ var document_types = [
               iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
               popupAnchor:  [-5, -5] // point from which the popup should open relative to the iconAnchor
             }
+          },
+          {
+            name: 'Plat',
+            message: 'Plat',
+            icon: {
+              iconUrl: '../images/plat.png',
+              iconSize:     [38, 38], // size of the icon
+              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+              popupAnchor:  [-5, -5] // point from which the popup should open relative to the iconAnchor
+            }
           }
         ];
 
 var document_fx = function (latlng){
-  //var names = ['ASBUILTS', 'CONSTUCTION_PLAN', 'ACCEPTANCE_LETTER', 'WARRANTY_LETTER', 'STATEMENT_OF_COST', 'PERMITS'];
   latlng = {lat: latlng[0], lng: latlng[1]};
   var docs = [
           {

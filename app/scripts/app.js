@@ -42,8 +42,15 @@ angular
         templateUrl: 'views/map.html',
         controller: 'MapCtrl'
       })
+      .when('/document/:documentid', {
+        templateUrl: 'views/documents.html',
+        controller: 'DocCtrl'
+      })
+      .when('/error', {
+        templateUrl: '404.html'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/error'
       });
 
       $httpProvider.defaults.useXDomain = true;
