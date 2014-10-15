@@ -202,6 +202,10 @@ var document_fx = function (latlng){
           {
             lat: latlng.lat - 0.001,
             lng: latlng.lng - 0.001
+          },
+          {
+            lat: latlng.lat + 0.001,
+            lng: latlng.lng - 0.0015
           }
     ];
 
