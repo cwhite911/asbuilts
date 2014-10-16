@@ -7,29 +7,17 @@
       <thead>
         <th class="text-primary">Key</th>
         <th class="text-primary">Value</th>
-        <!-- <th class="text-primary">SHEET DESCRIPTION</th>
-        <th class="text-primary">WATER</th>
-        <th class="text-primary">SEWER</th>
-        <th class="text-primary">REUSE</th>
-        <th class="text-primary">STORM</th> -->
       </thead>
       <tbody>
         <tr ng-repeat="(key, value) in project_info">
           <td>{{key}}</td>
           <td>{{value}}</td>
-          <!-- <td>{{sheet.attributes.DOCUMENTTYPE}}</td>
-          <td>{{sheet.attributes.SHEETTYPE}}</td>
-          <td class="water">{{sheet.attributes.WATER}}</td>
-          <td class="sewer">{{sheet.attributes.SEWER}}</td>
-          <td class="reuse">{{sheet.attributes.REUSE}}</td>
-          <td class="storm">{{sheet.attributes.STORM}}</td>
-          <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td> -->
         </tr>
       </tbody>
     </table>
   </div>
   <div class="col-md-6">
-    <leaflet center="center" legend="legend" layers="layers" geojson="geojson" paths="paths" markers="markers" width="100%" height="1000px"></leaflet>
+    <leaflet center="center" legend="legend" layers="layers" geojson="geojson" paths="paths" markers="markers" width="100%" height="80em" ></leaflet>
   </div>
   <div class="col-md-3" ng-show="project_docs">
     <div><h2 class="text-muted"><u>Documents</u></h2></div>

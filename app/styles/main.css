@@ -1,14 +1,23 @@
 /* Space out content a bit */
-#map {
+/*#map {
   width: 100%;
   height: 700px;
-}
+}*/
 body {
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: black;
   color: white;
 }
+
+body, html {
+  height:100%;
+}
+
+.angular-leaflet-map {
+  height: 100%;
+}
+
 .form-inputs {
   background-color: rgba(143, 144, 141, 0.49);
   border-color:#7a7c78;
@@ -218,3 +227,4 @@ border-color: #E02121;
 
 .panel-body {
 border-top-color: #1C99E5;
+}

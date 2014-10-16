@@ -35,9 +35,21 @@ angular.module('asbuiltsApp')
                     layers: [2],
                       opacity: 0.5,
                       attribution: "Copyright:© 2014 City of Raleigh"
-                }
+                },
+              },
+                sewer: {
+                name: "Sewer Collection Network",
+                  type: "dynamic",
+                  url: "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer",
+                  visible: false,
+                  layerOptions: {
+                      layers: [0,1,2,3,4],
+                        opacity: 0.5,
+                        attribution: "Copyright:© 2014 City of Raleigh"
+                  },
             }
-          },
+          }
+
 
       },
       legend: {
