@@ -23,6 +23,18 @@ angular.module('asbuiltsApp')
                     name: 'OpenStreetMap (XYZ)',
                     url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
                     type: 'xyz'
+                },
+                raleigh:{
+
+                  name: "Basic Base Map",
+                    type: "dynamic",
+                    url: "http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer",
+                    visible: false,
+                    layerOptions: {
+                        layers: ['*'],
+                          opacity: 0.5,
+                          attribution: "Copyright:© 2014 City of Raleigh"
+                    }
                 }
             },
             overlays: {
@@ -440,9 +452,7 @@ leafletData.getMap().then(function(map) {
         map.eachLayer(function (layer){
           console.log(layer);
           console.log(map.hasLayer(layer));
-          web_map_specs.operationalLayers.push({
-            url: layer.url
-            });
+          map.hasLayer(layer) ? web_map_specs.operationalLayers.push({url: layer.url}) : console.log('No layers adde to print');
         });
     });
 });
