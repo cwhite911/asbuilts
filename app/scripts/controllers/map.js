@@ -44,10 +44,33 @@ angular.module('asbuiltsApp')
                   visible: false,
                   layerOptions: {
                       layers: [0,1,2,3,4],
-                        opacity: 0.5,
+                        opacity: 1,
                         attribution: "Copyright:© 2014 City of Raleigh"
-                  },
+                  }
+            },
+            water: {
+              name: "Water Distribution Network",
+                type: "dynamic",
+                url: "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer",
+                visible: false,
+                layerOptions: {
+                    layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+                      opacity: 1,
+                      attribution: "Copyright:© 2014 City of Raleigh"
+                }
+            },
+            reuse: {
+              name: "Reuse Distribution Network",
+                type: "dynamic",
+                url: "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer",
+                visible: false,
+                layerOptions: {
+                    layers: [0,1,2,3,4,5,6,7,8,9,10,11],
+                      opacity: 1,
+                      attribution: "Copyright:© 2014 City of Raleigh"
+                }
             }
+
           }
 
 
@@ -75,7 +98,28 @@ angular.module('asbuiltsApp')
 
   $scope.projects = [];
 
+var Icon = function (iconUrl, iconSize, iconAnchor, popupAnchor){
+  this.iconUrl = iconUrl;
+  this.iconSize = iconSize;
+  this.iconAnchor = iconAnchor;
+  this.popupAnchor = popupAnchor;
+};
 
+var Mygeojson = function (data){
+    this.data = data;
+    this.icons = [];
+    this.styles = [];
+    this.addIcon = function (name, message, icon) {
+      this.icons.push({name: name, message: message, icon: icon});
+    }
+};
+
+Mygeojson.prototype.getCentroid = function () {
+  var arr = this.data;
+  return arr.reduce(function (x,y) {
+      return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
+  }, [0,0])
+}
 
 var styles = {
         paidStyle: {
@@ -372,6 +416,36 @@ $scope.searchControl = function (typed){
 
 $scope.list1 = {title: 'AngularJS - Drag Me'};
 
+//Setting Up Printing Service
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var web_map_specs = {
+  "mapOptions":{ },
+  "operationalLayers": [ ],
+  "baseMap": [ ],
+  "exportOptions": { },
+  "layoutOptions": { }
+};
+
+leafletData.getMap().then(function(map) {
+    web_map_specs.operationalLayers = [];
+    map.on('move', function(){
+      $scope.mapbounds = map.getBounds();
+      web_map_specs.mapOptions.extent = {
+        "xmin": $scope.mapbounds._southWest.lat,
+        "ymin": $scope.mapbounds._southWest.lng,
+        "xmax": $scope.mapbounds._northEast.lat,
+        "ymax": $scope.mapbounds._northEast.lng
+      };
+        map.eachLayer(function (layer){
+          console.log(layer);
+          console.log(map.hasLayer(layer));
+          web_map_specs.operationalLayers.push({
+            url: layer.url
+            });
+        });
+    });
+});
 
 
 
