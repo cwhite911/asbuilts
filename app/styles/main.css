@@ -228,3 +228,9 @@ border-color: #E02121;
 .panel-body {
 border-top-color: #1C99E5;
 }
+
+.modal-content {
+position: relative;
+background-color: #988F8F;
+box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
+}
