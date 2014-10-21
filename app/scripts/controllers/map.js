@@ -475,9 +475,11 @@ leafletData.getMap().then(function(map) {
         "xmax": $scope.mapbounds._northEast.lat,
         "ymax": $scope.mapbounds._northEast.lng
       };
+      web_map_specs.operationalLayers = [];
         map.eachLayer(function (layer){
           console.log(layer);
           console.log(map.hasLayer(layer));
+
           map.hasLayer(layer) ? web_map_specs.operationalLayers.push({url: layer.url}) : console.log('No layers added to print');
         });
     });
@@ -502,7 +504,7 @@ $scope.print_params = {
   $scope.$watch('print_params', function(newVal, oldVal){
     console.log($scope.print_params);
 }, true);
-var readyData = angular.toJson($scope.print_params);
+
 $scope.printMap = function () {
   $http.get(printTask, {
     params: $scope.print_params,
