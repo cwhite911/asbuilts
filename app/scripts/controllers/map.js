@@ -10,6 +10,7 @@
 angular.module('asbuiltsApp')
   .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', function ($scope, $http, $filter, $sce, leafletData) {
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
+  $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
       center: {
@@ -318,22 +319,41 @@ function action (feature, layer){
 }
 
 
-var options = {
+// var options = {
+//     f: 'json',
+//     outFields: '*',
+//     where: 'OBJECTID > 0',
+//     orderByFields:  'PROJECTNAME ASC',
+//     returnGeometry: false
+// };
+//
+// var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
+// $http.get(conn, {params: options, cache: true})
+//   .success(function(res){
+//     var poly = [];
+//     for (var i = 0, f = res.features.length; i < f; i++){
+//       $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+//     }
+// });
+
+$scope.autoFillProjects = function (typed) {
+  var options = {
     f: 'json',
     outFields: '*',
-    where: 'OBJECTID > 0',
-    orderByFields:  'PROJECTNAME ASC',
-    returnGeometry: false
-};
-
-var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
-$http.get(conn, {params: options, cache: true})
-  .success(function(res){
-    for (var i in res.features){
+    text: typed,
+    returnGeometry: false,
+    orderByFields: 'PROJECTNAME ASC'
+  };
+  var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
+  $http.get(url, {params: options, cache: true})
+    .success(function(res){
+      console.log(res.features);
       var poly = [];
-      $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
-    }
-});
+      for (var i = 0, x = res.features.length; i < x; i++){
+        $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+      }
+    });
+}
 
 $scope.searchControl = function (typed){
   console.log(typed);
@@ -401,6 +421,8 @@ $scope.searchControl = function (typed){
                 $scope.centroid = getCentroid(latlngs);
 
                 map.fitBounds(latlngs);
+                //Turns on the map resulsts table
+                $scope.searchStatus = true;
             });
     });
 
@@ -491,6 +513,7 @@ leafletData.getMap().then(function(map) {
         return div;
       };
 printer.addTo(map);
+
 
 });
 

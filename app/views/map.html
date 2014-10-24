@@ -1,26 +1,39 @@
-<div class="row">
-  <div class="col-md-3">
-    <autocomplete ng-model="map.search" data="projects" on-select="searchControl" ></autocomplete>
-    <br>
-    {{output}}
-    {{print_format}}
-    {{print_params}}
-    <table class="table">
-      <thead>
-        <th class="text-primary">Key</th>
-        <th class="text-primary">Value</th>
-      </thead>
-      <tbody>
-        <tr ng-repeat="(key, value) in project_info">
-          <td>{{key}}</td>
-          <td>{{value}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-md-6">
-    <leaflet center="center" legend="legend" layers="layers" geojson="geojson" paths="paths" markers="markers" width="100%" height="80em" ></leaflet>
-    <!-- Modal -->
+<!--NavBar -->
+<!-- <div class="container-fluid mapNavBar"> -->
+<nav class="navbar navbar-inverse mapNavBar" role="navigation">
+    <!-- <a class="navbar-brand">Project Tracking</a> -->
+    <ul class="nav navbar-nav">
+      <li><a ng-href="#">Add Project</a></li>
+      <li><a ng-href="#">Add Document</a></li>
+      <li><a ng-href="#/instructions">Instructions</a></li>
+      <li class="active"><a ng-href="#/map">Map</a></li>
+      <li><a ng-href="#/stats">Stats</a></li>
+    </ul>
+</nav>
+
+<!-- </div> -->
+
+<!--Map Project Seach Bar and Table -->
+<div class="mapSearch">
+  <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" class="mapSearchStyle"></autocomplete>
+</div>
+<table class="table mapTable" ng-show="searchStatus">
+  <thead>
+    <th class="text-primary">Key</th>
+    <th class="text-primary">Value</th>
+  </thead>
+  <tbody class="mapTableBody">
+    <tr ng-repeat="(key, value) in project_info">
+      <td>{{key}}</td>
+      <td>{{value}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Map -->
+    <leaflet center="center" legend="legend" layers="layers" geojson="geojson" paths="paths" markers="markers"></leaflet>
+
+<!-- Print -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -46,28 +59,25 @@
     </div>
   </div>
 </div>
-  </div>
-  <div class="col-md-3" ng-show="project_docs">
-    <div><h2 class="text-muted"><u>Documents</u></h2></div>
 
+
+<!-- Documents -->
+<div class="mapDocs" ng-show="project_docs">
 <div class="panel-group" id="accordion">
   <div class="panel panel-default" ng-repeat="doc in project_docs" data-drag="true" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title" id="{{doc.resid}}">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" data-target="#{{doc.name}}">
-        <img src={{doc.icon}} width="20px" height="20px" /> {{doc.name}}       <a href="/#/document/{{doc.name}}">Full View</a>
+        <img src={{doc.icon}} width="20px" height="20px" /> {{doc.name}}  <a class="fullview pull-right" href="/#/document/{{doc.name}}">Full View</a>
         </a>
       </h4>
     </div>
-    <div id="{{doc.name}}" class="panel-collapse collapse in">
+    <div id="{{doc.name}}" class="panel-collapse collapse">
       <div class="panel-body">
-        <iframe name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a href="{{doc.url}}>">Full View</a></iframe>
+        <iframe name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a  href="{{doc.url}}>">Full View</a></iframe>
       </div>
     </div>
   </div>
 </div>
 </div>
-<!-- <iframe width="940" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://ral.maps.arcgis.com/home/webmap/embedViewer.html?webmap=e5f5e66e9e6f4f46aece2b465738a70a&amp;extent=-78.6655,35.7723,-78.6239,35.7927"></iframe> -->
-</div>
-
-<!-- <div id='map'></div> -->
+<!-- </div> -->
