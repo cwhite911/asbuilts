@@ -67,7 +67,7 @@ body {
 
 .mapTable {
   position:absolute;
-  top:5%;
+  top:6%;
   left: 5%;
   width:25%;
   height: 4%;
@@ -316,4 +316,9 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
 
 .leaflet-control-layers-toggle {
 background-color: rgba(0,0,0, 0.90);
+}
+
+.mapPrint {
+  background-color: rgba(0,0,0, 0.70);;
+  border-color: rgba(0,0,0, 0.50);;
 }

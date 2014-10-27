@@ -23,18 +23,19 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <!-- <div class="container-fluid">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Form</a></li>
-          <li><a ng-href="#/instructions">Instructions</a></li>
-          <li><a ng-href="#/map">Map</a></li>
-          <li><a ng-href="#/stats">Stats</a></li>
+
+    <!--NavBar -->
+    <!-- <div class="container-fluid mapNavBar"> -->
+    <nav class="navbar navbar-inverse mapNavBar" role="navigation" ng-controller="HeaderController">
+        <!-- <a class="navbar-brand">Project Tracking</a> -->
+        <ul class="nav navbar-nav">
+          <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Project</a></li>
+          <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Document</a></li>
+          <li ng-class="{ active: isActive('/instructions')}"><a ng-href="#/instructions">Instructions</a></li>
+          <li ng-class="{ active: isActive('/map')}"><a ng-href="#/map">Map</a></li>
+          <li ng-class="{ active: isActive('/stats')}"><a ng-href="#/stats">Stats</a></li>
         </ul>
-        <h3 class="text-muted">Project Tracking</h3>
-      </div>
-    </div> -->
+    </nav>
       <div ng-view=""></div>
 
       <!-- <div class="footer">
@@ -90,6 +91,7 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/head.js"></script>
         <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/controllers/map.js"></script>
         <script src="scripts/controllers/form.js"></script>

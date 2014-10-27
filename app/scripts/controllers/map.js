@@ -335,6 +335,11 @@ function action (feature, layer){
 //       $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
 //     }
 // });
+function removeEmptyFields (data) {
+    for (var a in data){
+      data[a] ? data[a] : delete data[a];
+    }
+}
 
 $scope.autoFillProjects = function (typed) {
   var options = {
@@ -375,6 +380,7 @@ $scope.searchControl = function (typed){
           $scope.project_info.CREATEDON = $filter('date')($scope.project_info.CREATEDON, 'MM/dd/yyyy');
           $scope.project_info.DEVPLAN_APPROVAL = $filter('date')($scope.project_info.DEVPLAN_APPROVAL, 'MM/dd/yyyy');
           $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
+          removeEmptyFields($scope.project_info);
                 var latlngs = [];
                 $scope.poly = [];
                 $scope.bound = [];
@@ -509,7 +515,7 @@ leafletData.getMap().then(function(map) {
     var printer = L.control({position: 'bottomright'});
     printer.onAdd = function (map) {
       var div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML = '<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Print</button>';
+        div.innerHTML = '<button class="btn btn-primary btn-sm mapPrint" data-toggle="modal" data-target="#myModal">Print</button>';
         return div;
       };
 printer.addTo(map);
