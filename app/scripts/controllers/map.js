@@ -9,6 +9,16 @@
  */
 angular.module('asbuiltsApp')
   .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', function ($scope, $http, $filter, $sce, leafletData) {
+
+  //Add get set to Array prototype
+  Array.prototype.getSet = function (){
+    var temp = [];
+    for (var i = 0, x = this.length; i < x; i++){
+      temp.indexOf(temp[i]) ? this : temp.push(this[i]);
+    }
+    return temp;
+  }
+
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -109,7 +119,7 @@ angular.module('asbuiltsApp')
 // }, true);
 // console.log($scope.layers.overlays.projects);
 
-  $scope.projects = [];
+
 
 var Icon = function (iconUrl, iconSize, iconAnchor, popupAnchor){
   this.iconUrl = iconUrl;
@@ -342,21 +352,36 @@ function removeEmptyFields (data) {
 }
 
 $scope.autoFillProjects = function (typed) {
+  //Turns on the map resulsts table
+  $scope.searchStatus = false;
+  $scope.projects = [];
   var options = {
     f: 'json',
     outFields: '*',
-    text: typed,
+    text: typed.toUpperCase(),
     returnGeometry: false,
     orderByFields: 'PROJECTNAME ASC'
   };
   var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
   $http.get(url, {params: options, cache: true})
     .success(function(res){
-      console.log(res.features);
       var poly = [];
-      for (var i = 0, x = res.features.length; i < x; i++){
-        $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+      try {
+
+
+      if (res.features.length > 0){
+        for (var i = 0, x = res.features.length; i < x; i++){
+          $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+        }
+        $scope.projects.getSet();
       }
+      else {
+        $scope.projects.push("Sorry No Record Found...");
+    }
+  } catch (error){
+      console.log('No Results found');
+    }
+
     });
 }
 

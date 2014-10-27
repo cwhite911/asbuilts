@@ -306,7 +306,7 @@ background-color: rgba(0,0,0, 0.7);;
 
 .modal-content {
 position: relative;
-background-color: #988F8F;
+background-color: rgba(0,0,0, 0.70);
 box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
 }
 
@@ -319,6 +319,6 @@ background-color: rgba(0,0,0, 0.90);
 }
 
 .mapPrint {
-  background-color: rgba(0,0,0, 0.70);;
+  background-color: rgba(0,0,0, 0.70);
   border-color: rgba(0,0,0, 0.50);;
 }
