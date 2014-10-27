@@ -13,7 +13,7 @@
 
 <!--Map Project Seach Bar and Table -->
 <div class="mapSearch">
-  <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" class="mapSearchStyle"></autocomplete>
+  <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete>
 </div>
 <table class="table mapTable" ng-show="searchStatus">
   <thead>

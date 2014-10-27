@@ -354,6 +354,7 @@ function removeEmptyFields (data) {
 $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
+  $scope.project_docs = false;
   $scope.projects = [];
   var options = {
     f: 'json',
