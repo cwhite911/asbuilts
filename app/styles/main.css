@@ -26,8 +26,8 @@ body {
 .mapNavBar {
   position:absolute;
   top:1%;
-  left:75%;
-  width:21%;
+  left:60%;
+  width:28%;
   height: 2%;
   /*padding: 25px;*/
   z-index: 1;
@@ -39,7 +39,7 @@ body {
   top:1%;
   left:5%;
   width:25%;
-  height: 4%;
+  height: 10%;
   z-index: 1;
   /*background-color: rgba(0,0,0, 0.70);*/
 

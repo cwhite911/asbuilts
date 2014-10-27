@@ -1,8 +1,9 @@
-<h1>{{documentid}} :  <i>{{documentDetails[0].attributes.DOCTYPENAMES}}</i></h1>
-<h2>{{documentDetails[0].attributes.PROJECTNAME}}</h2>
-{{join}}
+<div class="container-fluid">
+  <h1>{{documentid}} : {{documentDetails[0].attributes.DOCUMENTTYPE}}<h2>{{documentDetails[0].attributes.PROJECTNAME}}</h2></h1>
+  <!-- {{join}} -->
 <div class="row">
   <div class="col-md-3">
+
     <table class="table">
       <thead>
         <th class="text-primary">Key</th>
@@ -30,5 +31,6 @@
   </div>
   <div class="col-md-9">
 <iframe name="{{documentid}}" width="100%" height="1000px" ng-src="{{url}}"><a href="{{url}}>">Full View</a></iframe>
+</div>
 </div>
 </div>
