@@ -368,19 +368,17 @@ $scope.autoFillProjects = function (typed) {
     .success(function(res){
       var poly = [];
       try {
-
-
-      if (res.features.length > 0){
-        for (var i = 0, x = res.features.length; i < x; i++){
-          $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+        if (res.features.length > 0){
+          for (var i = 0, x = res.features.length; i < x; i++){
+            $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+          }
+          $scope.projects.getSet();
         }
-        $scope.projects.getSet();
-      }
-      else {
-        $scope.projects.push("Sorry No Record Found...");
-    }
-  } catch (error){
-      console.log('No Results found');
+        else {
+          $scope.projects.push("Sorry No Record Found...");
+        }
+      } catch (error){
+        console.log('No Results found');
     }
 
     });

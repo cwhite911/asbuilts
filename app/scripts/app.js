@@ -21,6 +21,7 @@ angular
     'leaflet-directive',
     'ngDragDrop'
   ])
+  .value('version, 0.1')
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {

@@ -1,10 +1,11 @@
+'use strict';
 angular.module('asbuiltsApp')
   .controller('DocCtrl',['$scope', '$routeParams', '$http', '$sce',
   function($scope, $routeParams, $http, $sce) {
-    var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
+    var documentBaseUrl = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
     $scope.documentid = $routeParams.documentid;
     $scope.doc = $scope.documentid.split('-');
-    $scope.url = $sce.trustAsResourceUrl(document_base_url + $scope.doc[0] + "/" + $scope.documentid + ".pdf");
+    $scope.url = $sce.trustAsResourceUrl(documentBaseUrl + $scope.doc[0] + "/" + $scope.documentid + ".pdf");
 
     var options = {
             f: 'json',

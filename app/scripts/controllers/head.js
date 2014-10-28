@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('asbuiltsApp')
   .controller('HeaderController', ['$scope', '$location', function ($scope, $location) {
