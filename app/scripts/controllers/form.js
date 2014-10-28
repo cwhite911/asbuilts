@@ -1,17 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .controller('FormCtrl', ['$scope', '$http', '$filter','$timeout', 'PT', 'Options', function ($scope, $http, $filter,$timeout, PT, Options) {
-    // var test = PT;
-    // test.setServices('FeatureServer', 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/')
-    // $timeout(function (){
-    //   console.log(test.getServices());
-    //   console.log(test.getUrl('query', 'RPUD.ENGINEERINGFIRM'));
-    // }, 500);
-    // var testOptions = Options;
-    // testOptions.setOptions('json', '*', 'OBJECTID > 0', 'PROJECTID ASC', 'true' );
-    // testOptions.updateOptions('f', 'html');
-    // console.log(testOptions.getOptions());
+  .controller('FormCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
     $scope.pageControls = {
       continueButton: false,
       deleteLastRecord: false,
