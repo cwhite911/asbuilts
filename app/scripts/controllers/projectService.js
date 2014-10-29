@@ -1,49 +1,56 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('PT', ['$http', '$q','$timeout', function($http, $q, $timeout){
-        var _url;
-        var services = [];
-        var getLayers = function (item){
-          for (var i = 0, x = item.length; i < x; i++){
-            services.push(item[i]);
-          }
-        };
-        return {
-      //Sets serives avaliable from the server
-        setServices: function (type, url){
-          _url = url + '/' + type;
-          $http.get(_url, {params: {f: 'json'}, cache: true}).success(function(res){
-            getLayers(res.layers);
-            getLayers(res.tables);
-          })
-          .error(function(data, status, headers, config) {
-            console.log(status);
-          });
-        },
-        //Gets the avaiable services
-        getServices: function (){
-            return {
-              'url': _url,
-              'services': services
-            };
-        },
-        //Generates RESTful endpoint
-        getUrl: function (type, fname){
-          var layerUrl = _url;
-          for (var i = 0, x = services.length; i < x; i++){
-            services[i].name === fname ? layerUrl = layerUrl + services[i].id + '/' + type : layerUrl;
-          }
-          return layerUrl;
-        },
-        getData: function (url, options){
-          $http.get(url, {params: options , cache: true})
-            .success(function(res){
-              return res.features;
-          })
-          .error(function(data, status, headers, config) {
-            console.log(status);
-          });
+    .service('PT', ['$http', 'Options', function($http, Options){
+      //Private stuff
+      var temp = [];
+      function getLayers (item, url){
+        for (var i = 0, x = item.length; i < x; i++){
+          temp.push(item[i]);
+          temp[i].url = url + '/' + temp[i].id + '/';
         }
       }
+      //Service constructor
+      var Services = function(type, url){
+        this.serviceType = type;
+        this.url = url + '/' + this.serviceType;
+        this.servicelayers = [];
+      };
+      Services.prototype = {
+
+        //Adds all the avaliable layer and table services to the layers array
+        setServices: function (){
+          var url = this.url;
+          $http.get(this.url, {params: {f: 'json'}, cache: true})
+            .success(function(res){
+              getLayers(res.layers, url);
+              getLayers(res.tables, url);
+          })
+          .error(function(data, status, headers, config) {
+            console.log(status);
+          });
+          this.servicelayers = temp;
+        },
+        getServices: function (name, type, options){
+          var serviceLayers = this.servicelayers,
+              myData = {};
+          for (var i = 0, x = serviceLayers.length; i < x; i++){
+            if (serviceLayers[i].name === name){
+              var url = serviceLayers[i].url + '/query';
+              $http.get(url, {params: options , cache: true})
+                .success(function(res){
+                  myData.features = res.features;
+                  myData.fields = res.fields;
+              })
+              .error(function(data, status, headers, config) {
+                console.log(status);
+              });
+              this.servicelayers[i].data = myData;
+            }
+          }
+          return myData;
+        }
+      };
+      return (Services);
+
   }]);

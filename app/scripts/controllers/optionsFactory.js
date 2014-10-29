@@ -2,22 +2,23 @@
 
 angular.module('asbuiltsApp')
     .factory('Options', [function(){
-      var options = {};
-      return {
-        setOptions: function (f, outFields, where, orderByFields, returnGeometry){
-          options.f = f || 'json';
-          options.outFields = outFields || '*';
-          options.where = where || 'OBJECTID > 0';
-          options.orderByFields = orderByFields || null;
-          options.returnGeometry = returnGeometry || 'false';
-        },
-        getOptions: function () {
-          return options;
+      //Options constructor 
+      var Options = function (f, outFields, where, orderByFields, returnGeometry){
+          this.f = f || 'json';
+          this.outFields = outFields || '*';
+          this.where = where || 'OBJECTID > 0';
+          this.orderByFields = orderByFields || null;
+          this.returnGeometry = returnGeometry || 'false';
+        };
+        Options.prototype = {
+          getOptions: function () {
+            return this;
         },
         updateOptions: function (key, value){
           //Checks if the key exisits changes value if it does, does nothing if it doesn't
-          Object.keys(options).indexOf(key) > -1 ?
-            options[key] = value : options;
+          Object.keys(this).indexOf(key) > -1 ?
+            this[key] = value : this;
         }
       };
+      return (Options);
     }]);

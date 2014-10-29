@@ -9,16 +9,14 @@
  */
 angular.module('asbuiltsApp')
   .controller('StatsCtrl', ['$scope', '$http','$timeout', 'PT', 'Options', function ($scope, $http, $timeout, PT, Options) {
-    var test = PT;
-    test.setServices('FeatureServer', 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/');
+    var test = new PT('FeatureServer', 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking');
+    var engOptions = new Options('json', '*', 'OBJECTID > 0', 'SIMPLIFIEDNAME ASC', 'true' );
+    console.log(test);
+    console.log(engOptions);
+    test.setServices();
     $timeout(function (){
-      console.log(test.getServices());
-      console.log(test.getUrl('query', 'RPUD.ENGINEERINGFIRM'));
+      $scope.engFirm = test.getServices('RPUD.ENGINEERINGFIRM', 'query', engOptions);
     }, 500);
-    var testOptions = Options;
-    testOptions.setOptions('json', '*', 'OBJECTID > 0', 'PROJECTID ASC', 'true' );
-    testOptions.updateOptions('f', 'html');
-    console.log(testOptions.getOptions());
-    
+
 
   }]);
