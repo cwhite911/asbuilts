@@ -19,7 +19,8 @@ angular
     'autocomplete',
     // 'nvd3ChartDirectives',
     'leaflet-directive',
-    'ngDragDrop'
+    'ngDragDrop',
+    'angularCharts'
   ])
   .value('version, 0.1')
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {

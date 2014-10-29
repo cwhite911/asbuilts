@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('PT', ['$http', 'Options', function($http, Options){
+    .service('PT', ['$http', function($http){
       //Private stuff
       var temp = [];
       function getLayers (item, url){
@@ -16,8 +16,8 @@ angular.module('asbuiltsApp')
         this.url = url + '/' + this.serviceType;
         this.servicelayers = [];
       };
-      Services.prototype = {
 
+      Services.prototype = {
         //Adds all the avaliable layer and table services to the layers array
         setServices: function (){
           var url = this.url;
@@ -30,6 +30,7 @@ angular.module('asbuiltsApp')
             console.log(status);
           });
           this.servicelayers = temp;
+
         },
         getServices: function (name, type, options){
           var serviceLayers = this.servicelayers,
@@ -54,5 +55,4 @@ angular.module('asbuiltsApp')
         }
       };
       return (Services);
-
   }]);

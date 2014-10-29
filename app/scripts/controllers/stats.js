@@ -19,11 +19,30 @@ angular.module('asbuiltsApp')
     service.setServices();
     $timeout(function (){
       $scope.projects = service.getServices('Project Tracking', 'query', projectOptions);
-      $scope.engFirms = service.getServices('RPUD.ENGINEERINGFIRM', 'query', engFirmsOptions);
-      $scope.sheetTypes = service.getServices('RPUD.SHEETTYPES', 'query', sheetTypesOptions);
-      $scope.docTypes = service.getServices('RPUD.DOCUMENTTYPES', 'query', docTypesOptions);
-      $scope.projectDocs = service.getServices('RPUD.PTK_DOCUMENTS', 'query', projectDocOptions);
+      projectOptions.updateOptions('where', 'OBJECTID > 1000');
+      // $scope.projects = service.getServices('Project Tracking', 'query', projectOptions);
+      // $scope.engFirms = service.getServices('RPUD.ENGINEERINGFIRM', 'query', engFirmsOptions);
+      // $scope.sheetTypes = service.getServices('RPUD.SHEETTYPES', 'query', sheetTypesOptions);
+      // $scope.docTypes = service.getServices('RPUD.DOCUMENTTYPES', 'query', docTypesOptions);
+      // $scope.projectDocs = service.getServices('RPUD.PTK_DOCUMENTS', 'query', projectDocOptions);
     }, 500);
 
-
+$scope.chartType = 'Pie';
+$scope.data = {
+  series: ["Sales", "Income", "Expense"],
+  data: [{
+    x: "Computers",
+    y: [54, 0, 879],
+    tooltip: "This is a tooltip"
+  }]
+};
+$scope.config = {
+		labels: true,
+		title: "Products",
+		legend: {
+			display: true,
+			position: 'left'
+		},
+		innerRadius: 0
+	};
   }]);
