@@ -8,16 +8,19 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', function ($scope, $http, $filter, $sce, leafletData) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch',
+    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch) {
 
+
+    $scope.projects
   //Add get set to Array prototype
-  Array.prototype.getSet = function (){
-    var temp = [];
-    for (var i = 0, x = this.length; i < x; i++){
-      temp.indexOf(temp[i]) ? this : temp.push(this[i]);
-    }
-    return temp;
-  }
+  // Array.prototype.getSet = function (){
+  //   var temp = [];
+  //   for (var i = 0, x = this.length; i < x; i++){
+  //     temp.indexOf(temp[i]) ? this : temp.push(this[i]);
+  //   }
+  //   return temp;
+  // }
 
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   $scope.searchStatus = false;
@@ -351,37 +354,43 @@ function removeEmptyFields (data) {
     }
 }
 
+var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
 $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
   $scope.project_docs = false;
-  $scope.projects = [];
-  var options = {
-    f: 'json',
-    outFields: '*',
-    text: typed.toUpperCase(),
-    returnGeometry: false,
-    orderByFields: 'PROJECTNAME ASC'
-  };
-  var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
-  $http.get(url, {params: options, cache: true})
-    .success(function(res){
-      var poly = [];
-      try {
-        if (res.features.length > 0){
-          for (var i = 0, x = res.features.length; i < x; i++){
-            $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
-          }
-          $scope.projects.getSet();
-        }
-        else {
-          $scope.projects.push("Sorry No Record Found...");
-        }
-      } catch (error){
-        console.log('No Results found');
-    }
-
-    });
+  //Uses the Project Search Servies
+  $scope.projects = ProjectSearch.autoFillProjects(typed, url);
+  //Turns on the map resulsts table
+  // $scope.searchStatus = false;
+  // $scope.project_docs = false;
+  // $scope.projects = [];
+  // var options = {
+  //   f: 'json',
+  //   outFields: '*',
+  //   text: typed.toUpperCase(),
+  //   returnGeometry: false,
+  //   orderByFields: 'PROJECTNAME ASC'
+  // };
+  // var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
+  // $http.get(url, {params: options, cache: true})
+  //   .success(function(res){
+  //     var poly = [];
+  //     try {
+  //       if (res.features.length > 0){
+  //         for (var i = 0, x = res.features.length; i < x; i++){
+  //           $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
+  //         }
+  //         $scope.projects.getSet();
+  //       }
+  //       else {
+  //         $scope.projects.push("Sorry No Record Found...");
+  //       }
+  //     } catch (error){
+  //       console.log('No Results found');
+  //   }
+  //
+  //   });
 }
 
 $scope.searchControl = function (typed){
