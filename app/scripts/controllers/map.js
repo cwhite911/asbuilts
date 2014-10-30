@@ -12,7 +12,7 @@ angular.module('asbuiltsApp')
     function ($scope, $http, $filter, $sce, leafletData, ProjectSearch) {
 
 
-    $scope.projects
+    // $scope.projects
   //Add get set to Array prototype
   // Array.prototype.getSet = function (){
   //   var temp = [];
