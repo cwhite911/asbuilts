@@ -11,17 +11,6 @@ angular.module('asbuiltsApp')
   .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch',
     function ($scope, $http, $filter, $sce, leafletData, ProjectSearch) {
 
-
-    // $scope.projects
-  //Add get set to Array prototype
-  // Array.prototype.getSet = function (){
-  //   var temp = [];
-  //   for (var i = 0, x = this.length; i < x; i++){
-  //     temp.indexOf(temp[i]) ? this : temp.push(this[i]);
-  //   }
-  //   return temp;
-  // }
-
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -354,43 +343,13 @@ function removeEmptyFields (data) {
     }
 }
 
-var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
+
 $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
   $scope.project_docs = false;
   //Uses the Project Search Servies
-  $scope.projects = ProjectSearch.autoFillProjects(typed, url);
-  //Turns on the map resulsts table
-  // $scope.searchStatus = false;
-  // $scope.project_docs = false;
-  // $scope.projects = [];
-  // var options = {
-  //   f: 'json',
-  //   outFields: '*',
-  //   text: typed.toUpperCase(),
-  //   returnGeometry: false,
-  //   orderByFields: 'PROJECTNAME ASC'
-  // };
-  // var url = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/2/query';
-  // $http.get(url, {params: options, cache: true})
-  //   .success(function(res){
-  //     var poly = [];
-  //     try {
-  //       if (res.features.length > 0){
-  //         for (var i = 0, x = res.features.length; i < x; i++){
-  //           $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
-  //         }
-  //         $scope.projects.getSet();
-  //       }
-  //       else {
-  //         $scope.projects.push("Sorry No Record Found...");
-  //       }
-  //     } catch (error){
-  //       console.log('No Results found');
-  //   }
-  //
-  //   });
+  $scope.projects = ProjectSearch.autoFillProjects(typed);
 }
 
 $scope.searchControl = function (typed){
@@ -538,8 +497,8 @@ leafletData.getMap().then(function(map) {
       };
       web_map_specs.operationalLayers = [];
         map.eachLayer(function (layer){
-          console.log(layer);
-          console.log(map.hasLayer(layer));
+          //console.log(layer);
+          //console.log(map.hasLayer(layer));
 
           map.hasLayer(layer) ? web_map_specs.operationalLayers.push({url: layer.url}) : console.log('No layers added to print');
         });
@@ -564,7 +523,7 @@ $scope.print_params = {
 };
 
   $scope.$watch('print_params', function(newVal, oldVal){
-    console.log($scope.print_params);
+    // console.log($scope.print_params);
 }, true);
 
 $scope.printMap = function () {

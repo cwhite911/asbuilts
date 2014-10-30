@@ -21,6 +21,9 @@ angular.module('asbuiltsApp')
         },
         addOptions: function (key, value){
           this[key] = value;
+        },
+        removeOptions: function (key){
+          delete this[key];
         }
       };
       return (Options);

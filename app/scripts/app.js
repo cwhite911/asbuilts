@@ -22,7 +22,7 @@ angular
     'ngDragDrop',
     'angularCharts'
   ])
-  .value('version, 0.1')
+  .value('version', {id: 0.1})
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
