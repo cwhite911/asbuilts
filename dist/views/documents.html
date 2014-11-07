@@ -1,4 +1,4 @@
-<h1>{{documentid}} : <i>{{documentDetails[0].attributes.DOCTYPENAMES}}</i></h1> <h2>{{documentDetails[0].attributes.PROJECTNAME}}</h2> {{join}} <div class="row"> <div class="col-md-3"> <table class="table"> <thead> <th class="text-primary">Key <th class="text-primary">Value <!-- <th class="text-primary">SHEET DESCRIPTION</th>
+<div class="container-fluid"> <h1>{{documentid}} : {{documentDetails[0].attributes.DOCUMENTTYPE}}<h2>{{documentDetails[0].attributes.PROJECTNAME}}</h2></h1> <!-- {{join}} --> <div class="row"> <div class="col-md-3"> <table class="table"> <thead> <th class="text-primary">Key <th class="text-primary">Value <!-- <th class="text-primary">SHEET DESCRIPTION</th>
         <th class="text-primary">WATER</th>
         <th class="text-primary">SEWER</th>
         <th class="text-primary">REUSE</th>
@@ -8,4 +8,4 @@
           <td class="sewer">{{sheet.attributes.SEWER}}</td>
           <td class="reuse">{{sheet.attributes.REUSE}}</td>
           <td class="storm">{{sheet.attributes.STORM}}</td>
-          <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td> -->   </table> </div> <div class="col-md-9"> <iframe name="{{documentid}}" width="100%" height="1000px" ng-src="{{url}}"><a href="{{url}}>">Full View</a></iframe> </div> </div>
+          <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td> -->   </table> </div> <div class="col-md-9"> <iframe name="{{documentid}}" width="100%" height="1000px" ng-src="{{url}}"><a href="{{url}}>">Full View</a></iframe> </div> </div> </div>
