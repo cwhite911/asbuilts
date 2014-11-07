@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .factory('Options', [function(){
+    .factory('OptionsFactory', [function(){
       //Options constructor
-      var Options = function (f, outFields, where, orderByFields, returnGeometry){
+      var QueryOptions = function (f, outFields, where, orderByFields, returnGeometry){
           this.f = f || 'json';
           this.outFields = outFields || '*';
           this.where = where || 'OBJECTID > 0';
           this.orderByFields = orderByFields || null;
           this.returnGeometry = returnGeometry || 'false';
         };
-        Options.prototype = {
+        QueryOptions.prototype = {
           getOptions: function () {
             return this;
         },
@@ -26,5 +26,5 @@ angular.module('asbuiltsApp')
           delete this[key];
         }
       };
-      return (Options);
+      return (QueryOptions);
     }]);

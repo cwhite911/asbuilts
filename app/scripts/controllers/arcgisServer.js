@@ -5,14 +5,14 @@ angular.module('asbuiltsApp')
       var baseUrl = 'http://:name.raleighnc.gov/arcgis/rest/services/PublicUtility/:folder/:serviceType';
 
       //Layers constructor that creates a resource for identifying layer ids to their name
-      this.Layers = function (layers){
-        this.layers = layers;
-      }
+      this.AgsLayers = function (layers){
+        this.items = layers;
+      };
       //method that gets the layer id
-      this.Layers.prototype.getLayerId = function (name){
-        for (var i = 0, x = this.layers.length; i < x; i++){
-          if (this.layers[i].name === name){
-              return this.layers[i].id;
+      this.AgsLayers.prototype.getLayerId = function (name){
+        for (var i = 0, x = this.items.length; i < x; i++){
+          if (this.items[i].name === name){
+              return this.items[i].id;
           }
         }
       };
@@ -33,10 +33,10 @@ angular.module('asbuiltsApp')
         };
 
         //Constructor Class and prototypes for setting up $resource options
-        var Actions = function (){
+        var ServerActions = function (){
           this.actions = {};
         };
-        Actions.prototype = {
+        ServerActions.prototype = {
           Type: function (method, timeout, params, cache) {
             this.method = method;
             this.timeout = timeout || 5000;
@@ -47,10 +47,10 @@ angular.module('asbuiltsApp')
             var action = new this.Type(method, timeout, params, cache);
             this.actions[name] = action;
           }
-        }
+        };
 
         //Created new Action and setting action types
-        var testActions = new Actions ();
+        var testActions = new ServerActions ();
         testActions.setAction('getService','GET', 5000, {f: 'json'}, true);
         testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
         testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);

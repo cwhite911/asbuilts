@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('ProjectSearch', ['ags', 'Options','$filter', function(ags, Options, $filter){
+    .service('ProjectSearch', ['ags', 'OptionsFactory','$filter', function(ags, OptionsFactory, $filter){
       //Add get set to Project prototype
-      var options = new Options('json', '*', '', 'PROJECTNAME ASC', false );
+      var options = new OptionsFactory('json', '*', '', 'PROJECTNAME ASC', false );
       var s = ags.testServer.getService({serviceType: 'MapServer'}).$promise.then(function(res){
-         var layers = new ags.Layers(res.layers.concat(res.tables));
+         var layers = new ags.AgsLayers(res.layers.concat(res.tables));
          options.addOptions('id', layers.getLayerId('Project Tracking'));
       });
       return {

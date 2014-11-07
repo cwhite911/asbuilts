@@ -20,7 +20,6 @@ angular
     // 'nvd3ChartDirectives',
     'leaflet-directive',
     'ngDragDrop',
-    'angularCharts'
   ])
   .value('version', {id: 0.1})
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {

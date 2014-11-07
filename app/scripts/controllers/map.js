@@ -113,28 +113,28 @@ angular.module('asbuiltsApp')
 
 
 
-var Icon = function (iconUrl, iconSize, iconAnchor, popupAnchor){
-  this.iconUrl = iconUrl;
-  this.iconSize = iconSize;
-  this.iconAnchor = iconAnchor;
-  this.popupAnchor = popupAnchor;
-};
-
-var Mygeojson = function (data){
-    this.data = data;
-    this.icons = [];
-    this.styles = [];
-    this.addIcon = function (name, message, icon) {
-      this.icons.push({name: name, message: message, icon: icon});
-    }
-};
-
-Mygeojson.prototype.getCentroid = function () {
-  var arr = this.data;
-  return arr.reduce(function (x,y) {
-      return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
-  }, [0,0])
-}
+// var Icon = function (iconUrl, iconSize, iconAnchor, popupAnchor){
+//   this.iconUrl = iconUrl;
+//   this.iconSize = iconSize;
+//   this.iconAnchor = iconAnchor;
+//   this.popupAnchor = popupAnchor;
+// };
+//
+// var Mygeojson = function (data){
+//     this.data = data;
+//     this.icons = [];
+//     this.styles = [];
+//     this.addIcon = function (name, message, icon) {
+//       this.icons.push({name: name, message: message, icon: icon});
+//     }
+// };
+//
+// Mygeojson.prototype.getCentroid = function () {
+//   var arr = this.data;
+//   return arr.reduce(function (x,y) {
+//       return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
+//   }, [0,0])
+// }
 
 var styles = {
         paidStyle: {
