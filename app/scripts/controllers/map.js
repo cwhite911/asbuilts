@@ -11,7 +11,6 @@ angular.module('asbuiltsApp')
   .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch', 'projectConstants',
     function ($scope, $http, $filter, $sce, leafletData, ProjectSearch, projectConstants) {
 
-  var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
