@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch',
-    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch', 'projectConstants',
+    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch, projectConstants) {
 
   var document_base_url = 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/';
   $scope.searchStatus = false;
@@ -430,7 +430,7 @@ $scope.searchControl = function (typed){
 
         $scope.project_docs = res.features.map(function (each){
           var url = {
-              url : $sce.trustAsResourceUrl(document_base_url + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
+              url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
               name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
               resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
               icon: "../images/" + each.attributes.DOCTYPEID.toLowerCase() + ".png"

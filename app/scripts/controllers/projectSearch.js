@@ -21,6 +21,7 @@ angular.module('asbuiltsApp')
 
           //Adds typed text to options
           options.addOptions('text', typed.toUpperCase());
+          options.addOptions('serviceType', 'MapServer');
           //Search for the text form the server
           ags.features.getAll(options).$promise.then(function(data){
             try {

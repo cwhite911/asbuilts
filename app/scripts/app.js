@@ -21,7 +21,10 @@ angular
     'leaflet-directive',
     'ngDragDrop',
   ])
-  .value('version', {id: 0.1})
+  .value('projectConstants', {
+    version: 0.1,
+    documentBaseUrl: 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/'
+  })
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/', {
