@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch', 'projectConstants',
-    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch, projectConstants) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch', 'projectConstants', 'IconFactory',
+    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch, projectConstants, IconFactory) {
 
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -112,12 +112,7 @@ angular.module('asbuiltsApp')
 
 
 
-// var Icon = function (iconUrl, iconSize, iconAnchor, popupAnchor){
-//   this.iconUrl = iconUrl;
-//   this.iconSize = iconSize;
-//   this.iconAnchor = iconAnchor;
-//   this.popupAnchor = popupAnchor;
-// };
+//
 //
 // var Mygeojson = function (data){
 //     this.data = data;
@@ -172,79 +167,19 @@ function getCentroid (arr) {
 function removeMarkers(){
   $scope.markers = {};
 }
+// iconUrl, iconSize, iconAnchor, popupAnchor
+var icons = new IconFactory();
+ icons.addIcon('ASBUILTS', 'AS-Builts', '../images/ab.png', [38, 38], [0,0], [5,5]);
+ icons.addIcon('CONSTUCTION_PLAN', 'Construction Plan', '../images/cp.png', [38, 38], [0,0], [5,0]);
+ icons.addIcon('ACCEPTANCE_LETTER', 'Acceptance Letter', '../images/al.png', [38, 38], [0,0], [-5,5]);
+ icons.addIcon('WARRANTY_LETTER', 'Warranty Letter', '../images/wl.png', [38, 38], [0,0], [5,-5]);
+ icons.addIcon('STATEMENT_OF_COST', 'Statement of Cost', '../images/soc.png', [38, 38], [0,0], [-5,0]);
+ icons.addIcon('PERMITS', 'Permit', '../images/p.png', [38, 38], [0,0], [-5,-5]);
+ icons.addIcon('Plat', 'Plat', '../images/plat.png', [38, 38], [0,0], [5,5]);
 
-var document_types = [
-        {
-          name: 'ASBUILTS',
-          message: 'As-Built',
-          icon : {
-            iconUrl: '../images/ab.png',
-            iconSize:     [38, 38], // size of the icon
-            iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-            popupAnchor:  [5, 5] // point from which the popup should open relative to the iconAnchor
-          }
-        },
-        {
-          name: 'CONSTUCTION_PLAN',
-          message: 'Construction Plan',
-            icon: {
-              iconUrl: '../images/cp.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [5, 0] // point from which the popup should open relative to the iconAnchor
-            }
-          },
-          {
-            name: 'ACCEPTANCE_LETTER',
-            message: 'Acceptance Letter',
-            icon: {
-              iconUrl: '../images/al.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [-5, 5] // point from which the popup should open relative to the iconAnchor
-            }
-          },
-          {
-            name: 'WARRANTY_LETTER',
-            message: 'Warranty Letter',
-            icon: {
-              iconUrl: '../images/wl.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [5, -5] // point from which the popup should open relative to the iconAnchor
-            }
-          },
-          {
-            name: 'STATEMENT_OF_COST',
-            message: 'Statement of Cost',
-            icon: {
-              iconUrl: '../images/soc.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [-5, 0] // point from which the popup should open relative to the iconAnchor
-            }
-          },
-          {
-            name: 'PERMITS',
-            message: 'Permit',
-            icon: {
-              iconUrl: '../images/p.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [-5, -5] // point from which the popup should open relative to the iconAnchor
-            }
-          },
-          {
-            name: 'Plat',
-            message: 'Plat',
-            icon: {
-              iconUrl: '../images/plat.png',
-              iconSize:     [38, 38], // size of the icon
-              iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-              popupAnchor:  [-5, -5] // point from which the popup should open relative to the iconAnchor
-            }
-          }
-        ];
+//List of Icons
+var document_types = icons.list;
+
 
 var document_fx = function (latlng){
   latlng = {lat: latlng[0], lng: latlng[1]};
