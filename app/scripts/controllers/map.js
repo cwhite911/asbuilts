@@ -243,16 +243,7 @@ $scope.searchControl = function (typed){
           removeEmptyFields($scope.project_info);
                 var latlngs = [];
                 $scope.poly = [];
-                $scope.bound = [];
-                for (var i in res.features[0].geometry.rings[0]) {
-                    var coord = res.features[0].geometry.rings[0][i];
-                    var geo = res.features[0].geometry.rings;
-                    for (var j in coord) {
-                      latlngs.push([coord[1], coord[0]]);
-                      $scope.poly.push(geo);
-                      $scope.bound.push({lat: coord[1], lng: coord[0]});
-                    }
-                }
+                angular.copy(res.features[0].geometry.rings, $scope.poly);
                 $scope.mygeojson ={
                   "type": "FeatureCollection",
                   "features":[{
@@ -261,19 +252,36 @@ $scope.searchControl = function (typed){
                     "properties": res.features[0].attributes,
                     "geometry": {
                       "type": "MultiPolygon",
-                      "coordinates": $scope.poly
+                      "coordinates": [res.features[0].geometry.rings]
                     }
                   }]
                 };
-                console.log($scope.mygeojson);
+
+                function prepareForBounds (data){
+                  var mp = [data];
+
+                  //Loops through rings
+                  for (var r = 0, rl = mp[0].length; r < rl; r++){
+                    //loops through polygon coordiantes
+                    for (var a = 0; a < mp[0][r].length; a++){
+                      latlngs.push([mp[0][r][a][1], mp[0][r][a][0]]);
+                      //convets to lat lng format
+                      mp[0][r][a] = [mp[0][r][a][1], mp[0][r][a][0]];
+                    }
+                  }
+                  return mp;
+                }
+                
+                var mp = prepareForBounds($scope.poly);
+
                 angular.extend($scope, {
                     geojson: {
                         data: $scope.mygeojson,
                         style: {
-                            fillColor: 'rgba(5, 162, 0, 0.1)',
+                            fillColor: 'rgba(253, 165, 13, 0.0)',
                             weight: 3,
                             opacity: 1,
-                            color: 'rgba(5, 162, 0, 0.39)',
+                            color: 'rgba(253, 165, 13, 0.71)',
                             dashArray: '4'
                         },
                         onEachFeature: action,
@@ -281,11 +289,10 @@ $scope.searchControl = function (typed){
                     }
                 });
 
-                //Do not erase save for paths
-                  // $scope.paths.p1.latlngs = $scope.bound;
-                $scope.centroid = getCentroid(latlngs);
 
-                map.fitBounds(latlngs);
+                $scope.centroid = getCentroid(latlngs);
+                //Zooms to project Bounds
+                map.fitBounds(L.multiPolygon(mp).getBounds());
                 //Turns on the map resulsts table
                 $scope.searchStatus = true;
             });
@@ -293,7 +300,7 @@ $scope.searchControl = function (typed){
 
     $http.get(ptk_conn, {params: options, cache: true})
       .success(function(res){
-        console.log(res.features);
+        // console.log(res.features);
 
         $scope.project_docs = res.features.map(function (each){
           var url = {
