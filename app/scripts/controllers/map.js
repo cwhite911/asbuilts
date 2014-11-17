@@ -105,56 +105,6 @@ angular.module('asbuiltsApp')
 
 
   });
-//   $scope.$watch('geojson', function(newVal, oldVal){
-//     console.log($scope.geojson);
-// }, true);
-// console.log($scope.layers.overlays.projects);
-
-
-
-//
-//
-// var Mygeojson = function (data){
-//     this.data = data;
-//     this.icons = [];
-//     this.styles = [];
-//     this.addIcon = function (name, message, icon) {
-//       this.icons.push({name: name, message: message, icon: icon});
-//     }
-// };
-//
-// Mygeojson.prototype.getCentroid = function () {
-//   var arr = this.data;
-//   return arr.reduce(function (x,y) {
-//       return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
-//   }, [0,0])
-// }
-
-var styles = {
-        paidStyle: {
-            fillColor: '#aa3939',
-            radius: 5,
-            color: '#550000',
-            weight: 1,
-            fillOpacity: 0.7
-        },
-        expiredStyle :{
-            fillColor: 'rgba(247,247,247, 0.1)',
-            weight: 5,
-            opacity: 1,
-            color: 'rgb(252,141,89)',
-            dashArray: '3',
-            fillOpacity: 0.7
-        },
-        hoverStyle: {
-            fillColor: '#0ab25d',
-            radius: 5,
-            color: '#0ab25d',
-            weight: 1,
-            fillOpacity: 0.7
-        }
-    };
-
 
 
 function getCentroid (arr) {
@@ -185,32 +135,32 @@ var document_fx = function (latlng){
   latlng = {lat: latlng[0], lng: latlng[1]};
   var docs = [
           {
+            lat: latlng.lat + 0.0005,
+            lng: latlng.lng + 0.002
+          },
+          {
             lat: latlng.lat + 0.001,
-            lng: latlng.lng + 0.001
+            lng: latlng.lng + 0.002
+          },
+          {
+            lat: latlng.lat + 0.0015,
+            lng: latlng.lng + 0.002
           },
           {
             lat: latlng.lat,
             lng: latlng.lng + 0.002
           },
           {
-            lat: latlng.lat + 0.001,
-            lng: latlng.lng - 0.001
+            lat: latlng.lat - 0.0005,
+            lng: latlng.lng + 0.002
           },
           {
             lat: latlng.lat - 0.001,
-            lng: latlng.lng + 0.001
+            lng: latlng.lng + 0.002
           },
           {
-            lat: latlng.lat,
-            lng: latlng.lng - 0.002
-          },
-          {
-            lat: latlng.lat - 0.001,
-            lng: latlng.lng - 0.001
-          },
-          {
-            lat: latlng.lat + 0.001,
-            lng: latlng.lng - 0.0015
+            lat: latlng.lat - 0.0015,
+            lng: latlng.lng + 0.002
           }
     ];
 
@@ -245,32 +195,16 @@ function action (feature, layer){
 
   layer.on('mouseover', function (e) {
     $scope.viewData = feature.properties;
-    layer.setStyle(styles.paidStyle);
+    // layer.setStyle(styles.paidStyle);
     document_fx($scope.centroid);
  });
  layer.on('mouseout', function(){
-   layer.setStyle(styles.expiredStyle);
+  //  layer.setStyle(styles.expiredStyle);
    //removeMarkers();
  });
 }
 
 
-// var options = {
-//     f: 'json',
-//     outFields: '*',
-//     where: 'OBJECTID > 0',
-//     orderByFields:  'PROJECTNAME ASC',
-//     returnGeometry: false
-// };
-//
-// var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
-// $http.get(conn, {params: options, cache: true})
-//   .success(function(res){
-//     var poly = [];
-//     for (var i = 0, f = res.features.length; i < f; i++){
-//       $scope.projects.push(res.features[i].attributes.PROJECTNAME + ':' + res.features[i].attributes.DEVPLANID + ':' + res.features[i].attributes.PROJECTID);
-//     }
-// });
 function removeEmptyFields (data) {
     for (var a in data){
       data[a] ? data[a] : delete data[a];
@@ -336,12 +270,11 @@ $scope.searchControl = function (typed){
                     geojson: {
                         data: $scope.mygeojson,
                         style: {
-                            fillColor: 'rgba(252,141,0, 0.1)',
-                            weight: 2,
+                            fillColor: 'rgba(5, 162, 0, 0.1)',
+                            weight: 3,
                             opacity: 1,
-                            color: 'rgb(252,141,89)',
-                            dashArray: '4',
-                            fillOpacity: 0.7
+                            color: 'rgba(5, 162, 0, 0.39)',
+                            dashArray: '4'
                         },
                         onEachFeature: action,
                        resetStyleOnMouseout: true
