@@ -7,6 +7,7 @@ angular.module('asbuiltsApp')
       //Layers constructor that creates a resource for identifying layer ids to their name
       this.AgsLayers = function (layers){
         this.items = layers;
+        return this;
       };
       //method that gets the layer id
       this.AgsLayers.prototype.getLayerId = function (name){

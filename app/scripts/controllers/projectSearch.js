@@ -5,11 +5,14 @@ angular.module('asbuiltsApp')
       //Add get set to Project prototype
       var options = new OptionsFactory('json', '*', '', 'PROJECTNAME ASC', false );
       var s = ags.testServer.getService({serviceType: 'MapServer'}).$promise.then(function(res){
-         var layers = new ags.AgsLayers(res.layers.concat(res.tables));
-         options.addOptions('id', layers.getLayerId('Project Tracking'));
+         var layers = new ags.AgsLayers(res.layers).getLayerId('Project Tracking');
+         options.addOptions('id', layers);
       });
       return {
           autoFillProjects: function (typed) {
+            if(typed.length < 3){
+              return;
+            }
             var projects = [];
             function getSet (array){
               var temp = [];

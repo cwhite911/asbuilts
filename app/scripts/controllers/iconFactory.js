@@ -12,10 +12,11 @@ angular.module('asbuiltsApp')
           iconAnchor: iconAnchor,
           popupAnchor: popupAnchor
         };
-
+        return this;
         };
       var Icons = function () {
         this.list = [];
+        return this;
       }
         Icons.prototype = {
           addIcon: function(name, message, iconUrl, iconSize, iconAnchor, popupAnchor){
