@@ -31,6 +31,10 @@ angular
         templateUrl: 'views/form.html',
         controller: 'FormCtrl'
       })
+      .when('/start', {
+        templateUrl: 'views/start.html',
+        controller: 'StartCtrl'
+      })
       .when('/instructions', {
         templateUrl: 'views/instructions.html'
       })
