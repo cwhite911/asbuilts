@@ -8,11 +8,11 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StatsCtrl', ['$scope', '$http','$timeout','Options', 'ags',
+  .controller('StatsCtrl', ['$scope', '$http','$timeout','OptionsFactory', 'ags',
    function ($scope, $http, $timeout, Options, ags) {
        var s = ags.testServer.getService().$promise.then(function(res){
          $scope.layers = new ags.Layers(res.layers.concat(res.tables));
-         var projectOptions = new Options('json', '*', "DEVPLANID = 'GH-5-2011'", 'PROJECTNAME ASC', 'true' )
+         var projectOptions = new OptionsFactory('json', '*', "DEVPLANID = 'GH-5-2011'", 'PROJECTNAME ASC', 'true' )
          projectOptions.addOptions('id', $scope.layers.getLayerId('Project Tracking'))
          var f = ags.features.getAll(projectOptions);
          console.log(f);
