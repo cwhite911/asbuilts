@@ -1,0 +1,68 @@
+<!--NEW TEST STUFF-->
+<table class="table">
+  <thead>
+    <th class="text-primary">DOCID</th>
+    <th class="text-primary">DOCUMENT TYPE</th>
+    <th class="text-primary">SHEET DESCRIPTION</th>
+    <th class="text-primary">ENGINEERING FIRM</th>
+    <th class="text-primary">ALIAS</th>
+    <th class="text-primary">WATER</th>
+    <th class="text-primary">SEWER</th>
+    <th class="text-primary">REUSE</th>
+    <th class="text-primary">STORM</th>
+    <th class="text-primary">STREET 1</th>
+    <th class="text-primary">STREET 2</th>
+    <th class="text-primary">STREET 3</th>
+    <th class="text-primary">STREET 4</th>
+    <th class="text-primary">TAGS</th>
+    <th class="text-primary">VIEW SHEET</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input class="form-control form-inputs" type="number" ng-model="form.docId" placeholder="Add Doc Id..."/></td>
+      <td>
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.documentType" >
+          <option value="">--Select Document Type--</option>
+        </select>
+      </td>
+      <td>
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.sheetDescription" >
+          <option value="">--Select Sheet Description--</option>
+        </select>
+      </td>
+      <td>
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.engineeringFirm" >
+          <option value="">--Select Engineering Firm--</option>
+        </select>
+      </td>
+      <td><input class="form-control form-inputs" type="text" ng-model="form.alias" placeholder="Alias..."/></td>
+      <td class="water">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.water">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="sewer">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.sewer">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="reuse">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.reuse">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="storm">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.storm">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <autocomplete ng-if="info.name === 'STREET_1'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+      <autocomplete ng-if="info.name === 'STREET_2'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+      <autocomplete ng-if="info.name === 'STREET_3'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+      <autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+      <td><input class="form-control form-inputs" type="text" ng-model="form.tags" placeholder="Tags..."/></td>
+      <td>View Sheet</td>
+      <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
+    </tr>
+  </tbody>
+</table>
