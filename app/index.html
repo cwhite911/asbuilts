@@ -51,10 +51,10 @@
           </button>
           <a class="navbar-brand" href="#">PUMA 2.0</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" ng-controller="HeaderController">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
+            <li ng-class="{ active: isActive('/start')}"><a href="#/start">Main</a></li>
+            <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Help</a></li>
           </ul>
