@@ -4,24 +4,33 @@
   height: 700px;
 }*/
 body {
-  padding-top: 20px;
+  padding-top: 50px;
   /*padding-bottom: 20px;*/
-  padding: 0;
+  /*padding: 0;*/
   margin: 0;
   background-color: black;
   color: white;
   font-size: 11px;
 }
 
-.ng-scope, html{
+.ng-scope, html, body{
   height:100%;
 }
 
 .angular-leaflet-map {
-  height: 100%;
+  height: 900px;
+  width: 100%;
+  min-height: 100%;
+  
   z-index: 0;
 }
 
+.fill {
+  min-height: 100%;
+  height: 900px;
+  height:auto;
+  background-color: rgba(96, 96, 96, 0.88);
+}
 
 .mapNavBar {
   position:absolute;
