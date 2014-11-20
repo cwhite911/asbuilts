@@ -15,6 +15,9 @@ angular.module('asbuiltsApp')
         scope.$watch('project',function(){
           if (scope.project){
               console.log(scope.project);
+              scope.project.forEach(function(data){
+                data.edit = false;
+              });
           }
         });
         //Gets correct REST endpoints form ArcGIS server
@@ -27,9 +30,14 @@ angular.module('asbuiltsApp')
           bool: [{'name': true, 'id': 1}, {'name': false, 'id': 0}],
         };
         //TODO update fields with human readale values
-        scope.edit = function (docid) {
-          var elem = angular.element("#normal" + docid).replaceWith(angular.element('#edit'));
-          console.log(elem);
+
+        scope.edit = function (doc) {
+          //resets documet
+          scope.project.forEach(function(data){
+            data.edit = false;
+          });
+          //Activates editor
+          doc.edit = true;
         }
       }
     };

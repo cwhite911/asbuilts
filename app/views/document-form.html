@@ -19,55 +19,55 @@
   </thead>
   <tbody>
     <!--Edit View-->
-    <tr id="edit">
-      <td><input class="form-control form-inputs" type="number" ng-model="form.docId" placeholder="Add Doc Id..."/></td>
+    <tr id="edit" class="tableedit" ng-show="doc.edit" ng-click="edit(doc)" ng-repeat="doc in project">
+      <td><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="Add Doc Id..."/></td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.documentType" >
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
           <option value="">--Select Document Type--</option>
         </select>
       </td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.sheetDescription" >
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
           <option value="">--Select Sheet Description--</option>
         </select>
       </td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.engineeringFirm" >
+        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
           <option value="">--Select Engineering Firm--</option>
         </select>
       </td>
-      <td><input class="form-control form-inputs" type="text" ng-model="form.alias" placeholder="Alias..."/></td>
+      <td><input class="form-control form-inputs" type="text" ng-model="doc.attributes.ALIAS" placeholder="Alias..."/></td>
       <td class="water">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.water">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.WATER">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="sewer">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.sewer">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SEWER">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="reuse">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.reuse">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.REUSE">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="storm">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="form.storm">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.STORM">
           <option value="">--Select--</option>
         </select>
       </td>
       <!--TODO fix for directive -->
-      <autocomplete ng-if="info.name === 'STREET_1'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
-      <autocomplete ng-if="info.name === 'STREET_2'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
-      <autocomplete ng-if="info.name === 'STREET_3'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
-      <autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
-      <td><input class="form-control form-inputs" type="text" ng-model="form.tags" placeholder="Tags..."/></td>
-      <td>View Sheet</td>
+      <td><autocomplete ng-model="doc.attributes.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td><autocomplete ng-model="doc.attributes.STREET_2" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td><autocomplete ng-model="doc.attributes.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td><autocomplete ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td><input class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
+      <td>Add Document</td>
       <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
     </tr>
     <!--Plain View-->
-    <tr ng-attr-id="{{'normal' + doc.attributes.DOCID}}" ng-click="edit(doc.attributes.DOCID)" ng-repeat="doc in project">
+    <tr ng-hide="doc.edit" class="tableview" ng-attr-id="{{'normal' + doc.attributes.DOCID}}" ng-click="edit(doc)" ng-repeat="doc in project">
       <td>{{doc.attributes.DOCID}}</td>
       <td>{{doc.attributes.DOCTYPEID}}</td>
       <td>{{doc.attributes.SHEETTYPEID}}</td>
@@ -77,7 +77,6 @@
       <td class="sewer">{{doc.attributes.SEWER}}</td>
       <td class="reuse">{{doc.attributes.REUSE}}</td>
       <td class="storm">{{doc.attributes.STORM}}</td>
-      <!--TODO fix for directive -->
       <td>{{doc.attributes.STREET_1}}</td>
       <td>{{doc.attributes.STREET_2}}</td>
       <td>{{doc.attributes.STREET_3}}</td>
