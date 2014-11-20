@@ -13,8 +13,8 @@
 
     </div>
       <div>
-        <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="startSearch" style="width:500px"></autocomplete>
-        <document-form></document-form>
+        <autocomplete ng-model="searchData" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="startSearch" style="width:500px"></autocomplete>
+        <document-form project="project"></document-form>
       </div>
       <!-- </div>
       </div>

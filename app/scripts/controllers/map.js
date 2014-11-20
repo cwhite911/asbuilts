@@ -271,7 +271,7 @@ $scope.searchControl = function (typed){
                   }
                   return mp;
                 }
-                
+
                 var mp = prepareForBounds($scope.poly);
 
                 angular.extend($scope, {

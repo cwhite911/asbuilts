@@ -5,9 +5,18 @@ angular.module('asbuiltsApp')
     return {
       restrict: 'E',
       transclude: true,
-      scope: {},
+      scope: {
+        project: "="
+      },
       templateUrl: 'views/document-form.html',
       link: function (scope, element, attr) {
+        //Watch for change of project
+        scope.project = '';
+        scope.$watch('project',function(){
+          if (scope.project){
+              console.log(scope.project);
+          }
+        });
         //Gets correct REST endpoints form ArcGIS server
         var s = ags.testServer.getService().$promise.then(function(res){
            var layers = new ags.AgsLayers(res.layers.concat(res.tables));
@@ -17,6 +26,8 @@ angular.module('asbuiltsApp')
         scope.selectionOptions = {
           bool: [{'name': true, 'id': 1}, {'name': false, 'id': 0}],
         };
+        //TODO update fields with human readale values
+        
       }
     };
   }
