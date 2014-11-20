@@ -16,6 +16,7 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
     <!-- endbuild -->
   </head>
   <body ng-app="asbuiltsApp">
@@ -25,9 +26,9 @@
 
 
     <!--NavBar -->
-    <!-- <div class="container-fluid mapNavBar"> -->
-    <nav class="navbar navbar-inverse mapNavBar" role="navigation" ng-controller="HeaderController">
-        <!-- <a class="navbar-brand">Project Tracking</a> -->
+    <!-- ORIGINAL FORMAT -->
+
+    <!-- <nav class="navbar navbar-inverse mapNavBar" role="navigation" ng-controller="HeaderController">
         <ul class="nav navbar-nav">
           <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Project</a></li>
           <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Document</a></li>
@@ -35,8 +36,60 @@
           <li ng-class="{ active: isActive('/map')}"><a ng-href="#/map">Map</a></li>
           <li ng-class="{ active: isActive('/stats')}"><a ng-href="#/stats">Stats</a></li>
         </ul>
+    </nav> -->
+
+
+  <!--TEST NEW MAIN FORMAT-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">PUMA 2.0</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
     </nav>
-      <div ng-view=""></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active btn-sidebar">
+              <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Project
+            </li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li class="active btn-sidebar">
+              <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Map
+            </li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div ng-view=""></div>
+        </div>
+      </div>
+    </div>
+
 
       <!-- <div class="footer">
         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>

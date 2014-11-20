@@ -30,6 +30,8 @@ angular.module('asbuiltsApp')
         options.updateOptions('where', param);
         ags.features.getAll(options).$promise.then(function(data){
           $scope.project = data.features;
+          //Activates table view
+          $scope.searchStatus = true;
         });
       }
     }]);

@@ -1,5 +1,4 @@
 <!--NEW TEST STUFF-->
-{{project}}
 <table class="table">
   <thead>
     <th class="text-primary">DOCID</th>
@@ -19,7 +18,8 @@
     <th class="text-primary">VIEW SHEET</th>
   </thead>
   <tbody>
-    <tr>
+    <!--Edit View-->
+    <tr id="edit">
       <td><input class="form-control form-inputs" type="number" ng-model="form.docId" placeholder="Add Doc Id..."/></td>
       <td>
         <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="form.documentType" >
@@ -64,6 +64,26 @@
       <autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
       <td><input class="form-control form-inputs" type="text" ng-model="form.tags" placeholder="Tags..."/></td>
       <td>View Sheet</td>
+      <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
+    </tr>
+    <!--Plain View-->
+    <tr ng-attr-id="{{'normal' + doc.attributes.DOCID}}" ng-click="edit(doc.attributes.DOCID)" ng-repeat="doc in project">
+      <td>{{doc.attributes.DOCID}}</td>
+      <td>{{doc.attributes.DOCTYPEID}}</td>
+      <td>{{doc.attributes.SHEETTYPEID}}</td>
+      <td>{{doc.attributes.ENGID}}</td>
+      <td>{{doc.attributes.ALIAS}}</td>
+      <td class="water">{{doc.attributes.WATER}}</td>
+      <td class="sewer">{{doc.attributes.SEWER}}</td>
+      <td class="reuse">{{doc.attributes.REUSE}}</td>
+      <td class="storm">{{doc.attributes.STORM}}</td>
+      <!--TODO fix for directive -->
+      <td>{{doc.attributes.STREET_1}}</td>
+      <td>{{doc.attributes.STREET_2}}</td>
+      <td>{{doc.attributes.STREET_3}}</td>
+      <td>{{doc.attributes.STREET_4}}</td>
+      <td>{{doc.attributes.TAGS}}</td>
+      <td><a href="#">View</a></td>
       <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
     </tr>
   </tbody>

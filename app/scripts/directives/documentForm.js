@@ -27,7 +27,10 @@ angular.module('asbuiltsApp')
           bool: [{'name': true, 'id': 1}, {'name': false, 'id': 0}],
         };
         //TODO update fields with human readale values
-        
+        scope.edit = function (docid) {
+          var elem = angular.element("#normal" + docid).replaceWith(angular.element('#edit'));
+          console.log(elem);
+        }
       }
     };
   }

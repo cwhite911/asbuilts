@@ -64,33 +64,43 @@ body {
   background-color: rgba(0,100,225,0.5);
 }
 
+.container{
+    display: table;
+    vertical-align: middle;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .startSearch {
-  position: absolute;
-    left: 37%;
-    top: 45%;
+  position: relative;
+    /*left: 37%;
+    top: 45%;*/
     height: 25%;
-    widgth: 25%;
+    width: 25%;
 }
-.sidePanel {
-  width: 10%;
+/*.sidePanel {
+  height: 100%;
   background-color: rgba(107, 116, 109, 0.73);
-}
+}*/
 .pumaHead {
   font-size: 20px;
   font-style: impact, arial, sans-serif;
-  position: relative;
-  left: 20%;
+  /*position: relative;
+  left: 20%;*/
 }
-.btn-addProject {
-  position: relative;
-  top: 10%;
+.btn-sidebar {
+  /*position: relative;
+  top: 10%;*/
   background-color: #41d252;
-  padding: 25px;
+  padding: 30px;
+  color: white;
   font-size: 16px;
 
 }
 
-.btn-addProject:hover {
+.btn-sidebar:hover {
   background-color: rgba(65, 212, 75, 0.62);
   cursor: pointer;
 }
