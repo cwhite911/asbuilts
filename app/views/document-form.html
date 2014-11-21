@@ -22,17 +22,17 @@
     <tr id="edit" class="tableedit" ng-show="doc.edit" ng-click="edit(doc)" ng-repeat="doc in project">
       <td><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="Add Doc Id..."/></td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
+        <select ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
           <option value="">--Select Document Type--</option>
         </select>
       </td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
+        <select ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
           <option value="">--Select Sheet Description--</option>
         </select>
       </td>
       <td>
-        <select ng-options="" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
+        <select ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
           <option value="">--Select Engineering Firm--</option>
         </select>
       </td>
@@ -43,7 +43,7 @@
         </select>
       </td>
       <td class="sewer">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SEWER">
+        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SEWER.name">
           <option value="">--Select--</option>
         </select>
       </td>
@@ -69,9 +69,9 @@
     <!--Plain View-->
     <tr ng-hide="doc.edit" class="tableview" ng-attr-id="{{'normal' + doc.attributes.DOCID}}" ng-click="edit(doc)" ng-repeat="doc in project">
       <td>{{doc.attributes.DOCID}}</td>
-      <td>{{doc.attributes.DOCTYPEID}}</td>
-      <td>{{doc.attributes.SHEETTYPEID}}</td>
-      <td>{{doc.attributes.ENGID}}</td>
+      <td>{{doc.attributes.DOCUMENTTYPE}}</td>
+      <td>{{doc.attributes.SHEETTYPE}}</td>
+      <td>{{doc.attributes.SIMPLIFIEDNAME}}</td>
       <td>{{doc.attributes.ALIAS}}</td>
       <td class="water">{{doc.attributes.WATER}}</td>
       <td class="sewer">{{doc.attributes.SEWER}}</td>

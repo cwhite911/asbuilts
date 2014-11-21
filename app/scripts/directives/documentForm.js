@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags', function (ags) {
+  .directive('documentForm', ['ags','OptionsFactory', function (ags, OptionsFactory) {
     return {
       restrict: 'E',
       transclude: true,
@@ -10,20 +10,71 @@ angular.module('asbuiltsApp')
       },
       templateUrl: 'views/document-form.html',
       link: function (scope, element, attr) {
-        //Watch for change of project
-        scope.project = '';
-        scope.$watch('project',function(){
-          if (scope.project){
-              console.log(scope.project);
-              scope.project.forEach(function(data){
-                data.edit = false;
-              });
-          }
-        });
         //Gets correct REST endpoints form ArcGIS server
         var s = ags.testServer.getService().$promise.then(function(res){
            var layers = new ags.AgsLayers(res.layers.concat(res.tables));
            console.log(layers);
+           //Get Layer Ids
+           var engLayerId = layers.getLayerId('RPUD.ENGINEERINGFIRM');
+           var sheetLayerId = layers.getLayerId('RPUD.SHEETTYPES');
+           var documentLayerId = layers.getLayerId('RPUD.DOCUMENTTYPES');
+           //Get table details
+           scope.supportTables = [
+             {
+                 name: 'engTypes',
+                 id: engLayerId,
+                 joinField: 'ENGID',
+                 addField: 'SIMPLIFIEDNAME',
+             },
+             {
+                 name: 'sheetTypes',
+                 id: sheetLayerId,
+                 joinField: 'SHEETTYPEID',
+                 addField: 'SHEETTYPE',
+             },
+             {
+                 name: 'docTypes',
+                 id: documentLayerId,
+                 joinField: 'DOCTYPEID',
+                 addField: 'DOCUMENTTYPE',
+             }
+            ];
+
+           //Watch for change of project
+          scope.project = '';
+          scope.$watch('project',function(){
+            //Checks if project exisits
+            if (scope.project){
+              scope.supportTables.forEach(function(table){
+                var name = table.name;
+                var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
+                ags.features.getAll(options).$promise.then(function(d){
+                  table.data = d.features;
+                  ags.addFieldFromTable(scope.project, table.data, table.joinField, table.addField);
+                  switch (name){
+                    case 'engTypes':
+                      scope.engTypes = table.data;
+                      break;
+                    case 'sheetTypes':
+                      scope.sheetTypes = table.data;
+                      break;
+                    case 'docTypes':
+                      scope.docTypes = table.data;
+                      break;
+                    default:
+                      console.log("Table not found");
+                  }
+                });
+              });
+              //Adds new key value pair to data object for edit controls
+                scope.project.forEach(function(data){
+                  data.edit = false;
+                });
+            }
+          });
+          scope.$watch('engType',function(){
+            scope.engType = scope.engType;
+          });
         });
         //Setup Boolean option for utilies options..could/should switch to service or provider
         scope.selectionOptions = {

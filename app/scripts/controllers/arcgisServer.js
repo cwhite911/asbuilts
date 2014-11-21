@@ -68,4 +68,16 @@ angular.module('asbuiltsApp')
         this.deleteFeatures = $resource(baseUrl + '/deleteFeatures',
           this.paramDefaults.fs, testActions.actions);
 
+        //Joins tables together based on field
+        //addFieldFromTable(table1, table2, joinField, addFiedl);
+        this.addFieldFromTable = function (t1, t2, joinField, addField){
+          console.log(t2 + 'hello');
+         t1.map(function(t1Data){
+           t2.forEach(function(t2Data){
+             t1Data.attributes[joinField] === t2Data.attributes[joinField] ? t1Data.attributes[addField] = t2Data.attributes[addField] : t1Data;
+           });
+         });
+         return t1;
+        }
+
     }]);
