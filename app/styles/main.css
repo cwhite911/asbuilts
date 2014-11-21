@@ -368,7 +368,7 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
 }
 .leaflet-control-layers-list {
   z-index: 1000;
-  background-color: rgba(0,0,0, 0.90);
+  background-color: rgba(70, 67, 67, 0.73);
   color: white;
 }
 
@@ -378,6 +378,10 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
 }
 
 
-  background-color: rgba(0,0,0, 0.70);
+  /*background-color: rgba(0,0,0, 0.70);
   border-color: rgba(0,0,0, 0.50);;
+}*/
+
+.leaflet-right .leaflet-control {
+  background-color: rgba(70, 67, 67, 0.73);
 }
