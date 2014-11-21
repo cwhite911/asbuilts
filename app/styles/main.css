@@ -50,8 +50,8 @@ body {
 
 .mapSearch {
   position:absolute;
-  top:1%;
-  left:5%;
+  top:4%;
+  left:7%;
   width:25%;
   height: 10%;
   z-index: 1;
@@ -121,8 +121,8 @@ body {
 
 .mapTable {
   position:absolute;
-  top:6%;
-  left: 5%;
+  top:10%;
+  left: 7%;
   width:25%;
   height: 4%;
   z-index: 1;
@@ -342,13 +342,13 @@ table tbody tr{
 
 
 .panel-default > .panel-heading {
-color: #FCFAFA;
-background-color: rgb(0,0,0);
-border-color: #E02121;
+  color: #FCFAFA;
+  background-color: rgb(0,0,0);
+  border-color: #E02121;
 }
 
 .panel-body {
-background-color: rgba(0,0,0, 0.7);;
+background-color: rgba(0,0,0, 0.7);
 }
 
 .modal-content {
@@ -364,7 +364,17 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
 .leaflet-control-layers-toggle {
   background-color: rgba(0,0,0, 0.90);
   top:6%;
-  z-index: 1;
+  z-index: 2000;
+}
+.leaflet-control-layers-list {
+  z-index: 1000;
+  background-color: rgba(0,0,0, 0.90);
+  color: white;
+}
+
+.mapPrint{
+  background-color: rgba(0,0,0, 0.90);
+  border-color: rgba(0,0,0, 0.90);
 }
 
 

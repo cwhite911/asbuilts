@@ -89,6 +89,8 @@ angular.module('asbuiltsApp')
 
 
       },
+      // controls: {
+      // },
       legend: {
             position: 'bottomleft',
             colors: [ '#FFF', '#28c9ff', '#0000ff', '#ecf386', '#28c9ff', '#0000ff', '#FFF'],
@@ -105,7 +107,47 @@ angular.module('asbuiltsApp')
 
 
   });
+var drawnItems = new L.FeatureGroup();
+var options = {
+  edit: {
+    featureGroup: drawnItems
+  },
+  draw: {
+        polygon: {
+            shapeOptions: {
+                color: 'blue'
+            }
+        }
+  }
+ };
+ var drawControl = new L.Control.Draw(options);
+ angular.extend($scope, {
+   controls: {
+     custom: [drawControl]
+   }
+ }
+ );
+leafletData.getMap().then(function(map) {
 
+              // $scope.controls.draw.edit.featureGroup = new L.FeatureGroup();
+              // var drawnItems = $scope.controls.draw.edit.featureGroup;
+
+              // console.log($scope.controls.draw);
+              map.on('draw:created', function (e) {
+                var layer = e.layer;
+                drawnItems.addLayer(layer);
+                  drawnItems.addTo(map);
+                  console.log(drawnItems);
+                console.log(JSON.stringify(layer.toGeoJSON()));
+              });
+              map.on('draw:edited', function (e) {
+                  var layers = e.layers;
+                  console.log(layers);
+                  layers.eachLayer(function (layer) {
+        //do whatever you want, most likely save back to db
+                  });
+              });
+           });
 
 function getCentroid (arr) {
     return arr.reduce(function (x,y) {
