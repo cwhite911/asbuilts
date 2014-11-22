@@ -66,9 +66,14 @@ angular.module('asbuiltsApp')
                   }
                 });
               });
-              //Adds new key value pair to data object for edit controls
+              //Adds new key value pair to data object for edit controls and sets boolean values to text
+              //Probably should make this a method of ags service
+              var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
                 scope.project.forEach(function(data){
                   data.edit = false;
+                  for (var i = 0; i < 4; i++){
+                   data.attributes[utils[i]] ? data.attributes[utils[i]] = 'true' : data.attributes[utils[i]] = 'false';
+                  }
                 });
             }
           });
@@ -78,7 +83,7 @@ angular.module('asbuiltsApp')
         });
         //Setup Boolean option for utilies options..could/should switch to service or provider
         scope.selectionOptions = {
-          bool: [{'name': true, 'id': 1}, {'name': false, 'id': 0}],
+          bool: [{'name': 'true', 'id': 1}, {'name': 'false', 'id': 0}],
         };
         //TODO update fields with human readale values
 
