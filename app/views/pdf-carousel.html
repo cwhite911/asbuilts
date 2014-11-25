@@ -6,7 +6,7 @@
       <div class="pdf-box" ng-repeat="doc in docs | limitTo: 5" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
         <h5>{{doc.name}}</h5>
         <!-- <embed src="{{doc.url}}" width="200px" alt='{{doc.name}}'> -->
-        <iframe name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a  href="{{doc.url}}>">Full View</a></iframe>
+        <iframe class="pdf-frame" name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a  href="{{doc.url}}>">Full View</a></iframe>
       </div>
     </div>
     <div class="col-md-1 nav-box-right">

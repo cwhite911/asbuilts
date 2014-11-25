@@ -13,11 +13,25 @@
 }
 .pdf-box {
   display: inline-block;
-  width: 200px;
-  height: 100%;
-  margin: 1em 5px;
-  background-color: rgba(107, 116, 109, 0.6);
+  width: 220px;
+  height: 85%;
+  /*margin: 1em 5px;*/
+  margin: -10px 5px;
+  background-color: rgba(107, 116, 109, 1);
 }
+.pdf-box:hover {
+  background-color: rgba(106, 225, 83, .7);
+  -webkit-transition: background 500ms ease-out;
+  -moz-transition: background 500ms ease-out;
+  -ms-transition: background 500ms ease-out;
+  -o-transition: background 500ms ease-out;
+  transition: background 500ms ease-out;
+
+}
+.pdf-frame {
+  height: 100%;
+}
+
 .pdf-box h5 {
   padding-left: 50%;
 }
