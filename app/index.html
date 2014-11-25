@@ -18,6 +18,7 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/pdf-carousel.css">
     <!-- endbuild -->
   </head>
   <body ng-app="asbuiltsApp">
@@ -87,22 +88,8 @@
     </div>
 
 
-      <!-- <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
-    </div> -->
 
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <!-- <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>-->
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -143,11 +130,11 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/arcgisServer.js"></script>
-        <script src="scripts/controllers/optionsFactory.js"></script>
-        <script src="scripts/controllers/projectSearch.js"></script>
+        <script src="scripts/services/arcgisServer.js"></script>
+        <script src="scripts/factories/optionsFactory.js"></script>
+        <script src="scripts/services/projectSearch.js"></script>
         <script src="scripts/controllers/head.js"></script>
-        <script src="scripts/controllers/iconFactory.js"></script>
+        <script src="scripts/factories/iconFactory.js"></script>
         <script src="scripts/directives/documentForm.js"></script>
         <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/controllers/map.js"></script>
