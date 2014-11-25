@@ -11,6 +11,9 @@ angular.module('asbuiltsApp')
       templateUrl: 'views/pdf-carousel.html',
       link: function (scope, element, attr) {
           // scope.docs = docs;
-          console.log(scope.docs);
+          scope.$watchCollection('docs', function(){
+            console.log(scope.docs);
+          });
       }
-]);
+    }
+});

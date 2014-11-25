@@ -343,7 +343,7 @@ $scope.searchControl = function (typed){
     $http.get(ptk_conn, {params: options, cache: true})
       .success(function(res){
         // console.log(res.features);
-
+        angular.element('.angular-leaflet-map').addClass('mapMove');
         $scope.project_docs = res.features.map(function (each){
           var url = {
               url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
