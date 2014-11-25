@@ -1,10 +1,17 @@
 .carousel-row {
 
   background-color: rgba(163, 165, 175, 0.4);
-  margin: 20px;
+  /*margin: 20px;*/
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 22%
+}
+.pdf-carousel{
+   padding-left: 5%;
+    margin-right: auto;
+
 }
 .pdf-box {
-
   display: inline-block;
   width: 200px;
   height: 100%;
@@ -14,15 +21,37 @@
 .pdf-box h5 {
   padding-left: 50%;
 }
-.nav-box{
-  position: relative;
+.nav-box-left{
+  height: 100%;
+  /*width: -20%;*/
+  /*margin-top: px;*/
+  padding-right: 5%;
+  background-color: rgba(106, 225, 83, 0.5);
+  outline: 4px inset rgb(106, 225, 83);
+  outline-offset: -30%;
+}
+.nav-box-right{
+  height: 100%;
+  /*margin-top: px;*/
+  padding-left: 5%;
+  background-color: rgba(106, 225, 83, 0.5);
+  outline: 4px inset rgb(106, 225, 83);
+  outline-offset: 0px;
 }
 .nav-arrow {
-position: absolute;
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  left: 25%;
+  transform: translateY(-20%);
   font-size: 24px;
+}
+.nav-arrow1: {
   background-color: rgba(107, 116, 109, 0.6);
+  color:red;
+}
+.nav-box-right:hover: {
+  background-color: rgba(107, 116, 109, 0.6);
+  cursor:pointer;
 }
 /* when hiding the picture */
 .ng-hide-add         { animation:0.5s lightSpeedOut ease; }
