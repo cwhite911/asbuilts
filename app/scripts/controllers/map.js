@@ -258,6 +258,7 @@ $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
   $scope.project_docs = false;
+  angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
   $scope.projects = ProjectSearch.autoFillProjects(typed);
 }
@@ -342,8 +343,8 @@ $scope.searchControl = function (typed){
 
     $http.get(ptk_conn, {params: options, cache: true})
       .success(function(res){
-        // console.log(res.features);
-        angular.element('.angular-leaflet-map').addClass('mapMove');
+        if (res.features.length !== 0){
+        angular.element('.angular-leaflet-map').addClass('map-move');
         $scope.project_docs = res.features.map(function (each){
           var url = {
               url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
@@ -357,6 +358,7 @@ $scope.searchControl = function (typed){
           var ele_id = "#" + $scope.project_docs[a].resid;
           $(ele_id).resizable();
         }
+      }
       });
 
 }

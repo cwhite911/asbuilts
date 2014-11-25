@@ -1,12 +1,29 @@
+.carousel-row {
+
+  background-color: rgba(163, 165, 175, 0.4);
+  margin: 20px;
+}
 .pdf-box {
+
   display: inline-block;
   width: 200px;
-  height: 100px;
-  margin: 1em;
-  background-color: red;
+  height: 100%;
+  margin: 1em 5px;
+  background-color: rgba(107, 116, 109, 0.6);
 }
-
-
+.pdf-box h5 {
+  padding-left: 50%;
+}
+.nav-box{
+  position: relative;
+}
+.nav-arrow {
+position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  background-color: rgba(107, 116, 109, 0.6);
+}
 /* when hiding the picture */
 .ng-hide-add         { animation:0.5s lightSpeedOut ease; }
 
@@ -99,6 +116,10 @@
 .animate-leave.animate-leave-active{
     left: 100%;
 }
-.mapMove {
+.map-move {
+  transition:All 1s ease;
+-webkit-transition:All 1s ease;
+-moz-transition:All 1s ease;
+-o-transition:All 1s ease;
   height: 75%;
 }

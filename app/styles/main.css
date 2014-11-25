@@ -29,6 +29,8 @@ body {
   height: 100%;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   z-index: 0;
+  /*margin: 1em;
+  background-color: rgba(107, 116, 109, 0.6);*/
 }
 
 .fill {
