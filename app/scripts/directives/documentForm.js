@@ -97,7 +97,18 @@ angular.module('asbuiltsApp')
         scope.addDoc = true;
         scope.add = function(){
           scope.addDoc = false;
+          scope.newDoc = {
+            PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
+            PROJECTID: scope.project[0].attributes.PROJECTID,
+            DEVPLANID: scope.project[0].attributes.DEVPLANID,
+            DOCID: scope.project.length + 1
+          }
         };
+        //Post data to server
+        scope.post = function(data, name){
+          var newRecord = data;
+          newRecord[name] = data[name].attributes[name];
+        }
       }
     };
   }
