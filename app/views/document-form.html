@@ -78,8 +78,8 @@
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.TAGS}}</td>
       <td ng-show="doc.edit"><input class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#">View</a></td>
-      <td ng-show="doc.edit">Add Document</td>
-      <td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
+      <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td>
+      <td class="delete" ng-show="doc.edit"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
     </tr>
 
     <!--Add new record View-->
@@ -127,7 +127,7 @@
       <td><autocomplete ng-model="doc.attributes.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
       <td><autocomplete ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
       <td><input class="form-control form-inputs" type="text" ng-model="newDoc.TAGS" placeholder="Tags..."/></td>
-      <td>Add Document</td>
+      <td><input type="file" class="document-upload" defaultValue="Add Document"></td>
     </tr>
   </tbody>
 </table>

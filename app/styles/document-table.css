@@ -39,3 +39,9 @@ table tbody tr{
   cursor: pointer;
   background-color: #39a040;
 }
+
+.document-upload {
+  border: 2px dashed #878787;
+  text-align: center;
+  padding: 3px;
+}

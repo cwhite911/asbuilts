@@ -285,18 +285,11 @@ tbody.mapTableBody {
 }
 
 .delete {
-  -webkit-transition: all  1s ease-out; /* For Safari 3.1 to 6.0 */
-  -moz-transition: all 1s ease-out;
-  -o-transition: all 1s ease-out;
-   transition: all 1s ease-out;
   color: #a3989a;
 }
 
 .delete:hover {
   color: #b80e28;
-  font-size: 16;
-  font-weight: bold;
-  text-shadow: 12px 5px 14px #b80e28;
   cursor:pointer;
 }
 
