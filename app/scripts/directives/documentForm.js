@@ -13,7 +13,6 @@ angular.module('asbuiltsApp')
         //Gets correct REST endpoints form ArcGIS server
         var s = ags.testServer.getService().$promise.then(function(res){
            var layers = new ags.AgsLayers(res.layers.concat(res.tables));
-           console.log(layers);
            //Get Layer Ids
            var engLayerId = layers.getLayerId('RPUD.ENGINEERINGFIRM');
            var sheetLayerId = layers.getLayerId('RPUD.SHEETTYPES');
@@ -71,8 +70,8 @@ angular.module('asbuiltsApp')
               var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
                 scope.project.forEach(function(data){
                   data.edit = false;
-                  for (var i = 0; i < 4; i++){
-                   data.attributes[utils[i]] ? data.attributes[utils[i]] = 'true' : data.attributes[utils[i]] = 'false';
+                  for (var _i = 0, _len = utils.length; _i < _len; _i++){
+                   data.attributes[utils[_i]] ? data.attributes[utils[_i]] = 'true' : data.attributes[utils[_i]] = 'false';
                   }
                 });
             }
@@ -85,8 +84,7 @@ angular.module('asbuiltsApp')
         scope.selectionOptions = {
           bool: [{'name': 'true', 'id': 1}, {'name': 'false', 'id': 0}],
         };
-        //TODO update fields with human readale values
-
+        //Starts edit session on selected table row
         scope.edit = function (doc) {
           //resets documet
           scope.project.forEach(function(data){
@@ -94,6 +92,9 @@ angular.module('asbuiltsApp')
           });
           //Activates editor
           doc.edit = true;
+          // var test = angular.element('normal' + doc.attributes.DOCID);
+          // console.log(test);
+          // test.replaceWith('#edit')
         }
       }
     };
