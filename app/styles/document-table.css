@@ -1,0 +1,41 @@
+table {
+  /*background-color: rgba(255, 253, 231, 0.3);*/
+  border-radius: 25px;
+  padding: 25px 50px;
+}
+
+table tbody tr{
+   -webkit-transition: all  0.3s ease-out; /* For Safari 3.1 to 6.0 */
+   -moz-transition: all 0.3s ease-out;
+   -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    border-bottom: 2px solid #13587C;
+}
+
+.table-view:hover{
+  /*background-color: rgba(71, 138, 239, 0.5);
+  color: white;*/
+  font-style: "Courier New", Courier, monospace;
+  -webkit-transform: scale(1.025);
+  -webkit-transform: scale(1.025);
+  /*background-color: rgba(196, 199, 194, 0.48);*/
+};
+
+#add-document{
+  background-color: #41d252;
+}
+
+.add-button {
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #41d252;
+  border: 2px solid #4e9f54;
+  /*border-radius:25px;*/
+  padding: 5px;
+  text-align: center;
+}
+
+.add-button:hover {
+  cursor: pointer;
+  background-color: #39a040;
+}

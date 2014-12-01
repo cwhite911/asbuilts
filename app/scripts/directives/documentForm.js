@@ -92,10 +92,12 @@ angular.module('asbuiltsApp')
           });
           //Activates editor
           doc.edit = true;
-          // var test = angular.element('normal' + doc.attributes.DOCID);
-          // console.log(test);
-          // test.replaceWith('#edit')
-        }
+        };
+        //Add new document visibility controll
+        scope.addDoc = true;
+        scope.add = function(){
+          scope.addDoc = false;
+        };
       }
     };
   }
