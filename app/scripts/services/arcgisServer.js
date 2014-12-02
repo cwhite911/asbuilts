@@ -30,6 +30,12 @@ angular.module('asbuiltsApp')
             id: '0',
             folder: 'ProjectTracking',
             serviceType: 'FeatureServer',
+          },
+          addFeature: {
+            name: 'mapstest',
+            id: '5',
+            folder: 'ProjectTracking',
+            serviceType: 'FeatureServer',
           }
         };
 
@@ -38,14 +44,15 @@ angular.module('asbuiltsApp')
           this.actions = {};
         };
         ServerActions.prototype = {
-          Type: function (method, timeout, params, cache) {
-            this.method = method;
+          Type: function (method, timeout, params, cache, headers) {
+            this.method = method || 'GET';
             this.timeout = timeout || 5000;
-            this.params = params;
+            this.params = params || {};
             this.cache = cache || false;
+            this.headers = headers || {'Content-Type': 'application/json'};
           },
-          setAction: function (name, method, timeout, params, cache){
-            var action = new this.Type(method, timeout, params, cache);
+          setAction: function (name, method, timeout, params, cache, headers){
+            var action = new this.Type(method, timeout, params, cache, headers);
             this.actions[name] = action;
           }
         };
@@ -55,6 +62,7 @@ angular.module('asbuiltsApp')
         testActions.setAction('getService','GET', 5000, {f: 'json'}, true);
         testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
         testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);
+        testActions.setAction('newDocument', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
 
 
         //Sets Up different Resources
@@ -65,8 +73,12 @@ angular.module('asbuiltsApp')
         this.features = $resource(baseUrl + '/:id/query',
           this.paramDefaults.fs, testActions.actions);
 
-        this.deleteFeatures = $resource(baseUrl + '/deleteFeatures',
+        this.deleteFeatures = $resource(baseUrl + '/:id/deleteFeatures',
           this.paramDefaults.fs, testActions.actions);
+
+        this.addDocument = $resource(baseUrl + '/:id/addFeatures',
+          this.paramDefaults.addFeature, testActions.actions);
+
 
         //Joins tables together based on field
         //addFieldFromTable(table1, table2, joinField, addFiedl);

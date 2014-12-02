@@ -1,7 +1,7 @@
 'use strict';
+var app = angular.module('asbuiltsApp');
 
-angular.module('asbuiltsApp')
-    .factory('OptionsFactory', [function(){
+    app.factory('OptionsFactory', [function(){
       //Options constructor
       var QueryOptions = function (f, outFields, where, orderByFields, returnGeometry){
           this.f = f || 'json';
@@ -11,6 +11,7 @@ angular.module('asbuiltsApp')
           this.returnGeometry = returnGeometry || 'false';
           return this;
         };
+        //TODO fix options to take object that extends original verses key value
         QueryOptions.prototype = {
           getOptions: function () {
             return this;
@@ -31,4 +32,27 @@ angular.module('asbuiltsApp')
         }
       };
       return (QueryOptions);
+    }]);
+
+
+  app.factory('AddFeatureOptionsFactory', [function(){
+      //Options constructor
+      var AddOptions = function (options){
+        this.options = {
+          f: options.f || 'json',
+          features: options.features || [{atttributes: {}}]
+        }
+        return this;
+      };
+      AddOptions.prototype = {
+        addOptions: function (option){
+          angular.extend(this.options, option);
+          return this;
+        },
+        getOptions: function (){
+          return this.options;
+        }
+    };
+
+      return (AddOptions);
     }]);

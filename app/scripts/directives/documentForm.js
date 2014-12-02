@@ -76,9 +76,9 @@ angular.module('asbuiltsApp')
                 });
             }
           });
-          scope.$watch('engType',function(){
-            scope.engType = scope.engType;
-          });
+          // scope.$watch('engType',function(){
+          //   scope.engType = scope.engType;
+          // });
         });
         //Setup Boolean option for utilies options..could/should switch to service or provider
         scope.selectionOptions = {
@@ -103,13 +103,15 @@ angular.module('asbuiltsApp')
             DEVPLANID: scope.project[0].attributes.DEVPLANID,
             DOCID: scope.project.length + 1
           };
-          
+
           scope.newDocument = new DocumentFactory({
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
             DEVPLANID: scope.project[0].attributes.DEVPLANID,
             DOCID: scope.project.length + 1
           });
+          //POSTS new document to AGS server
+          scope.newDocument.postNewDoc();
           console.log(scope.newDocument);
         };
         //Post data to server
