@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', function (ags, OptionsFactory) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', function (ags, OptionsFactory, DocumentFactory) {
     return {
       restrict: 'E',
       transclude: true,
@@ -9,7 +9,7 @@ angular.module('asbuiltsApp')
         project: "="
       },
       templateUrl: 'views/document-form.html',
-      link: function (scope, element, attr) {
+      link: function (scope) {
         //Gets correct REST endpoints form ArcGIS server
         var s = ags.testServer.getService().$promise.then(function(res){
            var layers = new ags.AgsLayers(res.layers.concat(res.tables));
@@ -102,13 +102,15 @@ angular.module('asbuiltsApp')
             PROJECTID: scope.project[0].attributes.PROJECTID,
             DEVPLANID: scope.project[0].attributes.DEVPLANID,
             DOCID: scope.project.length + 1
-          }
+          };
+          var newDocument = new DocumentFactory(scope.newDoc);
+          console.log(newDocument);
         };
         //Post data to server
         scope.post = function(data, name){
-          var newRecord = data;
-          newRecord[name] = data[name].attributes[name];
-        }
+          data[name] = data[name].attributes[name];
+          console.log(data);
+        };
       }
     };
   }
