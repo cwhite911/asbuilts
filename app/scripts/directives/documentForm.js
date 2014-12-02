@@ -103,13 +103,20 @@ angular.module('asbuiltsApp')
             DEVPLANID: scope.project[0].attributes.DEVPLANID,
             DOCID: scope.project.length + 1
           };
-          var newDocument = new DocumentFactory(scope.newDoc);
-          console.log(newDocument);
+          
+          scope.newDocument = new DocumentFactory({
+            PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
+            PROJECTID: scope.project[0].attributes.PROJECTID,
+            DEVPLANID: scope.project[0].attributes.DEVPLANID,
+            DOCID: scope.project.length + 1
+          });
+          console.log(scope.newDocument);
         };
         //Post data to server
-        scope.post = function(data, name){
-          data[name] = data[name].attributes[name];
-          console.log(data);
+        scope.post = function(data){
+          scope.newDocument.setValue(data);
+          console.log(scope.newDocument);
+
         };
       }
     };

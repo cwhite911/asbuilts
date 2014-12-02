@@ -86,38 +86,39 @@
     <tr ng-hide="addDoc" class="newDocument" >
       <td><input class="form-control form-inputs" type="number" ng-model="newDoc.DOCID" placeholder="Add Doc Id..."/></td>
       <td>
-        <select ng-change="post(newDoc, 'DOCTYPEID')"  ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" ng-model="newDoc.DOCTYPEID" >
+        <select ng-change="post({'DOCTYPEID': newDoc.DOCTYPEID.attributes.DOCTYPEID})"  ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" ng-model="newDoc.DOCTYPEID" >
           <option value="">-Select-</option>
         </select>
       </td>
       <td>
-        <select ng-change="post(newDoc, 'SHEETTYPEID')" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" ng-model="newDoc.SHEETTYPEID" >
+        <select ng-change="post({'SHEETTYPEID': newDoc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" ng-model="newDoc.SHEETTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td>
-        <select ng-change="post(newDoc, 'ENGID')" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" ng-model="newDoc.ENGID" >
+        <select ng-change="post({'ENGID': newDoc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" ng-model="newDoc.ENGID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td><input class="form-control form-inputs" type="text" ng-model="newDoc.ALIAS" placeholder="Alias..."/></td>
+      <!--TODO Make directive for utilities selections to slim down code -->
       <td class="water">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.WATER">
+        <select ng-change="post({'WATER': newDoc.WATER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.WATER">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="sewer">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.SEWER">
+        <select ng-change="post({'SEWER': newDoc.SEWER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.SEWER">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="reuse">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.REUSE">
+        <select ng-change="post({'REUSE': newDoc.REUSE.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.REUSE">
           <option value="">--Select--</option>
         </select>
       </td>
       <td class="storm">
-        <select ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.STORM">
+        <select ng-change="post({'STORM': newDoc.STORM.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.STORM">
           <option value="">--Select--</option>
         </select>
       </td>
