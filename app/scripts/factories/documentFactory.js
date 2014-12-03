@@ -57,6 +57,7 @@ angular.module('asbuiltsApp')
           console.log(ags.addDocument.newDocument());
           ags.addDocument.newDocument(options).$promise.then(function(data){
             console.log(data);
+            //TODO figure out whats wrong
           });
         },
         updateDoc: function (){
