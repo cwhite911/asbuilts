@@ -40,10 +40,10 @@ angular.module('asbuiltsApp')
         };
 
         //Constructor Class and prototypes for setting up $resource options
-        var ServerActions = function (){
+        this.ServerActions = function (){
           this.actions = {};
         };
-        ServerActions.prototype = {
+        this.ServerActions.prototype = {
           Type: function (method, timeout, params, cache, headers) {
             this.method = method || 'GET';
             this.timeout = timeout || 5000;
@@ -54,30 +54,36 @@ angular.module('asbuiltsApp')
           setAction: function (name, method, timeout, params, cache, headers){
             var action = new this.Type(method, timeout, params, cache, headers);
             this.actions[name] = action;
+          },
+          changeParams: function (name, params){
+            angular.extends(this.actions[name], params);
+            return this;
           }
         };
 
         //Created new Action and setting action types
-        var testActions = new ServerActions ();
-        testActions.setAction('getService','GET', 5000, {f: 'json'}, true);
-        testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
-        testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);
-        testActions.setAction('newDocument', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
+        this.testActions = new this.ServerActions ();
+        this.testActions.setAction('getService','GET', 5000, {f: 'json'}, true);
+        this.testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
+        this.testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);
+        this.testActions.setAction('newDocument', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
 
 
         //Sets Up different Resources
         this.testServer = $resource(baseUrl,
-         this.paramDefaults.test, testActions.actions);
+         this.paramDefaults.test, this.testActions.actions);
 
 
         this.features = $resource(baseUrl + '/:id/query',
-          this.paramDefaults.fs, testActions.actions);
+          this.paramDefaults.fs, this.testActions.actions);
 
         this.deleteFeatures = $resource(baseUrl + '/:id/deleteFeatures',
-          this.paramDefaults.fs, testActions.actions);
+          this.paramDefaults.fs, this.testActions.actions);
 
         this.addDocument = $resource(baseUrl + '/:id/addFeatures',
-          this.paramDefaults.addFeature, testActions.actions);
+          this.paramDefaults.addFeature, this.testActions.actions);
+
+        this.addDocument1 = $resource(baseUrl + '/:id/addFeatures', this.paramDefaults.addFeature);
 
 
         //Joins tables together based on field

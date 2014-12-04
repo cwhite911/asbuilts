@@ -54,8 +54,16 @@ angular.module('asbuiltsApp')
           //     features: readyData
           //   }
           // };
-          console.log(ags.addDocument.newDocument());
-          ags.addDocument.newDocument(options).$promise.then(function(data){
+          // var add = ags.addDocument1;
+          // // console.log(ags.addDocument);
+          // add.save(options.getOptions(), function(data){
+          //   console.log(data);
+          //   //TODO figure out whats wrong
+          // });
+          // ags.testActions.changeParams('newDocument', options.getOptions());
+          ags.testActions.actions.newDocument.params = options.getOptions();
+          console.log(ags.testActions.actions.newDocument);
+          ags.addDocument.newDocument().$promise.then(function(data){
             console.log(data);
             //TODO figure out whats wrong
           });
