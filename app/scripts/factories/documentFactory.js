@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .factory('DocumentFactory', ['ags', 'AddFeatureOptionsFactory', function(ags, AddFeatureOptionsFactory){
+    .factory('DocumentFactory', ['ags', 'AddFeatureOptionsFactory', '$cacheFactory', function(ags, AddFeatureOptionsFactory, $cacheFactory){
+      //Creates cache to store touch documents
+      var cache = $cacheFactory('docId');
+
       //TODO move out of factory make all layer ids shared resources
       var layerId = 5;
       function cleanForPost (dirty){
@@ -36,7 +39,6 @@ angular.module('asbuiltsApp')
       };
       Document.prototype = {
         setValue: function (info){
-          console.log(info);
           angular.extend(this.data, info);
           return this;
         },
@@ -47,11 +49,18 @@ angular.module('asbuiltsApp')
           var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
           ags.testActions.actions.newDocument.params = options.getOptions();
           ags.addDocument.newDocument().$promise.then(function(data){
-            console.log(data);
+            // console.log(data.addResults[0].objectId);
+            cache.put('newId', data.addResults[0].objectId);
+            console.log(cache.get('newId'));
           });
         },
         updateDoc: function (){
-          //Updates go here
+          var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
+          ags.testActions.actions.newDocument.params = options.getOptions();
+          ags.updateDocument.update().$promise.then(function(data){
+            console.log(data);
+            // cache.put('updateId', data.addResults[0].objectId);
+          });
         }
       }
       return (Document);

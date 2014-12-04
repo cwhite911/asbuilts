@@ -67,6 +67,7 @@ angular.module('asbuiltsApp')
         this.testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
         this.testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);
         this.testActions.setAction('newDocument', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
+        this.testActions.setAction('update', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
 
 
         //Sets Up different Resources
@@ -81,6 +82,9 @@ angular.module('asbuiltsApp')
           this.paramDefaults.fs, this.testActions.actions);
 
         this.addDocument = $resource(baseUrl + '/:id/addFeatures',
+          this.paramDefaults.addFeature, this.testActions.actions);
+
+        this.updateDocument = $resource(baseUrl + '/:id/updateFeatures',
           this.paramDefaults.addFeature, this.testActions.actions);
 
 
