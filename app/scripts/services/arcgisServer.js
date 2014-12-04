@@ -83,7 +83,6 @@ angular.module('asbuiltsApp')
         this.addDocument = $resource(baseUrl + '/:id/addFeatures',
           this.paramDefaults.addFeature, this.testActions.actions);
 
-        this.addDocument1 = $resource(baseUrl + '/:id/addFeatures', this.paramDefaults.addFeature);
 
 
         //Joins tables together based on field

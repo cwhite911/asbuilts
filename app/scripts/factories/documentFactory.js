@@ -45,27 +45,9 @@ angular.module('asbuiltsApp')
         },
         postNewDoc: function (){
           var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
-          console.log(options);
-          // options.addOptions({'id': layerId});
-          // var dirtyData = [{attributes: this.data}];
-          // var readyData = angular.toJson(dirtyData);
-          // var config = {
-          //   params: {
-          //     features: readyData
-          //   }
-          // };
-          // var add = ags.addDocument1;
-          // // console.log(ags.addDocument);
-          // add.save(options.getOptions(), function(data){
-          //   console.log(data);
-          //   //TODO figure out whats wrong
-          // });
-          // ags.testActions.changeParams('newDocument', options.getOptions());
           ags.testActions.actions.newDocument.params = options.getOptions();
-          console.log(ags.testActions.actions.newDocument);
           ags.addDocument.newDocument().$promise.then(function(data){
             console.log(data);
-            //TODO figure out whats wrong
           });
         },
         updateDoc: function (){
