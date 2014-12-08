@@ -55,11 +55,15 @@ angular.module('asbuiltsApp')
           });
         },
         updateDoc: function (){
+          for (var _k in this.data){
+            this.data[_k] ? this.data : delete this.data[_k];
+          }
+          console.log('Updated: ' + this.data);
           var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
-          ags.testActions.actions.newDocument.params = options.getOptions();
+          ags.testActions.actions.update.params = options.getOptions();
           ags.updateDocument.update().$promise.then(function(data){
             console.log(data);
-            // cache.put('updateId', data.addResults[0].objectId);
+            cache.put('updateId', data.addResults[0].objectId);
           });
         }
       }

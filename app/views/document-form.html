@@ -24,7 +24,7 @@
       <td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="Add Doc Id..."/></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.DOCUMENTTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.DOCTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
@@ -86,7 +86,7 @@
     <tr ng-hide="addDoc" class="newDocument" >
       <td><input class="form-control form-inputs" type="number" ng-model="newDoc.DOCID" placeholder="Add Doc Id..."/></td>
       <td>
-        <select ng-change="post({'DOCTYPEID': newDoc.DOCTYPEID.attributes.DOCTYPEID})"  ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" ng-model="newDoc.DOCTYPEID" >
+        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'DOCTYPEID': newDoc.DOCTYPEID.attributes.DOCTYPEID})"  ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" ng-model="newDoc.DOCTYPEID" >
           <option value="">-Select-</option>
         </select>
       </td>

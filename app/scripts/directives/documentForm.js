@@ -116,10 +116,10 @@ angular.module('asbuiltsApp')
         };
         //Post data to server
         scope.post = function(data){
-          scope.newDocument.setValue(data);
-          //TODO setup update function
-          // scope.newDocument.updateDoc()
-          console.log(scope.newDocument);
+          scope.updateDocument = new DocumentFactory(data).setValue(data);
+          //Updates document on server
+          scope.updateDocument.updateDoc()
+          console.log(scope.updateDocument);
 
         };
       }
