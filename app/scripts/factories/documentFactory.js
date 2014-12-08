@@ -55,6 +55,7 @@ angular.module('asbuiltsApp')
           });
         },
         updateDoc: function (){
+          //Removes faslsy values
           for (var _k in this.data){
             this.data[_k] ? this.data : delete this.data[_k];
           }
@@ -63,7 +64,7 @@ angular.module('asbuiltsApp')
           ags.testActions.actions.update.params = options.getOptions();
           ags.updateDocument.update().$promise.then(function(data){
             console.log(data);
-            cache.put('updateId', data.addResults[0].objectId);
+            cache.put('updateId', data.updateResults[0].objectId);
           });
         }
       }

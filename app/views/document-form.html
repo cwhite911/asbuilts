@@ -30,13 +30,13 @@
       </td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.SHEETTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.SHEETTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.SIMPLIFIEDNAME}}</td>
       <td ng-show="doc.edit">
-        <select ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.ENGID" >
           <option value="">--Select--</option>
         </select>
       </td>

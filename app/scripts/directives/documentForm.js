@@ -41,15 +41,14 @@ angular.module('asbuiltsApp')
 
            //Watch for change of project
           scope.project = '';
-          scope.$watch('project',function(){
-            //Checks if project exisits
-            if (scope.project){
+          scope.refresh = function (project){
+            if (project){
               scope.supportTables.forEach(function(table){
                 var name = table.name;
                 var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
                 ags.features.getAll(options).$promise.then(function(d){
                   table.data = d.features;
-                  ags.addFieldFromTable(scope.project, table.data, table.joinField, table.addField);
+                  ags.addFieldFromTable(project, table.data, table.joinField, table.addField);
                   switch (name){
                     case 'engTypes':
                       scope.engTypes = table.data;
@@ -68,17 +67,19 @@ angular.module('asbuiltsApp')
               //Adds new key value pair to data object for edit controls and sets boolean values to text
               //Probably should make this a method of ags service
               var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
-                scope.project.forEach(function(data){
+                project.forEach(function(data){
                   data.edit = false;
                   for (var _i = 0, _len = utils.length; _i < _len; _i++){
                    data.attributes[utils[_i]] ? data.attributes[utils[_i]] = 'true' : data.attributes[utils[_i]] = 'false';
                   }
                 });
             }
+          };
+
+          scope.$watch('project',function(){
+            //Checks if project exisits
+            scope.refresh(scope.project);
           });
-          // scope.$watch('engType',function(){
-          //   scope.engType = scope.engType;
-          // });
         });
         //Setup Boolean option for utilies options..could/should switch to service or provider
         scope.selectionOptions = {
@@ -118,8 +119,7 @@ angular.module('asbuiltsApp')
         scope.post = function(data){
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server
-          scope.updateDocument.updateDoc()
-          console.log(scope.updateDocument);
+          scope.updateDocument.updateDoc();
 
         };
       }
