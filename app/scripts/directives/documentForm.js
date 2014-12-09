@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', function (ags, OptionsFactory, DocumentFactory) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', '$timeout', function (ags, OptionsFactory, DocumentFactory, $timeout) {
     return {
       restrict: 'E',
       transclude: true,
@@ -93,6 +93,10 @@ angular.module('asbuiltsApp')
           });
           //Activates editor
           doc.edit = true;
+          //Turns off editor after 10 seconds
+          $timeout(function(){
+            doc.edit = false;
+          }, 10000);
         };
         //Add new document visibility controll
         scope.addDoc = true;
