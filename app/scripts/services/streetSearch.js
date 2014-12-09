@@ -2,10 +2,12 @@
 
 angular.module('asbuiltsApp')
     .service('StreetSearch', ['$http','$filter','$cacheFactory', function($http, $filter, $cacheFactory){
+      //Set up custom cache for search
       var streetCache = $cacheFactory('streetCache');
       //Auto fill function for street names
           var streets = [];
           this.autoFill = function (typed) {
+            //Checks cache for searched value uses cache if its cached
             var cache = streetCache.get(typed);
               if(cache){
                 var f = $filter('filter')(cache, typed);
@@ -13,7 +15,7 @@ angular.module('asbuiltsApp')
                   f.map(function(data){
                     return data.trim();
                   });
-                  console.log(f);
+                  //Returns cache limited to 5 results
                   return $filter('limitTo')(f, 5);
                 }
               }
@@ -33,11 +35,11 @@ angular.module('asbuiltsApp')
                     streets.push(withNoDigits);
                   }
                 }
-
+                //Adds results to cache
                 streetCache.put(typed, streets);
               });
 
               return $filter('limitTo')(streets, 5);
           }
 
-}]); //ProjectSearch
+}]);
