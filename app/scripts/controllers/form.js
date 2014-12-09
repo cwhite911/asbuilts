@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .controller('FormCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+  .controller('FormCtrl', ['$scope', '$http', '$filter', 'StreetSearch', function ($scope, $http, $filter, StreetSearch) {
     $scope.pageControls = {
       continueButton: false,
       deleteLastRecord: false,
@@ -208,26 +208,27 @@ $http.get($scope.servers[0].test.FeatureServer, {params: {f: 'json'}, cache: tru
 
 //Auto fill function for street names
     $scope.autoFill = function (typed) {
-      var options = {
-        f: 'json',
-        outFields: 'ADDRESS',
-        text: typed,
-        returnGeometry: false,
-        orderByFields: 'ADDRESS ASC'
-      };
-      var url = $scope.servers[1].WAKE.Addresses;
-      $http.get(url, {params: options, cache: true})
-        .success(function(res){
-          console.log(res);
-          $scope.streets = [];
-          for (var s in res.features){
-            var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
-            if ($scope.streets.indexOf(withNoDigits) === -1){
-              $scope.streets.push(withNoDigits);
-            }
-          }
-
-        });
+      $scope.streets = StreetSearch.autoFill(typed);
+      // var options = {
+      //   f: 'json',
+      //   outFields: 'ADDRESS',
+      //   text: typed,
+      //   returnGeometry: false,
+      //   orderByFields: 'ADDRESS ASC'
+      // };
+      // var url = $scope.servers[1].WAKE.Addresses;
+      // $http.get(url, {params: options, cache: true})
+      //   .success(function(res){
+      //     console.log(res);
+      //     $scope.streets = [];
+      //     for (var s in res.features){
+      //       var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
+      //       if ($scope.streets.indexOf(withNoDigits) === -1){
+      //         $scope.streets.push(withNoDigits);
+      //       }
+      //     }
+      //
+      //   });
     }
 
 

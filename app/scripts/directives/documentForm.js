@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', '$timeout', function (ags, OptionsFactory, DocumentFactory, $timeout) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout) {
     return {
       restrict: 'E',
       transclude: true,
@@ -85,6 +85,11 @@ angular.module('asbuiltsApp')
         scope.selectionOptions = {
           bool: [{'name': 'true', 'id': 1}, {'name': 'false', 'id': 0}],
         };
+
+        //Auto fill function for street names
+            scope.autoFill = function (typed) {
+              scope.streets = StreetSearch.autoFill(typed);
+            }
         //Starts edit session on selected table row
         scope.edit = function (doc) {
           //resets documet
@@ -96,7 +101,7 @@ angular.module('asbuiltsApp')
           //Turns off editor after 10 seconds
           $timeout(function(){
             doc.edit = false;
-          }, 10000);
+          }, 60000);
         };
         //Add new document visibility controll
         scope.addDoc = true;
