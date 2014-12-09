@@ -20,8 +20,8 @@
   <tbody>
     <!--table view -->
     <tr class="table-view" ng-repeat="doc in project">
-      <td ng-hide="doc.edit" ng-click="edit(doc)">{{doc.attributes.DOCID}}</td>
-      <td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="Add Doc Id..."/></td>
+      <td>{{doc.attributes.DOCID}}</td>
+      <!--<td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="" ></td>-->
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
       <td ng-show="doc.edit">
         <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.DOCTYPEID" >
