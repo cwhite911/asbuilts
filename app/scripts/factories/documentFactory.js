@@ -66,7 +66,7 @@ angular.module('asbuiltsApp')
           ags.testActions.actions.update.params = options.getOptions();
           ags.updateDocument.update().$promise.then(function(data){
             console.log(data);
-            cache.put('updateId', data.updateResults[0].objectId);
+            // cache.put('updateId', data.updateResults[0].objectId);
           });
         }
       }
