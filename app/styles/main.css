@@ -119,6 +119,7 @@ body {
 .btn-sidebar:hover {
   background-color: rgba(65, 212, 75, 0.62);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .mapTable {
