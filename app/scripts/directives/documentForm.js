@@ -117,6 +117,7 @@ angular.module('asbuiltsApp')
         };
         //Post data to server
         scope.post = function(data){
+          //Sets updated values
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server
           scope.updateDocument.updateDoc();
