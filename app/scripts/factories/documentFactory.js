@@ -46,11 +46,13 @@ angular.module('asbuiltsApp')
           return this.data;
         },
         postNewDoc: function (){
-          var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
+          var that = this;
+          var options = new AddFeatureOptionsFactory({features: cleanForPost(that.data)});
           ags.testActions.actions.newDocument.params = options.getOptions();
           ags.addDocument.newDocument().$promise.then(function(data){
             // console.log(data.addResults[0].objectId);
             cache.put('newId', data.addResults[0].objectId);
+            that.setValue({OBJECTID: data.addResults[0].objectId});
             console.log(cache.get('newId'));
           });
         },

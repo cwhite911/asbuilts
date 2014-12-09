@@ -91,12 +91,12 @@
         </select>
       </td>
       <td>
-        <select ng-change="post({'SHEETTYPEID': newDoc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" ng-model="newDoc.SHEETTYPEID" >
+        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'SHEETTYPEID': newDoc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" ng-model="newDoc.SHEETTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td>
-        <select ng-change="post({'ENGID': newDoc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" ng-model="newDoc.ENGID" >
+        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'ENGID': newDoc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" ng-model="newDoc.ENGID" >
           <option value="">--Select--</option>
         </select>
       </td>
