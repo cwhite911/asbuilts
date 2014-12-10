@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'ProjectSearch', 'projectConstants', 'IconFactory',
-    function ($scope, $http, $filter, $sce, leafletData, ProjectSearch, projectConstants, IconFactory) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory',
+    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory) {
 
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -260,7 +260,7 @@ $scope.autoFillProjects = function (typed) {
   $scope.project_docs = false;
   angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
-  $scope.projects = ProjectSearch.autoFillProjects(typed);
+  $scope.projects = projectSearch.autoFillProjects(typed);
 }
 
 $scope.searchControl = function (typed){
@@ -345,12 +345,16 @@ $scope.searchControl = function (typed){
       .success(function(res){
         if (res.features.length !== 0){
         angular.element('.angular-leaflet-map').addClass('map-move');
+        console.log(res.features);
+        var _docType;
         $scope.project_docs = res.features.map(function (each){
+
+          each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = "";
           var url = {
               url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
               name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
               resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
-              icon: "../images/" + each.attributes.DOCTYPEID.toLowerCase() + ".png"
+              icon: "../images/" + _docType + ".png"
           };
           return url;
         });

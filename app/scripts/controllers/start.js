@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StartCtrl', ['$scope', '$http','$timeout','OptionsFactory', 'ags', 'ProjectSearch',
-    function ($scope, $http, $timeout, OptionsFactory, ags, ProjectSearch) {
+  .controller('StartCtrl', ['$scope', '$http','$timeout','OptionsFactory', 'ags', 'projectSearch',
+    function ($scope, $http, $timeout, OptionsFactory, ags, projectSearch) {
       $scope.project = {};
       var options = new OptionsFactory('json', '*', '', 'DOCID ASC', false );
       var s = ags.testServer.getService().$promise.then(function(res){
@@ -21,7 +21,7 @@ angular.module('asbuiltsApp')
         $scope.searchStatus = false;
         $scope.project_docs = false;
         //Uses the Project Search Servies
-        $scope.projects = ProjectSearch.autoFillProjects(typed);
+        $scope.projects = projectSearch.autoFillProjects(typed);
       }
       //Function handles the selection
       $scope.searchControl = function (typed){

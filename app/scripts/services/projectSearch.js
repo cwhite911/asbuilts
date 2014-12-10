@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('ProjectSearch', ['ags', 'OptionsFactory','$filter', '$cacheFactory', function(ags, OptionsFactory, $filter, $cacheFactory){
+    .service('projectSearch', ['ags', 'OptionsFactory','$filter', '$cacheFactory', function(ags, OptionsFactory, $filter, $cacheFactory){
       //Set up custom cache for search
       var projectCache = $cacheFactory('projectCache');
       //Add get set to Project prototype
