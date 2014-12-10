@@ -53,7 +53,7 @@ angular.module('asbuiltsApp')
                 projects.push("Sorry No Record Found...");
               }
             } catch (error){
-              console.log(error);
+              console.log('Sorry the server is not responding :(');
             }
           });
           projectCache.put(typed, projects);
