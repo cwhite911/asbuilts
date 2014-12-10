@@ -121,7 +121,12 @@ body {
   cursor: pointer;
   text-decoration: none;
 }
-
+.recent-sidebar{
+  background-color: #4188d4;
+  padding: 30px;
+  color: white;
+  font-size: 16px;
+}
 .mapTable {
   position:absolute;
   top:10%;
