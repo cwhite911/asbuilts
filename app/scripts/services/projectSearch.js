@@ -1,19 +1,35 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('ProjectSearch', ['ags', 'OptionsFactory','$filter', function(ags, OptionsFactory, $filter){
+    .service('ProjectSearch', ['ags', 'OptionsFactory','$filter', '$cacheFactory', function(ags, OptionsFactory, $filter, $cacheFactory){
+      //Set up custom cache for search
+      var projectCache = $cacheFactory('projectCache');
       //Add get set to Project prototype
       var options = new OptionsFactory('json', '*', '', 'PROJECTNAME ASC', false );
       var s = ags.testServer.getService({serviceType: 'MapServer'}).$promise.then(function(res){
          var layers = new ags.AgsLayers(res.layers).getLayerId('Project Tracking');
          options.addOptions('id', layers);
       });
+
       return {
           autoFillProjects: function (typed) {
+            var projects = [];
+            var typed = typed.toUpperCase();
             if(typed.length < 3){
               return;
             }
-            var projects = [];
+            var cache = projectCache.get(typed);
+              if(cache){
+                var f = $filter('filter')(cache, typed);
+                if (f.length > 0 ){
+                  f.map(function(data){
+                    return data.trim();
+                  });
+                  //Returns cache limited to 5 results
+                  getSet(f);
+                  return $filter('limitTo')(f, 5);
+                }
+              }
             function getSet (array){
               var temp = [];
               for (var i = 0, x = array.length; i < x; i++){
@@ -21,7 +37,6 @@ angular.module('asbuiltsApp')
               }
               return temp;
             }
-
           //Adds typed text to options
           options.addOptions('text', typed.toUpperCase());
           options.addOptions('serviceType', 'MapServer');
@@ -41,7 +56,8 @@ angular.module('asbuiltsApp')
               console.log(error);
             }
           });
-        return projects;
+          projectCache.put(typed, projects);
+        return $filter('limitTo')(projects, 5);;
       } //autoFill
     } //return
 }]); //ProjectSearch
