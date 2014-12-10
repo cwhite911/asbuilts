@@ -126,6 +126,8 @@ angular.module('asbuiltsApp')
           scope.newDoc = scope.newDocument.getData();
           console.log(scope.newDoc);
         };
+
+
         //Post data to server
         scope.post = function(data){
           console.log(data);
@@ -133,8 +135,51 @@ angular.module('asbuiltsApp')
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server
           scope.updateDocument.updateDoc();
-
         };
+        var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query?text=%QUERY'
+        var bestPictures = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          // prefetch: '../data/films/post_1960.json',
+          remote: {
+            url: url,
+            ajax: {
+              url: 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query',
+              dataType: 'json',
+              data: {
+                f: 'json',
+                outFields: 'ADDRESS',
+                returnGeometry: false,
+                orderByFields: 'ADDRESS ASC'
+              }
+            },
+            filter: function (res){
+              console.log("FILTER");
+              var streets = [];
+              for (var s in res.features){
+                var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
+                if (streets.indexOf({value: withNoDigits.trim()}) === -1){
+                  // console.log(withNoDigits);
+                  streets.push({value: withNoDigits.trim()});
+                }
+                else {
+                  console.log(withNoDigits.trim());
+                }
+              }
+              // console.log(streets);
+              return streets;
+            }
+          }
+        });
+
+        bestPictures.initialize();
+
+        angular.element('#remote').typeahead(null, {
+          name: 'best-pictures',
+          displayKey: 'value',
+          source: bestPictures.ttAdapter()
+        });
+
       }
     };
   }

@@ -67,8 +67,13 @@
         </select>
       </td>
       <!--TODO fix for directive -->
+      <!--TESTING TYPEHEAD.JS-->
+      <!-- <div >
+        <input id="remote" class="typeahead form-control form-inputs" type="text" placeholder="Search Road">
+      </div> -->
+      <!--END TEST-->
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_1}}</td>
-      <td ng-show="doc.edit"><autocomplete on-change="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_1': doc.attributes.STREET_1})" ng-model="doc.attributes.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_1': doc.attributes.STREET_1})" ng-model="doc.attributes.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_2}}</td>
       <td ng-show="doc.edit"><autocomplete on-change="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_2': doc.attributes.STREET_2})" ng-model="doc.attributes.STREET_2" data="streets" on-type="autoFill" ></autocomplete></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_3}}</td>

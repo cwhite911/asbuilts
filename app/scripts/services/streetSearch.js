@@ -40,6 +40,7 @@ angular.module('asbuiltsApp')
               });
 
               return $filter('limitTo')(streets, 5);
-          }
+          };
+          
 
 }]);
