@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StartCtrl', ['$scope', '$http','$timeout','OptionsFactory', 'ags', 'projectSearch',
-    function ($scope, $http, $timeout, OptionsFactory, ags, projectSearch) {
+  .controller('StartCtrl', ['$scope','$cookieStore', 'OptionsFactory', 'ags', 'projectSearch',
+    function ($scope, $cookieStore, OptionsFactory, ags, projectSearch) {
       $scope.project = {};
       var options = new OptionsFactory('json', '*', '', 'DOCID ASC', false );
       var s = ags.testServer.getService().$promise.then(function(res){
@@ -25,6 +25,7 @@ angular.module('asbuiltsApp')
       }
       //Function handles the selection
       $scope.searchControl = function (typed){
+        $cookieStore.put('projects', typed);
         //Set up GET request options
         var param = 'PROJECTID = ' + typed.split(':')[2];
         options.updateOptions('where', param);
