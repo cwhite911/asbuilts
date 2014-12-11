@@ -8,8 +8,9 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StartCtrl', ['$scope','$cookieStore', 'OptionsFactory', 'ags', 'projectSearch',
-    function ($scope, $cookieStore, OptionsFactory, ags, projectSearch) {
+  .controller('StartCtrl', ['$scope','$cookieStore', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope',
+    function ($scope, $cookieStore, OptionsFactory, ags, projectSearch, $rootScope) {
+      var scope = $rootScope;
       $scope.project = {};
       var options = new OptionsFactory('json', '*', '', 'DOCID ASC', false );
       var s = ags.testServer.getService().$promise.then(function(res){
@@ -22,10 +23,26 @@ angular.module('asbuiltsApp')
         $scope.project_docs = false;
         //Uses the Project Search Servies
         $scope.projects = projectSearch.autoFillProjects(typed);
+        scope.myrecent = $scope.projects;
       }
       //Function handles the selection
       $scope.searchControl = function (typed){
-        $cookieStore.put('projects', typed);
+
+        function addProjectCookie (typed) {
+          var current = $cookieStore.get('projects');
+          if (current !== undefined && current.length > 0 && current.indexOf(typed) === -1){
+            console.log('Add to Cookie');
+            current.unshift(typed);
+            current.length > 5 ? current.pop() : current;
+            $cookieStore.put('projects', current);
+          }
+          else if (!current){
+            console.log('new cookie');
+            $cookieStore.put('projects', [typed])
+          }
+          // current ? current.indexOf(typed) ? current : $cookieStore.put('projects', current.push(typed)) : $cookieStore.put('projects', [typed]);
+        }
+        addProjectCookie(typed);
         //Set up GET request options
         var param = 'PROJECTID = ' + typed.split(':')[2];
         options.updateOptions('where', param);

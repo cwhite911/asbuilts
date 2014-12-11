@@ -82,9 +82,13 @@
             </li></a>
           </ul>
           <ul class="nav nav-sidebar">
-            <li class="active recent-sidebar">
-            Recent Projects
+            <li class="active recent-sidebar" ng-controller="RecentCtrl">
+              Recent Projects
+              <ul ng-repeat="rec_prj in recent">
+                <li>{{rec_prj}}</li>
+              </ul>
             </li>
+
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -147,6 +151,7 @@
         <script src="scripts/directives/documentForm.js"></script>
         <script src="scripts/directives/pdfCarousel.js"></script>
         <script src="scripts/controllers/stats.js"></script>
+        <script src="scripts/controllers/recent.js"></script>
         <script src="scripts/controllers/map.js"></script>
         <script src="scripts/controllers/form.js"></script>
         <script src="scripts/controllers/documents.js"></script>
