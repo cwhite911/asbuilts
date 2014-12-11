@@ -66,7 +66,47 @@
   background-color: rgba(65, 212, 75, 0.62);
 }
 
+.pumaHead {
+  font-size: 20px;
+  font-style: impact, arial, sans-serif;
+  /*position: relative;
+  left: 20%;*/
+}
+.btn-sidebar {
+  /*position: relative;
+  top: 10%;*/
+  background-color: #41d252;
+  padding: 30px;
+  color: white;
+  font-size: 16px;
 
+}
+
+.btn-sidebar:hover {
+  background-color: rgba(65, 212, 75, 0.62);
+  cursor: pointer;
+  text-decoration: none;
+}
+.recent-sidebar{
+  background-color: #4188d4;
+  padding: 30px;
+  color: white;
+  font-size: 16px;
+}
+
+.recent-sidebar ol {
+  margin-top: 7px;
+  background: rgb(144, 144, 145);
+  border: rgb(0, 91, 172) 1px solid;
+  border-radius: 25px;
+  /*-webkit-box-shadow: inset 5px 5px 5px 5px rgb(162, 162, 162);
+  box-shadow: inset 5px 5px 5px 5px rgb(162, 162, 162);*/
+}
+
+.recent-sidebar ol li{
+  padding: 5px;
+  font-size: 14px;
+}
 /*
  * Main content
  */

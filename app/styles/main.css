@@ -100,33 +100,7 @@ body {
   height: 100%;
   background-color: rgba(107, 116, 109, 0.73);
 }*/
-.pumaHead {
-  font-size: 20px;
-  font-style: impact, arial, sans-serif;
-  /*position: relative;
-  left: 20%;*/
-}
-.btn-sidebar {
-  /*position: relative;
-  top: 10%;*/
-  background-color: #41d252;
-  padding: 30px;
-  color: white;
-  font-size: 16px;
 
-}
-
-.btn-sidebar:hover {
-  background-color: rgba(65, 212, 75, 0.62);
-  cursor: pointer;
-  text-decoration: none;
-}
-.recent-sidebar{
-  background-color: #4188d4;
-  padding: 30px;
-  color: white;
-  font-size: 16px;
-}
 .mapTable {
   position:absolute;
   top:10%;

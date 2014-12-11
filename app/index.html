@@ -84,9 +84,9 @@
           <ul class="nav nav-sidebar">
             <li class="active recent-sidebar" ng-controller="RecentCtrl">
               Recent Projects
-              <ul ng-repeat="rec_prj in recent">
-                <li>{{rec_prj}}</li>
-              </ul>
+              <ol>
+                <li ng-repeat="rec_prj in recent">{{rec_prj}}</li>
+              </ol>
             </li>
 
           </ul>
