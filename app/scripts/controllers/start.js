@@ -23,6 +23,7 @@ angular.module('asbuiltsApp')
         $scope.project_docs = false;
         //Uses the Project Search Servies
         $scope.projects = projectSearch.autoFillProjects(typed);
+        //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
       }
       //Function handles the selection
@@ -50,6 +51,7 @@ angular.module('asbuiltsApp')
           $scope.project = data.features;
           //Activates table view
           $scope.searchStatus = true;
+          $scope.project_docs = true;
         });
       }
     }]);

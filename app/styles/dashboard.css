@@ -96,11 +96,13 @@
 
 .recent-sidebar ol {
   margin-top: 7px;
-  background: rgb(144, 144, 145);
-  border: rgb(0, 91, 172) 1px solid;
-  border-radius: 25px;
-  /*-webkit-box-shadow: inset 5px 5px 5px 5px rgb(162, 162, 162);
-  box-shadow: inset 5px 5px 5px 5px rgb(162, 162, 162);*/
+  background: rgba(0, 0, 0, 0.79);
+  border: rgb(0, 91, 172) 3px solid;
+  border-radius: 15px;
+  /*-webkit-box-shadow:inset 4px 4px 80px 5px rgba(162,162,162,1);
+  box-shadow:inset 4px 4px 80px 5px rgba(162,162,162,1);*/
+  font-family: "Lucida Console", Monaco, monospace;
+  color: #bcbcbc;
 }
 
 .recent-sidebar ol li{
