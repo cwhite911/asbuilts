@@ -131,13 +131,14 @@ angular.module('asbuiltsApp')
           scope.updateDocument.updateDoc();
         };
 
-        scope.delete = function (data){
+        scope.delete = function (doc, data){
           console.log(data);
           //Prepares for delete
           scope.deleteDocument = new DocumentFactory(data).setValue(data);
           console.log(scope.deleteDocument);
           //Deletes document form server
           scope.deleteDocument.deleteDoc();
+
         };
 
         //TESTING typehead.js
