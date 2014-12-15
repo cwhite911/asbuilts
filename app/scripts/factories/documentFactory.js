@@ -61,7 +61,7 @@ angular.module('asbuiltsApp')
           for (var _k in this.data){
             this.data[_k] ? this.data : delete this.data[_k];
           }
-          console.log('Updated: ' + this.data.PROJECTID);
+          console.log('Updated: ' + this.data.OBJECTID);
           var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
           ags.testActions.actions.update.params = options.getOptions();
           ags.updateDocument.update().$promise.then(function(data){

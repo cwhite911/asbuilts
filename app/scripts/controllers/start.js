@@ -53,5 +53,11 @@ angular.module('asbuiltsApp')
           $scope.searchStatus = true;
           $scope.project_docs = true;
         });
+        // $scope.$watchCollection("project", function(newVal, oldVal){
+        //   console.log("The project data changed");
+        //   ags.features.getAll(options).$promise.then(function(data){
+        //     $scope.project = data.features;
+        //   });
+        // });
       }
     }]);

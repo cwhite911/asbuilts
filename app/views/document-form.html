@@ -82,9 +82,9 @@
       <td ng-show="doc.edit"><autocomplete on-change="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_4': doc.attributes.STREET_4})" ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.TAGS}}</td>
       <td ng-show="doc.edit"><input ng-keyup="post({'OBJECTID': doc.attributes.OBJECTID, 'TAGS': doc.attributes.TAGS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">View</a></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}</a></td>
       <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td>
-      <td class="delete" ng-show="doc.edit"><p ng-click="delete(doc, {objectIds: doc.attributes.OBJECTID})">X</p></td>
+      <td class="delete" ng-show="doc.edit"><p ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})">X</p></td>
     </tr>
 
     <!--Add new record View-->

@@ -76,9 +76,10 @@ angular.module('asbuiltsApp')
             }
           };
 
-          scope.$watch('project',function(){
+          scope.$watchCollection('project',function(newVal, oldVal){
             //Checks if project exisits
             scope.refresh(scope.project);
+            // scope.project = newVal;
           });
         });
         //Setup Boolean option for utilies options..could/should switch to service or provider
@@ -124,7 +125,6 @@ angular.module('asbuiltsApp')
 
         //Post data to server
         scope.post = function(data){
-          console.log(data);
           //Sets updated values
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server
@@ -132,13 +132,14 @@ angular.module('asbuiltsApp')
         };
 
         scope.delete = function (doc, data){
-          console.log(data);
           //Prepares for delete
           scope.deleteDocument = new DocumentFactory(data).setValue(data);
-          console.log(scope.deleteDocument);
           //Deletes document form server
           scope.deleteDocument.deleteDoc();
-
+          //Deletes document object from array
+          console.log(scope.project);
+          delete scope.project[doc];
+          console.log(scope.project);
         };
 
         //TESTING typehead.js
