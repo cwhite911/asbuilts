@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .factory('DocumentFactory', ['ags', 'AddFeatureOptionsFactory', '$cacheFactory', function(ags, AddFeatureOptionsFactory, $cacheFactory){
+    .factory('DocumentFactory', ['ags', 'AddFeatureOptionsFactory', 'DeleteOptionsFactory', '$cacheFactory', function(ags, AddFeatureOptionsFactory, DeleteOptionsFactory, $cacheFactory){
       //Creates cache to store touch documents
       var cache = $cacheFactory('docId');
 
@@ -61,12 +61,20 @@ angular.module('asbuiltsApp')
           for (var _k in this.data){
             this.data[_k] ? this.data : delete this.data[_k];
           }
-          console.log('Updated: ' + this.data);
+          console.log('Updated: ' + this.data.PROJECTID);
           var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
           ags.testActions.actions.update.params = options.getOptions();
           ags.updateDocument.update().$promise.then(function(data){
             console.log(data);
             // cache.put('updateId', data.updateResults[0].objectId);
+          });
+        },
+        deleteDoc: function (){
+          var options = new DeleteOptionsFactory(this.data);
+          console.log('Deleted: ' + this.data.objectIds);
+          ags.testActions.actions.delete.params = options.getOptions();
+          ags.deleteFeatures.delete().$promise.then(function(data){
+            console.log(data);
           });
         }
       }

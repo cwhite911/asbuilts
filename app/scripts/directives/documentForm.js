@@ -131,6 +131,15 @@ angular.module('asbuiltsApp')
           scope.updateDocument.updateDoc();
         };
 
+        scope.delete = function (data){
+          console.log(data);
+          //Prepares for delete
+          scope.deleteDocument = new DocumentFactory(data).setValue(data);
+          console.log(scope.deleteDocument);
+          //Deletes document form server
+          scope.deleteDocument.deleteDoc();
+        };
+
         //TESTING typehead.js
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         // var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query?text=%QUERY'

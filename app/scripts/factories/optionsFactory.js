@@ -56,3 +56,25 @@ var app = angular.module('asbuiltsApp');
 
       return (AddOptions);
     }]);
+
+app.factory('DeleteOptionsFactory', [function(){
+    //Options constructor
+    var DeleteOptions = function (options){
+      this.options = {
+        f: options.f || 'json',
+        objectIds: options.objectIds || null
+      }
+      return this;
+    };
+    DeleteOptions.prototype = {
+      deleteOptions: function (option){
+        angular.extend(this.options, option);
+        return this;
+      },
+      getOptions: function (){
+        return this.options;
+      }
+  };
+
+    return (DeleteOptions);
+  }]);

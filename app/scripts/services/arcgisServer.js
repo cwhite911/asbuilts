@@ -65,7 +65,7 @@ angular.module('asbuiltsApp')
         this.testActions = new this.ServerActions ();
         this.testActions.setAction('getService','GET', 5000, {f: 'json'}, true);
         this.testActions.setAction('getAll','GET', 5000, {f: 'json', outFields: '*', where: 'OBJECTID > 0', returnGeometry: false}, true);
-        this.testActions.setAction('deleteFeature','POST', 5000, {f: 'json', objectIds: null}, false);
+        this.testActions.setAction('delete','POST', 5000, {f: 'json'}, false, {'Content-Type': 'text/plain'});
         this.testActions.setAction('newDocument', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
         this.testActions.setAction('update', 'POST', 5000, {f:'json'}, false, {'Content-Type': 'text/plain'});
 
@@ -79,7 +79,7 @@ angular.module('asbuiltsApp')
           this.paramDefaults.fs, this.testActions.actions);
 
         this.deleteFeatures = $resource(baseUrl + '/:id/deleteFeatures',
-          this.paramDefaults.fs, this.testActions.actions);
+          this.paramDefaults.addFeature, this.testActions.actions);
 
         this.addDocument = $resource(baseUrl + '/:id/addFeatures',
           this.paramDefaults.addFeature, this.testActions.actions);
