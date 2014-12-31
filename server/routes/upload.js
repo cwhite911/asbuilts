@@ -2,13 +2,19 @@
 
 var express = require('express'),
     logger = require('morgan'),
-    busboy = require('connect-busboy'),
+    multer  = require('multer'),
     router = express.Router();
 
-router.route('/upload')
-  .all(morgan())
-  .post(function(req, res){
+router.use(logger('combined'));
 
+router.route('/upload')
+  .get(function(req, res){
+    console.log("I posted");
+    res.send('GET requests are not accepted');
+  })
+  .post(function(req, res){
+    console.log("I posted");
+    res.send('Post successful');
   });
 
 
