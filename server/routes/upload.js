@@ -10,8 +10,16 @@ router.use(bodyParser.urlencoded({ extended: true })); // for parsing applicatio
 router.use(multer({
   dest: './public/documents',
   rename: function (fieldname, filename){
-    console.log(fieldname);
-    console.log(filename);
+    //Checks if name matchs
+    var re = /[0-9]{6}-[A-B]{2}-[0-9]*/;
+    if(re.test(fieldname)){
+      console.log('Passed RegEx');
+      return fieldname;
+    }
+    else {
+      console.log('Failed RegEx');
+    }
+
   }
 }));
 
