@@ -20,7 +20,8 @@
     "esri-leaflet": "~0.0.1-beta.4-patch-1",
     "angular-dragdrop": "*",
     "leaflet.draw": "~0.2.3",
-    "typehead.js": "~0.10.5"
+    "typehead.js": "~0.10.5",
+    "angular-arcgis-server": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
