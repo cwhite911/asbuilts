@@ -5,10 +5,10 @@ table {
 }
 
 table tbody tr{
-   -webkit-transition: all  0.3s ease-out; /* For Safari 3.1 to 6.0 */
-   -moz-transition: all 0.3s ease-out;
-   -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+   /*-webkit-transition: all  0.3s ease-out; */
+   /*-moz-transition: all 0.3s ease-out;*/
+   /*-o-transition: all 0.3s ease-out;*/
+    /*transition: all 0.3s ease-out;*/
     border-bottom: 2px solid #13587C;
 }
 
