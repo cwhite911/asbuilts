@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$http', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $http) {
     return {
       restrict: 'E',
       transclude: true,
@@ -142,6 +142,23 @@ angular.module('asbuiltsApp')
           console.log(scope.project);
         };
 
+        // scope.uploadForm;
+        scope.filesChanged = function(elem){
+          scope.files= elem.files;
+          scope.$apply();
+        }
+        scope.postFile = function (newFile){
+          console.log(newFile);
+          console.log(scope.uploadForm[newFile]);
+          console.log(scope.uploadForm.$name);
+          $http.post('http://localhost:9080/upload', scope.file,
+          {
+            headers: {'Content-Type': 'multipart/form-data'}
+          })
+          .success(function(d){
+            console.log(d);
+          });
+        };
         //TESTING typehead.js
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         // var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query?text=%QUERY'

@@ -5,6 +5,12 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     multer  = require('multer');
 
+    //Enable CORS
+    router.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
 router.use(bodyParser.json()); // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 router.use(multer({

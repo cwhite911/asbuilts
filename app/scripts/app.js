@@ -20,6 +20,7 @@ angular
     'agsserver',
     'leaflet-directive',
     'ngDragDrop',
+    'angularFileUpload'
   ])
   .value('projectConstants', {
     version: 0.1,

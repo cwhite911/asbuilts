@@ -82,7 +82,7 @@
       <td ng-show="doc.edit"><autocomplete on-change="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_4': doc.attributes.STREET_4})" ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.TAGS}}</td>
       <td ng-show="doc.edit"><input ng-keyup="post({'OBJECTID': doc.attributes.OBJECTID, 'TAGS': doc.attributes.TAGS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}</a></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a></td>
       <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td>
       <td class="delete" ng-show="doc.edit"><p ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})">X</p></td>
     </tr>
@@ -133,7 +133,18 @@
       <td><autocomplete ng-model="newDoc.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
       <td><autocomplete ng-model="newDoc.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
       <td><input ng-keyup="post({'OBJECTID': newDoc.OBJECTID, 'TAGS': newDoc.TAGS})" class="form-control form-inputs" type="text" ng-model="newDoc.TAGS" placeholder="Tags..."/></td>
-      <td><input type="file" class="document-upload" defaultValue="Add Document"></td>
+      <td ng-controller="uploadCtrl">
+        <!-- <form ng-submit="postFile(newDoc.PROJECTID + '-' + newDoc.DOCTYPEID.attributes.DOCTYPEID + '-' + newDoc.DOCID)" name="uploadForm" enctype="multipart/form-data">
+          <input type="file" class="document-upload" defaultValue="Add Document" name="{{newDoc.PROJECTID}}-{{newDoc.DOCTYPEID.attributes.DOCTYPEID}}-{{newDoc.DOCID}}" onchange="angular.element(this).scope().filesChanged(this)" />
+          <input type="submit" id="submit" value="Submit" />
+        </form> -->
+        <input type="file" nv-file-select="" uploader="uploader" name="{{newDoc.PROJECTID}}-{{newDoc.DOCTYPEID.attributes.DOCTYPEID}}-{{newDoc.DOCID}}" />
+        <div ng-repeat="item in uploader.queue">
+        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+          <span class="glyphicon glyphicon-upload"></span> Upload
+        </button>
+      </div>
+      </td>
     </tr>
   </tbody>
 </table>
