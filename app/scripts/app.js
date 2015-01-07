@@ -17,7 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'autocomplete',
-    // 'nvd3ChartDirectives',
+    'agsserver',
     'leaflet-directive',
     'ngDragDrop',
   ])
@@ -62,5 +62,5 @@ angular
       });
 
       $httpProvider.defaults.useXDomain = true;
-      delete $httpProvider.defaults.headers.common["X-Requested-With"];
+      delete $httpProvider.defaults.headers.common['X-Requested-With'];
   }]);
