@@ -18,9 +18,9 @@ router.use(multer({
   rename: function (fieldname, filename){
     //Checks if name matchs
     var re = /[0-9]{6}-[A-B]{2}-[0-9]*/;
-    if(re.test(fieldname)){
+    if(re.test(filename)){
       console.log('Passed RegEx');
-      return fieldname;
+      return filename;
     }
     else {
       console.log('Failed RegEx');

@@ -5,18 +5,24 @@ angular.module('asbuiltsApp')
 
 
 .controller('uploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+
+
   var uploader = $scope.uploader = new FileUploader({
-    url: 'http://localhost:9080/upload'
+    url: 'http://localhost:9080/upload',
+    removeAfterUpload: true,
   });
 
   // FILTERS
 
-  uploader.filters.push({
-    name: 'customFilter',
-    fn: function(item /*{File|FileLikeObject}*/, options) {
-      return this.queue.length < 10;
-    }
-  });
+  // uploader.filters.push({
+  //   name: 'customFilter',
+  //   fn: function(item, options) {
+  //
+  //     item.name = options.formData.newName + '.png'
+  //     console.log(item.name);
+  //     return item.name;
+  //   }
+  // });
 
   // CALLBACKS
 
@@ -30,7 +36,9 @@ angular.module('asbuiltsApp')
     console.info('onAfterAddingAll', addedFileItems);
   };
   uploader.onBeforeUploadItem = function(item) {
-    console.info('onBeforeUploadItem', item);
+    item.file.name = item.formData.newName + '.png';
+    console.log(item);
+    return item;
   };
   uploader.onProgressItem = function(fileItem, progress) {
     console.info('onProgressItem', fileItem, progress);
