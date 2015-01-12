@@ -38,15 +38,18 @@ var express = require('express'),
         });
           var source = fs.createReadStream(file.path);
           var dest = fs.createWriteStream(folder + '/' + file.name);
-          source.pipe(dest)
-            .on('end', function(){
+          source.pipe(dest);
+          source.on('data', function(chunk) {
+              console.log('got %d bytes of data', chunk.length);
+            });
+            source.on('end', function(){
               console.log('File Copied:' + file.name);
               fs.unlink(file.path, function (err){
                 if (err) throw err;
                 console.log('successfully deleted ' + file.path);
               });
-            })
-            .on('error', function(err){
+            });
+            source.on('error', function(err){
               console.log(err);
               if(err) throw err;
             });
@@ -63,7 +66,7 @@ var express = require('express'),
         res.send('GET requests are not accepted');
       })
       .post(function(req, res){
-        res.json(req.body);
+        res.json(req.file);
       });
 
 
