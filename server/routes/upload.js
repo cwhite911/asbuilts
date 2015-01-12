@@ -6,6 +6,10 @@ var express = require('express'),
     multer  = require('multer'),
     fs = require('fs');
 
+    //Middleware
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //Enable CORS
     router.use(function(req, res, next) {
       res.header("Access-Control-Allow-Origin", "*");
@@ -15,6 +19,8 @@ var express = require('express'),
 
     router.use(bodyParser.json()); // for parsing application/json
     router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+    //Handles file uploads
     router.use(multer({
       dest: './public/documents',
       rename: function (fieldname, filename){
@@ -36,14 +42,20 @@ var express = require('express'),
         fs.mkdir(folder, function(err){
           if (err) return;
         });
+        //Creates Read Stream to uploaded file
           var source = fs.createReadStream(file.path);
+        //Sets the destination and creates write stream to that loacation
           var dest = fs.createWriteStream(folder + '/' + file.name);
+        //Pipes  the source data to the destination
           source.pipe(dest);
+          //Report data transfer
           source.on('data', function(chunk) {
               console.log('got %d bytes of data', chunk.length);
             });
+            //Deletes original after readstream closes
             source.on('end', function(){
               console.log('File Copied:' + file.name);
+              //Deletes Original
               fs.unlink(file.path, function (err){
                 if (err) throw err;
                 console.log('successfully deleted ' + file.path);
@@ -59,10 +71,14 @@ var express = require('express'),
       }
     }));
 
+    //Routes
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Define Routes in router
     router.route('/')
       .get(function(req, res){
-        console.log("I GET it...");
+        console.log('Request made with query ' + req.query);
         res.send('GET requests are not accepted');
       })
       .post(function(req, res){
