@@ -18,32 +18,39 @@ var express = require('express'),
     router.use(multer({
       dest: './public/documents',
       rename: function (fieldname, filename){
+        console.log('File Name: ' + filename);
         //Checks if name matchs
         var re = /[0-9]{6}-[A-B]{2}-[0-9]*/;
-        if(re.test(filename)){
-          console.log('Passed RegEx');
-          return filename;
-        }
-        else {
-          console.log('Failed RegEx');
-        }
+        // if(re.test(filename)){
+        //   console.log('Passed RegEx');
+        //   return filename;
+        // }
+        // else {
+        //   console.log('Failed RegEx');
+        // }
+        return filename;
 
       },
       onFileUploadComplete: function (file) {
-        console.log(file);
-        var folder = file.path.split('.')[0];
+        var folder = file.path.split('.')[0].split('-')[0];
         fs.mkdir(folder, function(err){
-          if (err) throw err;
+          if (err) return;
+        });
           var source = fs.createReadStream(file.path);
-          var dest = fs.createWriteStream(folder);
+          var dest = fs.createWriteStream(folder + '/' + file.name);
           source.pipe(dest)
             .on('end', function(){
-              console.log('File Copied');
+              console.log('File Copied:' + file.name);
+              fs.unlink(file.path, function (err){
+                if (err) throw err;
+                console.log('successfully deleted ' + file.path);
+              });
             })
             .on('error', function(err){
+              console.log(err);
               if(err) throw err;
-            })
-          });
+            });
+
 
 
       }
