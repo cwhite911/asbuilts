@@ -6,6 +6,12 @@ angular.module('asbuiltsApp')
 
 .controller('uploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
 
+  $scope.loadStatus = {
+    addFile: {
+      status: false,
+      message: 'Please check fields file name incorrect'
+    }
+  };
 
   var uploader = $scope.uploader = new FileUploader({
     url: 'http://localhost:9080/upload',
@@ -14,20 +20,26 @@ angular.module('asbuiltsApp')
 
   // FILTERS
 
-  // uploader.filters.push({
-  //   name: 'customFilter',
-  //   fn: function(item, options) {
-  //
-  //     item.name = options.formData.newName + '.png'
-  //     console.log(item.name);
-  //     return item.name;
-  //   }
-  // });
+  uploader.filters.push({
+    name: 'customFilter',
+    fn: function(item, options) {
+      var re = /[0-9]{6}-[A-Z]{2}-[0-9]*/;
+      if(re.test(options.formData.newName)){
+        console.log('Passed RegEx');
+        return options.formData.newName;
+      }
+      else {
+        console.log('Failed RegEx: ' + options.formData.newName);
+        return false;
+      }
+
+    }
+  });
 
   // CALLBACKS
 
   uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-    console.info('onWhenAddingFileFailed', item, filter, options);
+    $scope.loadStatus.addFile.status = true;
   };
   uploader.onAfterAddingFile = function(fileItem) {
     console.info('onAfterAddingFile', fileItem);
@@ -58,9 +70,5 @@ angular.module('asbuiltsApp')
   uploader.onCompleteItem = function(fileItem, response, status, headers) {
     console.info('onCompleteItem', fileItem, response, status, headers);
   };
-  uploader.onCompleteAll = function() {
-    console.info('onCompleteAll');
-  };
 
-  console.info('uploader', uploader);
 }]);

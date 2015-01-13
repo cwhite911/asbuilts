@@ -85,8 +85,10 @@
       <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a></td>
       <!-- <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td> -->
       <td ng-show="doc.edit" ng-controller="uploadCtrl">
+        {{doc.attributes.DOCTYPEID}}
         <form name="fileUploadForm">
-          <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + doc.DOCTYPEID.attributes.DOCTYPEID + '-' + doc.attributes.DOCID}}" />
+          <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + {{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}} + '-' + doc.attributes.DOCID}}" />
+          <p ng-show="loadStatus.addFile.status">{{loadStatus.addFile.message}}</p>
           <div ng-repeat="item in uploader.queue">
             <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
               <span class="glyphicon glyphicon-upload"></span> Upload
