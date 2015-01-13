@@ -57,7 +57,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-controller="HeaderController">
           <ul class="nav navbar-nav navbar-right">
-            <li ng-class="{ active: isActive('/start')}"><a href="#/start">Main</a></li>
+            <li ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Main</a></li>
             <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Help</a></li>
@@ -75,15 +75,15 @@
             </li></a>
           </ul>
           <ul class="nav nav-sidebar">
-            <a class="mylink" href="#/start"><li class="active btn-sidebar">
+            <a class="mylink" href="#/addDocument"><li class="active btn-sidebar">
               <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Document
             </li></a>
           </ul>
           <ul class="nav nav-sidebar">
             <li class="active recent-sidebar" ng-controller="RecentCtrl">
               Recent Projects
-              <ol>
-                <li ng-repeat="rec_prj in recent">{{rec_prj}}</li>
+              <ol class="cookie-choices">
+                <li ng-repeat="rec_prj in recent"><a href="">{{rec_prj}}</a></li>
               </ol>
             </li>
 

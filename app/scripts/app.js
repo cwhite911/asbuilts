@@ -32,7 +32,7 @@ angular
         templateUrl: 'views/form.html',
         controller: 'FormCtrl'
       })
-      .when('/start', {
+      .when('/addDocument', {
         templateUrl: 'views/start.html',
         controller: 'StartCtrl'
       })
