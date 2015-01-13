@@ -20,8 +20,9 @@ angular.module('asbuiltsApp')
 
   // FILTERS
 
+//Checks for correct naming convention
   uploader.filters.push({
-    name: 'customFilter',
+    name: 'checkName',
     fn: function(item, options) {
       var re = /[0-9]{6}-[A-Z]{2}-[0-9]*/;
       if(re.test(options.formData.newName)){
@@ -29,10 +30,20 @@ angular.module('asbuiltsApp')
         return options.formData.newName;
       }
       else {
+        $scope.loadStatus.addFile.message = 'Invalid File Name: ' + options.formData.newName;
         console.log('Failed RegEx: ' + options.formData.newName);
         return false;
       }
+    }
+  });
 
+//Check for correct file type (PDF)
+  uploader.filters.push({
+    name: 'checkFileType',
+    fn: function(item, options) {
+      var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+      $scope.loadStatus.addFile.message = 'Invalid File Type: ' + type + ', please select a pdf.';
+      return '|pdf|PDF'.indexOf(type) !== -1;
     }
   });
 
@@ -48,7 +59,7 @@ angular.module('asbuiltsApp')
     console.info('onAfterAddingAll', addedFileItems);
   };
   uploader.onBeforeUploadItem = function(item) {
-    item.file.name = item.formData.newName + '.png';
+    item.file.name = item.formData.newName + '.pdf';
     console.log(item);
     return item;
   };
