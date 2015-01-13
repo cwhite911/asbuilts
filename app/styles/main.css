@@ -13,7 +13,8 @@ html, body{
 body {
   padding-top: 50px;
   margin: 0;
-  background-color: black;
+  background: rgba(1, 1, 1, 0.89) url('../images/bg.png') no-repeat right bottom;
+  background-size: 90%;
   color:white;
   font-size: 11px;
 }
