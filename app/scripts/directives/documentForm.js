@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$http', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $http) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout) {
     return {
       restrict: 'E',
       transclude: true,
       scope: {
-        project: "="
+        project: '='
       },
       templateUrl: 'views/document-form.html',
       link: function (scope) {
         //Gets correct REST endpoints form ArcGIS server
-        var s = ags.testServer.getService().$promise.then(function(res){
+        ags.testServer.getService().$promise.then(function(res){
            var layers = new ags.AgsLayers(res.layers.concat(res.tables));
            //Get Layer Ids
            var engLayerId = layers.getLayerId('RPUD.ENGINEERINGFIRM');
@@ -60,7 +60,7 @@ angular.module('asbuiltsApp')
                       scope.docTypes = table.data;
                       break;
                     default:
-                      console.log("Table not found");
+                      console.log('Table not found');
                   }
                 });
               });
@@ -76,7 +76,7 @@ angular.module('asbuiltsApp')
             }
           };
 
-          scope.$watchCollection('project',function(newVal, oldVal){
+          scope.$watchCollection('project',function(){
             //Checks if project exisits
             scope.refresh(scope.project);
             // scope.project = newVal;
@@ -90,7 +90,7 @@ angular.module('asbuiltsApp')
         //Auto fill function for street names
             scope.autoFill = function (typed) {
               scope.streets = StreetSearch.autoFill(typed);
-            }
+            };
         //Starts edit session on selected table row
         scope.edit = function (doc) {
           //resets documet
@@ -142,23 +142,7 @@ angular.module('asbuiltsApp')
           console.log(scope.project);
         };
 
-        // scope.uploadForm;
-        scope.filesChanged = function(elem){
-          scope.files= elem.files;
-          scope.$apply();
-        }
-        scope.postFile = function (newFile){
-          console.log(newFile);
-          console.log(scope.uploadForm[newFile]);
-          console.log(scope.uploadForm.$name);
-          $http.post('http://localhost:9080/upload', scope.file,
-          {
-            headers: {'Content-Type': 'multipart/form-data'}
-          })
-          .success(function(d){
-            console.log(d);
-          });
-        };
+
         //TESTING typehead.js
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         // var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query?text=%QUERY'
