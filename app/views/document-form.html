@@ -86,9 +86,6 @@
       <!-- <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td> -->
       <td ng-show="doc.edit" ng-controller="uploadCtrl">
         <form name="fileUploadForm">
-          {{doc.attributes.DOCTYPEID}}
-          {{doc.DOCTYPEID.attributes.DOCTYPEID}}
-          {{newDoc.DOCTYPEID.attributes.DOCTYPEID}}
           <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + (doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID) + '-' + doc.attributes.DOCID}}" />
           <p ng-show="loadStatus.addFile.status">{{loadStatus.addFile.message}}</p>
           <div ng-repeat="item in uploader.queue">
@@ -99,7 +96,7 @@
         </form>
       </td>
       <td class="delete" ng-show="doc.edit"><p ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})">X</p></td>
-    </tr>    
+    </tr>
   </tbody>
 </table>
 <!--Add new document button-->
