@@ -88,9 +88,9 @@ angular.module('asbuiltsApp')
         };
 
         //Auto fill function for street names
-            scope.autoFill = function (typed) {
-              scope.streets = StreetSearch.autoFill(typed);
-            };
+        scope.autoFill = function (typed) {
+          scope.streets = StreetSearch.autoFill(typed);
+        };
         //Starts edit session on selected table row
         scope.edit = function (doc) {
           //resets documet
@@ -107,7 +107,7 @@ angular.module('asbuiltsApp')
         //Add new document visibility controll
         scope.addDoc = true;
         scope.add = function(){
-          scope.addDoc = false;
+          // scope.addDoc = false;
 
           scope.newDocument = new DocumentFactory({
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
@@ -119,7 +119,8 @@ angular.module('asbuiltsApp')
           //POSTS new document to AGS server
           scope.newDocument.postNewDoc();
           scope.newDoc = scope.newDocument.getData();
-          console.log(scope.newDoc);
+          scope.project.push({attributes: scope.newDoc, edit: false});
+          // scope.addDoc = true;
         };
 
 
