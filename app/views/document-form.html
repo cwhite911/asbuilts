@@ -99,65 +99,7 @@
         </form>
       </td>
       <td class="delete" ng-show="doc.edit"><p ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})">X</p></td>
-    </tr>
-
-    <!--Add new record View-->
-    <tr ng-hide="addDoc" class="newDocument" >
-      <td><input class="form-control form-inputs" type="number" ng-model="newDoc.DOCID" placeholder="Add Doc Id..."/></td>
-      <td>
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'DOCTYPEID': newDoc.DOCTYPEID.attributes.DOCTYPEID})"  ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" ng-model="newDoc.DOCTYPEID" >
-          <option value="">-Select-</option>
-        </select>
-      </td>
-      <td>
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'SHEETTYPEID': newDoc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" ng-model="newDoc.SHEETTYPEID" >
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <td>
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'ENGID': newDoc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" ng-model="newDoc.ENGID" >
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <td><input ng-keyup="post({'OBJECTID': newDoc.OBJECTID, 'ALIAS': newDoc.ALIAS})" class="form-control form-inputs" type="text" ng-model="newDoc.ALIAS" placeholder="Alias..."/></td>
-      <!--TODO Make directive for utilities selections to slim down code -->
-      <td class="water">
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'WATER': newDoc.WATER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.WATER">
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <td class="sewer">
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'SEWER': newDoc.SEWER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.SEWER">
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <td class="reuse">
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'REUSE': newDoc.REUSE.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.REUSE">
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <td class="storm">
-        <select ng-change="post({'OBJECTID': newDoc.OBJECTID, 'STORM': newDoc.STORM.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="newDoc.STORM">
-          <option value="">--Select--</option>
-        </select>
-      </td>
-      <!--TODO fix for directive -->
-      <td><autocomplete ng-model="newDoc.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td><autocomplete ng-model="newDoc.STREET_2" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td><autocomplete ng-model="newDoc.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td><autocomplete ng-model="newDoc.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td><input ng-keyup="post({'OBJECTID': newDoc.OBJECTID, 'TAGS': newDoc.TAGS})" class="form-control form-inputs" type="text" ng-model="newDoc.TAGS" placeholder="Tags..."/></td>
-      <td ng-controller="uploadCtrl">
-        <form name="fileUploadForm">
-        <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: newDoc.PROJECTID + '-' + newDoc.DOCTYPEID.attributes.DOCTYPEID + '-' + newDoc.DOCID}}" />
-        <div ng-repeat="item in uploader.queue">
-        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-          <span class="glyphicon glyphicon-upload"></span> Upload
-        </button>
-      </div>
-    </form>
-      </td>
-    </tr>
+    </tr>    
   </tbody>
 </table>
 <!--Add new document button-->
