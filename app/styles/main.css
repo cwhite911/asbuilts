@@ -176,30 +176,7 @@ body {
     border-color: #78FA89;
   }
 
-.water {
-  color: #3777d6;
-}
 
-.sewer {
-  color: #2fae22;
-}
-
-.reuse {
-  color: #8b24b6;
-}
-
-.storm {
-  color: #848484;
-}
-
-.delete {
-  color: #a3989a;
-}
-
-.delete:hover {
-  color: #b80e28;
-  cursor:pointer;
-}
 
 
 

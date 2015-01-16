@@ -6,11 +6,6 @@ table {
 }
 
 table tbody tr{
-   /*-webkit-transition: all  0.3s ease-out; */
-   /*-moz-transition: all 0.3s ease-out;*/
-   /*-o-transition: all 0.3s ease-out;*/
-    /*transition: all 0.3s ease-out;*/
-
     border-bottom: 2px solid #13587C;
 }
 
@@ -53,4 +48,34 @@ table tbody tr{
   border: 2px dashed #878787;
   text-align: center;
   padding: 3px;
+}
+
+.checked {
+  color: #2fae22;
+  padding-left: 5px;
+}
+
+.water {
+  color: #3777d6;
+}
+
+.sewer {
+  color: #2fae22;
+}
+
+.reuse {
+  color: #8b24b6;
+}
+
+.storm {
+  color: #848484;
+}
+
+.delete {
+  color: #a3989a;
+}
+
+.delete:hover {
+  color: #b80e28;
+  cursor:pointer;
 }
