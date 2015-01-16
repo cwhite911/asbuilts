@@ -23,20 +23,10 @@ var express = require('express'),
     //Handles file uploads
     router.use(multer({
       dest: './public/documents',
-      rename: function (fieldname, filename){
-        console.log('File Name: ' + filename);
-        //Checks if name matchs
-        var re = /[0-9]{6}-[A-B]{2}-[0-9]*/;
-        // if(re.test(filename)){
-        //   console.log('Passed RegEx');
-        //   return filename;
-        // }
-        // else {
-        //   console.log('Failed RegEx');
-        // }
-        return filename;
-
+      limits: {
+        fileSize: 100
       },
+      //Creates new directory and/or add new file to proper directory
       onFileUploadComplete: function (file) {
         var folder = file.path.split('.')[0].split('-')[0];
         fs.mkdir(folder, function(err){
@@ -77,10 +67,27 @@ var express = require('express'),
 
     //Define Routes in router
     router.route('/')
+    //Accepts one argument filename and returns an object that defines whether the file exisits.
       .get(function(req, res){
-        console.log('Request made with query ' + req.query);
-        res.send('GET requests are not accepted');
+        //Sets up response data
+        var data = {
+            filename: req.query.filename,
+            folder : req.query.filename.split('-')[0]
+          };
+        //Checks if the file exisits
+        fs.stat('./public/documents/' + data.folder + '/' + data.filename, function (err, stats){
+          if (err) {
+            data.exisits = false;
+            res.json(data)
+          }
+          else if (stats.isFile()){
+            data.exisits = true;
+            res.json(data);
+          }
+        });
+        console.log('Request made with query ' + data.filename);
       })
+      //Used to upload images to server
       .post(function(req, res){
         res.json(req.file);
       });
