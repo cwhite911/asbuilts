@@ -26,6 +26,11 @@ var express = require('express'),
       limits: {
         fileSize: 100
       },
+      //Sets the file name from optoins
+      rename: function (fieldname, filename){
+        console.log('File Name: ' + filename);
+        return filename;
+      },
       //Creates new directory and/or add new file to proper directory
       onFileUploadComplete: function (file) {
         var folder = file.path.split('.')[0].split('-')[0];
