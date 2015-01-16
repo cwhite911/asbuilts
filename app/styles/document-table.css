@@ -9,20 +9,21 @@ table tbody tr{
     border-bottom: 2px solid #13587C;
 }
 
+.table-view:last-child{
+  border-bottom: 2px solid #ffffff;
+}
+
 .table-body{
-  background: rgba(159, 159, 159, 0.43);
+  background: rgba(159, 159, 159, 0.7);
 }
 
 .table-view {
   background: rgba(0, 0, 0, 0.48);
 }
 .table-view:hover{
-  /*background-color: rgba(71, 138, 239, 0.5);
-  color: white;*/
   font-style: "Courier New", Courier, monospace;
-  /*-webkit-transform: scale(1.025);
-  -webkit-transform: scale(1.025);*/
-  /*background-color: rgba(196, 199, 194, 0.48);*/
+  background-color: rgba(0, 0, 0, 0.87);
+  padding: 25px 50px;
 };
 
 #add-document{
