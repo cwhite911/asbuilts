@@ -6,6 +6,7 @@ angular.module('asbuiltsApp')
       var projectCache = $cacheFactory('projectCache');
       //Add get set to Project prototype
       var options = new OptionsFactory('json', '*', '', 'PROJECTNAME ASC', false );
+          options.addOptions('serviceType', 'MapServer');
       var s = ags.testServer.getService({serviceType: 'MapServer'}).$promise.then(function(res){
          var layers = new ags.AgsLayers(res.layers).getLayerId('Project Tracking');
          options.addOptions('id', layers);
@@ -15,9 +16,9 @@ angular.module('asbuiltsApp')
           autoFillProjects: function (typed) {
             var projects = [];
             var typed = typed.toUpperCase();
-            if(typed.length < 3){
-              return;
-            }
+            // if(typed.length < 3){
+            //   return;
+            // }
             var cache = projectCache.get(typed);
               if(cache){
                 var f = $filter('filter')(cache, typed);
@@ -27,7 +28,7 @@ angular.module('asbuiltsApp')
                   });
                   //Returns cache limited to 5 results
                   getSet(f);
-                  return $filter('limitTo')(f, 5);
+                  return $filter('limitTo')(f, 5) || 'im from the cache';
                 }
               }
             function getSet (array){
@@ -39,7 +40,7 @@ angular.module('asbuiltsApp')
             }
           //Adds typed text to options
           options.addOptions('text', typed.toUpperCase());
-          options.addOptions('serviceType', 'MapServer');
+
           //Search for the text form the server
           ags.features.getAll(options).$promise.then(function(data){
             try {
@@ -57,7 +58,7 @@ angular.module('asbuiltsApp')
             }
           });
           projectCache.put(typed, projects);
-        return $filter('limitTo')(projects, 5);;
+        return $filter('limitTo')(projects, 5) || 'Im from the server';
       } //autoFill
     } //return
 }]); //ProjectSearch
