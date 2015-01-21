@@ -95,7 +95,7 @@
           </div>
         </form>
       </td>
-      <td class="delete" ng-show="doc.edit"><p ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})">X</p></td>
+      <td><button ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})" ng-show="doc.edit" type="button" class="btn btn-danger btn-sm">Delete</button></td>
     </tr>
   </tbody>
 </table>

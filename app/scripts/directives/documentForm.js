@@ -132,15 +132,13 @@ angular.module('asbuiltsApp')
           scope.updateDocument.updateDoc();
         };
 
-        scope.delete = function (doc, data){
+        scope.delete = function (index, data){
           //Prepares for delete
           scope.deleteDocument = new DocumentFactory(data).setValue(data);
           //Deletes document form server
           scope.deleteDocument.deleteDoc();
           //Deletes document object from array
-          console.log(scope.project);
-          delete scope.project[doc];
-          console.log(scope.project);
+          scope.project.splice(index, 1);
         };
 
 
