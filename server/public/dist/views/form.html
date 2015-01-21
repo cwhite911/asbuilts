@@ -1,0 +1,86 @@
+
+
+<div class="container-fluid">
+<div>
+	<h1>Add New Document</h1>
+	<div class="row">
+		<div class="col-md-3">
+			<form name="form" ng-submit="submit(form)" validate class="css-form">
+				<div class="form-group">
+					<label for="PROJECTNAME">PROJECTNAME</label>
+					<!-- <select ng-options="boo.attributes.PROJECTNAME + ' : ' + boo.attributes.DEVPLANID for boo in projects" class="form-control form-inputs" id="PROJECTNAME" ng-model="form.PROJECTNAME" ng-change="change(form)" required>
+						<option value="" selected>{{selectionOptions.project}}</option>
+		    		</select> -->
+						<autocomplete data="projectnames" on-select="change" id="PROJECTNAME" ng-model="form.PROJECTNAME" required></autocomplete>
+				</div>
+
+				<div class="form-group" ng-repeat="info in fields">
+		    		<label ng-if="info.name !== 'PROJECTNAME' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'OBJECTID'" for="info.name">{{info.name}}</label>
+		    		<!-- <input ng-if="info.type === 'esriFieldTypeOID'" class="form-control" type="text" placeholder="---------Auto Populated--------" readonly> -->
+		    		<input  ng-if="info.type === 'esriFieldTypeString' && info.name !== 'PROJECTNAME' && info.name !== 'EDITEDBY' && info.name !== 'CREATEDBY' && info.name !== 'ENGID' && info.name !== 'STREET_1' && info.name !== 'STREET_2' && info.name !== 'STREET_3' && info.name !== 'STREET_4' && info.name !== 'DOCTYPEID' && info.name !== 'SHEETTYPEID'" type="text" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" placeholder="">
+		    		<input  ng-if="info.type === 'esriFieldTypeDate' && info.name !== 'EDITEDON' && info.name !== 'CREATEDON'" type="date" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" required>
+
+		    		<autocomplete ng-if="info.name === 'STREET_1'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_2'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_3'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+		    		<autocomplete ng-if="info.name === 'STREET_4'" ng-model="form[info.name]" data="streets" on-type="autoFill" ></autocomplete>
+
+		    		<select ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name !== 'DOCID'" ng-options="boo.name for boo in selections" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">{{selectionOptions.tf}}</option>
+		    		</select>
+
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'ENGID'" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engfirms" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">{{selectionOptions.engineer}}</option>
+		    		</select>
+
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'DOCTYPEID'" ng-options="doc.attributes.DOCUMENTTYPE for doc in doctypes" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" required>
+							<option value="">{{selectionOptions.doctype}}</option>
+		    		</select>
+
+		    		<select ng-if="info.type === 'esriFieldTypeString' && info.name === 'SHEETTYPEID'" ng-options="desc.attributes.SHEETTYPE for desc in sheetdisc" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" required>
+		    			<option value="">{{selectionOptions.sheet}}</option>
+		    		</select>
+
+		    		<input ng-if="info.type === 'esriFieldTypeSmallInteger' && info.name === 'DOCID'" type="number" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" placeholder="" required>
+
+		    		<input ng-if="info.type === 'esriFieldTypeInteger'" type="number" class="form-control form-inputs" id="info.name" ng-model="form[info.name]" placeholder="" >
+		  		</div>
+		  		<input type="submit" id="submit" value="Submit" class="btn btn-primary" />
+					<!--<button ng-show="pageControls.continueButton" type="button" class="btn btn-success" ng-click="nextSheet()">Continue Project...</button>-->
+					<button ng-show="pageControls.deleteLastRecord" type="button" class="btn btn-danger" ng-click="delete()">Delete Last Record</button>
+			</form>
+		</div>
+		<div class="col-md-9">
+			<div ng-show="pageControls.noRecords" class="alert alert-info" role="alert">No Sheets are Currently Attached to this Project...</div>
+			<div ng-show="pageControls.table">
+				<h1 class="projectname" ng-repeat="sheet in sheets | limitTo: 1" class=>{{sheet.attributes.PROJECTNAME}} : {{sheet.attributes.DEVPLANID}}</h1>
+				<table class="table">
+					<thead>
+						<th class="text-primary">DOCID</th>
+						<th class="text-primary">DOCTYPE</th>
+						<th class="text-primary">SHEET DESCRIPTION</th>
+						<th class="text-primary">WATER</th>
+						<th class="text-primary">SEWER</th>
+						<th class="text-primary">REUSE</th>
+						<th class="text-primary">STORM</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="sheet in sheets | orderBy: DOCID">
+							<td>{{sheet.attributes.DOCID}}</td>
+							<!-- <td ng-show=""><input type="text" ng-model="table.DOCID"></input></td> -->
+							<td>{{sheet.attributes.DOCUMENTTYPE}}</td>
+							<td>{{sheet.attributes.SHEETTYPE}}</td>
+							<td class="water">{{sheet.attributes.WATER}}</td>
+							<td class="sewer">{{sheet.attributes.SEWER}}</td>
+							<td class="reuse">{{sheet.attributes.REUSE}}</td>
+							<td class="storm">{{sheet.attributes.STORM}}</td>
+							<td class="delete"><p ng-click="tableEdits.delete.row(sheet.attributes.OBJECTID)">X</p></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
