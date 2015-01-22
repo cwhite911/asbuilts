@@ -4,7 +4,7 @@ angular.module('asbuiltsApp')
     .service('StreetSearch', ['Ags','$filter','$cacheFactory', '$rootScope', function(Ags, $filter, $cacheFactory, $rootScope){
 
       var scope = $rootScope;
-      scope.maps = new Ags({host: 'maps.raleighnc.gov'});
+      // scope.maps = new Ags({host: 'maps.raleighnc.gov'});
       //Set up custom cache for search
       var streetCache = $cacheFactory('streetCache');
       //Auto fill function for street names
@@ -30,7 +30,7 @@ angular.module('asbuiltsApp')
             };
             return scope.maps.request(streetOptions);
           };
-            
+
 }]);
 
 // http://maps.raleighnc.gov/arcgis/rest/services/StreetsDissolved/MapServer/0

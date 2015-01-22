@@ -13,17 +13,6 @@ angular.module('asbuiltsApp')
       //Set root scope as scope
       var scope = $rootScope;
 
-      //Added in test of new module angular-arcgis-server
-      ////////////////////////////////////////////////////////
-      ////////////////////////////////////////////////////////
-
-
-
-
-      ////////////////////////////////////////////////////////
-      ////////////////////////////////////////////////////////
-
-
       $scope.project = {};
       var options = new OptionsFactory('json', '*', '', 'DOCID ASC', false );
       var s = ags.testServer.getService().$promise.then(function(res){
@@ -35,7 +24,21 @@ angular.module('asbuiltsApp')
         $scope.searchStatus = false;
         $scope.project_docs = false;
         //Uses the Project Search Servies
-        $scope.projects = projectSearch.autoFillProjects(typed);
+        $scope.projects = [];
+        var newProject = projectSearch.autoFill(typed);
+        newProject.then(function(data){
+              console.log(data);
+              for (var i = 0, x = data.features.length; i < x; i++){
+                  if ($scope.projects.length < 5){
+                    $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
+                  }
+              }
+              // $scope.projects = projectSearch.getSet($scope.projects);
+
+
+          }, function (error){
+            console.log(error);
+        });
         //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
       }
