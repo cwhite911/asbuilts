@@ -1,12 +1,16 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('StreetSearch', ['$http','$filter','$cacheFactory', function($http, $filter, $cacheFactory){
+    .service('StreetSearch', ['Ags','$filter','$cacheFactory', '$rootScope', function(Ags, $filter, $cacheFactory, $rootScope){
+
+      var scope = $rootScope;
+      scope.maps = new Ags({host: 'maps.raleighnc.gov'});
       //Set up custom cache for search
       var streetCache = $cacheFactory('streetCache');
       //Auto fill function for street names
           var streets = [];
           this.autoFill = function (typed) {
+            typed = typed.toUpperCase();
             //Checks cache for searched value uses cache if its cached
             var cache = streetCache.get(typed);
               if(cache){
@@ -19,20 +23,29 @@ angular.module('asbuiltsApp')
                   return $filter('limitTo')(f, 5);
                 }
               }
-            var options = {
-              f: 'json',
-              outFields: 'ADDRESS',
-              text: typed,
-              returnGeometry: false,
-              orderByFields: 'ADDRESS ASC'
+            
+            var streetOptions = {
+              folder:'StreetsDissolved',
+              service: '',
+              server: 'MapServer',
+              layer: 'Streets',
+              geojson: false,
+              actions: 'query',
+              params: {
+                f: 'json',
+                outFields: 'CARTONAME',
+                text: typed,
+                returnGeometry: false,
+                orderByFields: 'CARTONAME ASC'
+              }
             };
-            var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query'
-            $http.get(url, {params: options, cache: true})
-              .success(function(res){
+            scope.maps.request(streetOptions).then(function(res){
+              console.log(res);
+              var street;
                 for (var s in res.features){
-                  var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
-                  if (streets.indexOf(withNoDigits) === -1){
-                    streets.push(withNoDigits);
+                  street = res.features[s].attributes.CARTONAME
+                  if (streets.indexOf(street) === -1){
+                    streets.push(street);
                   }
                 }
                 //Adds results to cache
@@ -41,6 +54,8 @@ angular.module('asbuiltsApp')
 
               return $filter('limitTo')(streets, 5);
           };
-          
+
 
 }]);
+
+// http://maps.raleighnc.gov/arcgis/rest/services/StreetsDissolved/MapServer/0

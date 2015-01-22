@@ -75,10 +75,16 @@
   cursor:pointer;
 }
 /* when hiding the picture */
-.ng-hide-add         { animation:0.5s lightSpeedOut ease; }
+
+/*.ng-hide-add {
+   animation:0.5s lightSpeedOut ease;
+}*/
 
 /* when showing the picture */
-.ng-hide-remove      { animation:0.5s flipInX ease; }
+
+/*.ng-hide-remove {
+   animation:0.5s flipInX ease;
+  }*/
 
 /* ANIMATIONS (FROM ANIMATE.CSS) ======================== */
 /* flip in */
@@ -143,7 +149,10 @@
   }
 }
 
-.animate-enter,
+
+
+
+/*.animate-enter,
 .animate-leave
 {
     -webkit-transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
@@ -165,7 +174,7 @@
 }
 .animate-leave.animate-leave-active{
     left: 100%;
-}
+}*/
 .map-move {
   transition:All 1s ease;
 -webkit-transition:All 1s ease;

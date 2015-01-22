@@ -10,34 +10,20 @@
 angular.module('asbuiltsApp')
   .controller('StartCtrl', ['$scope','$cookieStore', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope','Ags',
     function ($scope, $cookieStore, OptionsFactory, ags, projectSearch, $rootScope, Ags) {
-
+      //Set root scope as scope
+      var scope = $rootScope;
 
       //Added in test of new module angular-arcgis-server
       ////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////
-      
-      var mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
-      var projectOptions = {
-        folder:'PublicUtility',
-        service: 'ProjectTracking',
-        server: 'FeatureServer',
-        layer: 'RPUD.DOCUMENTTYPES',
-        geojson: false,
-        actions: 'query',
-        params: {
-          f: 'json',
-          where: 'OBJECTID > 0'
-        }
-      };
-      mapstest.request(projectOptions).then(function(data){
-        console.log(data);
-      });
+
+
 
 
       ////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////
 
-      var scope = $rootScope;
+
       $scope.project = {};
       var options = new OptionsFactory('json', '*', '', 'DOCID ASC', false );
       var s = ags.testServer.getService().$promise.then(function(res){

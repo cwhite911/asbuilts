@@ -64,4 +64,11 @@ angular
 
       $httpProvider.defaults.useXDomain = true;
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+      // var scope = $rootScope;
+
+      //Set mapstest server
+      // scope.mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
+      //Set maps server
+      // scope.maps = new Ags({host: 'maps.raleighnc.gov'});
   }]);
