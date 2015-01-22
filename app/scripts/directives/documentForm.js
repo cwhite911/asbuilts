@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $filter) {
     return {
       restrict: 'E',
       transclude: true,
@@ -89,8 +89,23 @@ angular.module('asbuiltsApp')
 
         //Auto fill function for street names
         scope.autoFill = function (typed) {
-          scope.streets = StreetSearch.autoFill(typed);
+          scope.streets = [];
+          var newSearch = StreetSearch.autoFill(typed);
+            newSearch.then(function(res){
+              var street;
+                for (var s in res.features){
+                  street = res.features[s].attributes.CARTONAME;
+                  if (scope.streets.indexOf(street) === -1 && scope.streets.length < 5){
+                    scope.streets.push(street);
+                  }
+                }
+              }, function (error){
+                  console.log(error);
+              });
+
+
         };
+
         //Starts edit session on selected table row
         scope.edit = function (doc) {
           //resets documet
@@ -141,60 +156,6 @@ angular.module('asbuiltsApp')
           scope.project.splice(index, 1);
         };
 
-
-        //TESTING typehead.js
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // var url = 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query?text=%QUERY'
-        // function getSet (array){
-        //   var temp = [];
-        //   for (var i = 0, x = array.length; i < x; i++){
-        //     temp.indexOf(array[i]) !== -1 ? array : temp.push(array[i]);
-        //   }
-        //   return temp;
-        // }
-        // var bestPictures = new Bloodhound({
-        //   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        //   queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //   // prefetch: '../data/films/post_1960.json',
-        //   remote: {
-        //     url: url,
-        //     ajax: {
-        //       url: 'http://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/0/query',
-        //       dataType: 'json',
-        //       data: {
-        //         f: 'json',
-        //         outFields: 'ADDRESS',
-        //         returnGeometry: false,
-        //         orderByFields: 'ADDRESS ASC'
-        //       }
-        //     },
-        //     filter: function (res){
-        //       console.log("FILTER");
-        //       var streets = [];
-        //       for (var s in res.features){
-        //         var withNoDigits = res.features[s].attributes.ADDRESS.replace(/[0-9]/g, '');
-        //         if (streets.indexOf({value: withNoDigits.trim()}) === -1){
-        //           // console.log(withNoDigits);
-        //           streets.push({value: withNoDigits.trim()});
-        //         }
-        //         else {
-        //           console.log(withNoDigits.trim());
-        //         }
-        //       }
-        //       console.log(getSet(streets));
-        //       return getSet(streets);
-        //     }
-        //   }
-        // });
-        //
-        // bestPictures.initialize();
-        //
-        // angular.element('#remote').typeahead(null, {
-        //   name: 'best-pictures',
-        //   displayKey: 'value',
-        //   source: bestPictures.ttAdapter()
-        // });
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
       }
     };
   }
