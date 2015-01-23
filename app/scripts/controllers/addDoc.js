@@ -8,7 +8,7 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StartCtrl', ['$scope','CookieService', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope','Ags',
+  .controller('addDocCtrl', ['$scope','CookieService', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope','Ags',
     function ($scope, CookieService, OptionsFactory, ags, projectSearch, $rootScope, Ags) {
       //Set root scope as scope
       var scope = $rootScope;

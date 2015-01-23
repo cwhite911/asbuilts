@@ -32,8 +32,8 @@ angular
         redirectTo: '/map'
       })
       .when('/addDocument', {
-        templateUrl: 'views/start.html',
-        controller: 'StartCtrl'
+        templateUrl: 'views/addDoc.html',
+        controller: 'addDocCtrl'
       })
       .when('/instructions', {
         templateUrl: 'views/instructions.html'
