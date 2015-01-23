@@ -8,9 +8,9 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory',
-    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory) {
-
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope',
+    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope) {
+      var scope = $rootScope;
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
@@ -260,7 +260,23 @@ $scope.autoFillProjects = function (typed) {
   $scope.project_docs = false;
   angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
-  $scope.projects = projectSearch.autoFillProjects(typed);
+  //Uses the Project Search Servies
+  $scope.projects = [];
+  var newProject = projectSearch.autoFill(typed);
+  newProject.then(function(data){
+    if (data.features){
+      for (var i = 0, x = data.features.length; i < x; i++){
+        if ($scope.projects.length < 5){
+          $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
+        }
+      }
+    }
+
+  }, function (error){
+    console.log(error);
+  });
+  //Adds the project to the recently searched cook
+  scope.myrecent = $scope.projects;
 }
 
 $scope.searchControl = function (typed){
