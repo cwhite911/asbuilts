@@ -50,6 +50,10 @@ angular
         templateUrl: 'views/map.html',
         controller: 'MapCtrl'
       })
+      .when('/project/:projectid', {
+        templateUrl: 'views/project.html',
+        controller: 'projectCtrl'
+      })
       .when('/document/:documentid', {
         templateUrl: 'views/documents.html',
         controller: 'DocCtrl'
