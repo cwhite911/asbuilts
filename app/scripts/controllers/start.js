@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('StartCtrl', ['$scope','$cookieStore', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope','Ags',
-    function ($scope, $cookieStore, OptionsFactory, ags, projectSearch, $rootScope, Ags) {
+  .controller('StartCtrl', ['$scope','CookieService', 'OptionsFactory', 'ags', 'projectSearch', '$rootScope','Ags',
+    function ($scope, CookieService, OptionsFactory, ags, projectSearch, $rootScope, Ags) {
       //Set root scope as scope
       var scope = $rootScope;
 
@@ -44,22 +44,8 @@ angular.module('asbuiltsApp')
       }
       //Function handles the selection
       $scope.searchControl = function (typed){
-
-        function addProjectCookie (typed) {
-          var current = $cookieStore.get('projects');
-          if (current !== undefined && current.length > 0 && current.indexOf(typed) === -1){
-            console.log('Add to Cookie');
-            current.unshift(typed);
-            current.length > 5 ? current.pop() : current;
-            $cookieStore.put('projects', current);
-          }
-          else if (!current){
-            console.log('new cookie');
-            $cookieStore.put('projects', [typed])
-          }
-          // current ? current.indexOf(typed) ? current : $cookieStore.put('projects', current.push(typed)) : $cookieStore.put('projects', [typed]);
-        }
-        addProjectCookie(typed);
+        //Add projects to recent projects cookie
+        CookieService.addProjectCookie(typed);
         //Set up GET request options
         var param = 'PROJECTID = ' + typed.split(':')[2];
         options.updateOptions('where', param);

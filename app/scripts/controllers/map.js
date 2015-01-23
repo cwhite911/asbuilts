@@ -8,8 +8,8 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope',
-    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope', 'CookieService',
+    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService) {
       var scope = $rootScope;
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -281,6 +281,8 @@ $scope.autoFillProjects = function (typed) {
 
 $scope.searchControl = function (typed){
   console.log(typed);
+  //Add projects to recent projects cookie
+  CookieService.addProjectCookie(typed);
   var selection = typed.split(':');
   var options = {
           f: 'json',
