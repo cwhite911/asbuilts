@@ -220,11 +220,16 @@ $scope.searchControl = function (typed){
   CookieService.addProjectCookie(typed);
   var selection = typed.split(':');
 
-  var projectOptions = {
-    folder: 'PublicUtility',
-    layer: 'Project Tracking',
+  //Set feautre service
+  scope.pt_fs = scope.mapstest.setService({
+    folder:'PublicUtility',
     service: 'ProjectTracking',
-    server: 'FeatureServer',
+    server: 'FeatureServer'
+  });
+
+
+  var projectOptions = {
+    layer: 'Project Tracking',
     geojson: true,
     actions: 'query',
     params: {
@@ -237,10 +242,7 @@ $scope.searchControl = function (typed){
   };
 
   var documentOptions = {
-    folder: 'PublicUtility',
     layer: 'RPUD.PTK_DOCUMENTS',
-    service: 'ProjectTracking',
-    server: 'FeatureServer',
     actions: 'query',
     params: {
       f: 'json',
@@ -249,7 +251,7 @@ $scope.searchControl = function (typed){
     }
   }
 
-  scope.mapstest.request(projectOptions)
+  scope.mapstest.request(scope.pt_fs, projectOptions)
     .then(function(data){
       console.log(data);
       //Prepare Results Table
@@ -287,7 +289,7 @@ $scope.searchControl = function (typed){
       });
 
       //Get Document Information for carousel
-      scope.mapstest.request(documentOptions)
+      scope.mapstest.request(scope.pt_fs, documentOptions)
         .then(function(data){
           if (data.features.length !== 0){
                 angular.element('.angular-leaflet-map').addClass('map-move');

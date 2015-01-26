@@ -3,17 +3,18 @@
 angular.module('asbuiltsApp')
     .service('projectSearch', ['Ags', 'OptionsFactory','$filter', '$cacheFactory', '$rootScope', function(Ags, OptionsFactory, $filter, $cacheFactory, $rootScope){
       var scope = $rootScope;
-      scope.maps = new Ags({host: 'maps.raleighnc.gov'});
       scope.mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
+      scope.pt_ms = scope.mapstest.setService({
+        folder:'PublicUtility',
+        service: 'ProjectTracking',
+        server: 'MapServer'
+      });
       //Auto fill function for street names
       this.autoFill = function (typed) {
         typed = typed.toUpperCase();
 
 
         var projectOptions = {
-          folder:'PublicUtility',
-          service: 'ProjectTracking',
-          server: 'MapServer',
           layer: 'Project Tracking',
           geojson: false,
           actions: 'query',
@@ -25,7 +26,7 @@ angular.module('asbuiltsApp')
             orderByFields: 'PROJECTNAME ASC'
           }
         };
-        return scope.mapstest.request(projectOptions);
+        return scope.mapstest.request(scope.pt_ms, projectOptions);
       };
       this.getSet = function (array){
         var temp = [];
@@ -34,5 +35,5 @@ angular.module('asbuiltsApp')
         }
         return temp;
       }
-  
+
 }]); //ProjectSearch
