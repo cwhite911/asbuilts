@@ -100,8 +100,8 @@ angular.module('asbuiltsApp')
                 '<img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter',
                 '<img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter',
                 '<img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost',
-                '<img src="../images/p.png" height="20px" width="20px" /> Permits',
-                '<img src="../images/plat.png" height="20px" width="20px" /> Plats' ]
+                '<img src="../images/pr.png" height="20px" width="20px" /> Permits',
+                '<img src="../images/pl.png" height="20px" width="20px" /> Plats' ]
         },
 
 
@@ -156,55 +156,55 @@ function getCentroid (arr) {
 }
 
 
-function removeMarkers(){
-  $scope.markers = {};
-}
+// function removeMarkers(){
+//   $scope.markers = {};
+// }
 // iconUrl, iconSize, iconAnchor, popupAnchor
-var icons = new IconFactory();
- icons.addIcon('ASBUILTS', 'AS-Builts', '../images/ab.png', [38, 38], [0,0], [5,5]);
- icons.addIcon('CONSTUCTION_PLAN', 'Construction Plan', '../images/cp.png', [38, 38], [0,0], [5,0]);
- icons.addIcon('ACCEPTANCE_LETTER', 'Acceptance Letter', '../images/al.png', [38, 38], [0,0], [-5,5]);
- icons.addIcon('WARRANTY_LETTER', 'Warranty Letter', '../images/wl.png', [38, 38], [0,0], [5,-5]);
- icons.addIcon('STATEMENT_OF_COST', 'Statement of Cost', '../images/soc.png', [38, 38], [0,0], [-5,0]);
- icons.addIcon('PERMITS', 'Permit', '../images/p.png', [38, 38], [0,0], [-5,-5]);
- icons.addIcon('Plat', 'Plat', '../images/plat.png', [38, 38], [0,0], [5,5]);
+// var icons = new IconFactory();
+//  icons.addIcon('ASBUILTS', 'AS-Builts', '../images/ab.png', [38, 38], [0,0], [5,5]);
+//  icons.addIcon('CONSTUCTION_PLAN', 'Construction Plan', '../images/cp.png', [38, 38], [0,0], [5,0]);
+//  icons.addIcon('ACCEPTANCE_LETTER', 'Acceptance Letter', '../images/al.png', [38, 38], [0,0], [-5,5]);
+//  icons.addIcon('WARRANTY_LETTER', 'Warranty Letter', '../images/wl.png', [38, 38], [0,0], [5,-5]);
+//  icons.addIcon('STATEMENT_OF_COST', 'Statement of Cost', '../images/soc.png', [38, 38], [0,0], [-5,0]);
+//  icons.addIcon('PERMITS', 'Permit', '../images/p.png', [38, 38], [0,0], [-5,-5]);
+//  icons.addIcon('Plat', 'Plat', '../images/plat.png', [38, 38], [0,0], [5,5]);
 
 //List of Icons
-var document_types = icons.list;
-
-
-var document_fx = function (latlng){
-  latlng = {lat: latlng[0], lng: latlng[1]};
-  var docs = [
-          {
-            lat: latlng.lat + 0.0005,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat + 0.001,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat + 0.0015,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat - 0.0005,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat - 0.001,
-            lng: latlng.lng + 0.002
-          },
-          {
-            lat: latlng.lat - 0.0015,
-            lng: latlng.lng + 0.002
-          }
-    ];
+// var document_types = icons.list;
+//
+//
+// var document_fx = function (latlng){
+//   latlng = {lat: latlng[0], lng: latlng[1]};
+//   var docs = [
+//           {
+//             lat: latlng.lat + 0.0005,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat + 0.001,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat + 0.0015,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat - 0.0005,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat - 0.001,
+//             lng: latlng.lng + 0.002
+//           },
+//           {
+//             lat: latlng.lat - 0.0015,
+//             lng: latlng.lng + 0.002
+//           }
+//     ];
 
 angular.extend($scope, {
   markers:{},
@@ -217,18 +217,18 @@ angular.extend($scope, {
 //     clearInterval(stop);
 // }
 
-for (var i in document_types){
-  var tempName = document_types[i].name;
-
-  $scope.markers[tempName] = docs[i];
-  $scope.markers[tempName].draggable = true;
-  $scope.markers[tempName].icon = document_types[i].icon;
-  $scope.markers[tempName].message = document_types[i].message;
-}
-
-
-
-};
+// for (var i in document_types){
+//   var tempName = document_types[i].name;
+//
+//   $scope.markers[tempName] = docs[i];
+//   $scope.markers[tempName].draggable = true;
+//   $scope.markers[tempName].icon = document_types[i].icon;
+//   $scope.markers[tempName].message = document_types[i].message;
+// }
+//
+//
+//
+// };
 
 
 function action (feature, layer){
@@ -238,7 +238,7 @@ function action (feature, layer){
   layer.on('mouseover', function (e) {
     $scope.viewData = feature.properties;
     // layer.setStyle(styles.paidStyle);
-    document_fx($scope.centroid);
+    // document_fx($scope.centroid);
  });
  layer.on('mouseout', function(){
   //  layer.setStyle(styles.expiredStyle);
@@ -281,107 +281,103 @@ $scope.autoFillProjects = function (typed) {
 
 $scope.searchControl = function (typed){
   console.log(typed);
+
+
+
+
+
+
   //Add projects to recent projects cookie
   CookieService.addProjectCookie(typed);
   var selection = typed.split(':');
-  var options = {
-          f: 'json',
-          outFields: '*',
-          where: "PROJECTID =  '" + selection[2] + "'",
-          outSR: 4326,
-          returnGeometry: true
-      };
 
-  var conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/2/query';
-  var ptk_conn = 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/FeatureServer/5/query';
-  $http.get(conn, {params: options, cache: true})
-    .success(function(res){
+  var projectOptions = {
+    folder: 'PublicUtility',
+    layer: 'Project Tracking',
+    service: 'ProjectTracking',
+    server: 'FeatureServer',
+    geojson: true,
+    actions: 'query',
+    params: {
+      f: 'json',
+      outFields: '*',
+      where: "PROJECTID =  '" + selection[2] + "'",
+      outSR: 4326,
+      returnGeometry: true
+    }
+  };
+
+  var documentOptions = {
+    folder: 'PublicUtility',
+    layer: 'RPUD.PTK_DOCUMENTS',
+    service: 'ProjectTracking',
+    server: 'FeatureServer',
+    actions: 'query',
+    params: {
+      f: 'json',
+      outFields: '*',
+      where: "PROJECTID =  '" + selection[2] + "'",
+    }
+  }
+
+  scope.mapstest.request(projectOptions)
+    .then(function(data){
+      console.log(data);
+      //Prepare Results Table
+      $scope.project_info = data.features[0].properties;
+      $scope.project_info.CREATEDON = $filter('date')($scope.project_info.CREATEDON, 'MM/dd/yyyy');
+      $scope.project_info.DEVPLAN_APPROVAL = $filter('date')($scope.project_info.DEVPLAN_APPROVAL, 'MM/dd/yyyy');
+      $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
+      removeEmptyFields($scope.project_info);
+
+      //Add geojosn to map
+      angular.extend($scope, {
+        geojson: {
+          data: data,
+          style: {
+              fillColor: 'rgba(253, 165, 13, 0.0)',
+              weight: 3,
+              opacity: 1,
+              color: 'rgba(253, 165, 13, 0.71)',
+              dashArray: '4'
+          },
+          onEachFeature: action,
+          resetStyleOnMouseout: true
+        }
+      });
+      //Turns on the map resulsts table
+      $scope.searchStatus = true;
+
+      //Get bounds from geojson
       leafletData.getMap().then(function(map) {
-          $scope.project_info = res.features[0].attributes;
-          $scope.project_info.CREATEDON = $filter('date')($scope.project_info.CREATEDON, 'MM/dd/yyyy');
-          $scope.project_info.DEVPLAN_APPROVAL = $filter('date')($scope.project_info.DEVPLAN_APPROVAL, 'MM/dd/yyyy');
-          $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
-          removeEmptyFields($scope.project_info);
-                var latlngs = [];
-                $scope.poly = [];
-                angular.copy(res.features[0].geometry.rings, $scope.poly);
-                $scope.mygeojson ={
-                  "type": "FeatureCollection",
-                  "features":[{
-                    "type": "Feature",
-                    "id": res.features[0].attributes.PROJECTID,
-                    "properties": res.features[0].attributes,
-                    "geometry": {
-                      "type": "MultiPolygon",
-                      "coordinates": [res.features[0].geometry.rings]
-                    }
-                  }]
-                };
+        map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
+      });
+      scope.mapstest.request(documentOptions)
+        .then(function(data){
+          if (data.features.length !== 0){
+                angular.element('.angular-leaflet-map').addClass('map-move');
+                var _docType;
+                $scope.project_docs = data.features.map(function (each){
 
-                function prepareForBounds (data){
-                  var mp = [data];
-
-                  //Loops through rings
-                  for (var r = 0, rl = mp[0].length; r < rl; r++){
-                    //loops through polygon coordiantes
-                    for (var a = 0; a < mp[0][r].length; a++){
-                      latlngs.push([mp[0][r][a][1], mp[0][r][a][0]]);
-                      //convets to lat lng format
-                      mp[0][r][a] = [mp[0][r][a][1], mp[0][r][a][0]];
-                    }
-                  }
-                  return mp;
-                }
-
-                var mp = prepareForBounds($scope.poly);
-
-                angular.extend($scope, {
-                    geojson: {
-                        data: $scope.mygeojson,
-                        style: {
-                            fillColor: 'rgba(253, 165, 13, 0.0)',
-                            weight: 3,
-                            opacity: 1,
-                            color: 'rgba(253, 165, 13, 0.71)',
-                            dashArray: '4'
-                        },
-                        onEachFeature: action,
-                       resetStyleOnMouseout: true
-                    }
+                  each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = "";
+                  var url = {
+                      url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
+                      name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
+                      resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
+                      icon: "../images/" + _docType + ".png"
+                  };
+                  return url;
                 });
+                for (var a in $scope.project_docs){
+                  var ele_id = "#" + $scope.project_docs[a].resid;
+                  $(ele_id).resizable();
+                }
+              }
+        });
 
-
-                $scope.centroid = getCentroid(latlngs);
-                //Zooms to project Bounds
-                map.fitBounds(L.multiPolygon(mp).getBounds());
-                //Turns on the map resulsts table
-                $scope.searchStatus = true;
-            });
     });
 
-    $http.get(ptk_conn, {params: options, cache: true})
-      .success(function(res){
-        if (res.features.length !== 0){
-        angular.element('.angular-leaflet-map').addClass('map-move');
-        console.log(res.features);
-        var _docType;
-        $scope.project_docs = res.features.map(function (each){
 
-          each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = "";
-          var url = {
-              url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
-              name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
-              resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
-              icon: "../images/" + _docType + ".png"
-          };
-          return url;
-        });
-        for (var a in $scope.project_docs){
-          var ele_id = "#" + $scope.project_docs[a].resid;
-          $(ele_id).resizable();
-        }
-      }
-      });
 
 }
 
