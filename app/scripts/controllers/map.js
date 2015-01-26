@@ -22,9 +22,14 @@ angular.module('asbuiltsApp')
       layers: {
             baselayers: {
                 xyz: {
-                    name: 'OpenStreetMap (XYZ)',
-                    url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
-                    type: 'xyz'
+                  name: 'Death Star',
+                  url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
+                  type: 'xyz'
+                },
+                osm: {
+                  name: 'Open Street Map',
+                  url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                  type: 'xyz'
                 },
                 raleigh:{
 
@@ -34,7 +39,7 @@ angular.module('asbuiltsApp')
                     visible: false,
                     layerOptions: {
                         layers: ['*'],
-                          opacity: 1,
+                          opacity: 0.5,
                           attribution: "Copyright:© 2014 City of Raleigh"
                     }
                 }
@@ -107,6 +112,8 @@ angular.module('asbuiltsApp')
 
 
   });
+
+
 var drawnItems = new L.FeatureGroup();
 var options = {
   edit: {
@@ -130,7 +137,7 @@ var options = {
 leafletData.getMap().then(function(map) {
 
               // $scope.controls.draw.edit.featureGroup = new L.FeatureGroup();
-              // var drawnItems = $scope.controls.draw.edit.featureGroup;
+              // drawnItems = $scope.controls.draw.edit.featureGroup;
 
               // console.log($scope.controls.draw);
               map.on('draw:created', function (e) {
@@ -142,94 +149,19 @@ leafletData.getMap().then(function(map) {
               });
               map.on('draw:edited', function (e) {
                   var layers = e.layers;
-                  console.log(layers);
+
                   layers.eachLayer(function (layer) {
+                    console.log(layer);
         //do whatever you want, most likely save back to db
                   });
               });
            });
 
-function getCentroid (arr) {
-    return arr.reduce(function (x,y) {
-        return [x[0] + y[0]/arr.length, x[1] + y[1]/arr.length]
-    }, [0,0])
-}
-
-
-// function removeMarkers(){
-//   $scope.markers = {};
-// }
-// iconUrl, iconSize, iconAnchor, popupAnchor
-// var icons = new IconFactory();
-//  icons.addIcon('ASBUILTS', 'AS-Builts', '../images/ab.png', [38, 38], [0,0], [5,5]);
-//  icons.addIcon('CONSTUCTION_PLAN', 'Construction Plan', '../images/cp.png', [38, 38], [0,0], [5,0]);
-//  icons.addIcon('ACCEPTANCE_LETTER', 'Acceptance Letter', '../images/al.png', [38, 38], [0,0], [-5,5]);
-//  icons.addIcon('WARRANTY_LETTER', 'Warranty Letter', '../images/wl.png', [38, 38], [0,0], [5,-5]);
-//  icons.addIcon('STATEMENT_OF_COST', 'Statement of Cost', '../images/soc.png', [38, 38], [0,0], [-5,0]);
-//  icons.addIcon('PERMITS', 'Permit', '../images/p.png', [38, 38], [0,0], [-5,-5]);
-//  icons.addIcon('Plat', 'Plat', '../images/plat.png', [38, 38], [0,0], [5,5]);
-
-//List of Icons
-// var document_types = icons.list;
-//
-//
-// var document_fx = function (latlng){
-//   latlng = {lat: latlng[0], lng: latlng[1]};
-//   var docs = [
-//           {
-//             lat: latlng.lat + 0.0005,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat + 0.001,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat + 0.0015,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat - 0.0005,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat - 0.001,
-//             lng: latlng.lng + 0.002
-//           },
-//           {
-//             lat: latlng.lat - 0.0015,
-//             lng: latlng.lng + 0.002
-//           }
-//     ];
 
 angular.extend($scope, {
   markers:{},
   paths: {}
 });
-
-
-
-// function myStopFunction(stop) {
-//     clearInterval(stop);
-// }
-
-// for (var i in document_types){
-//   var tempName = document_types[i].name;
-//
-//   $scope.markers[tempName] = docs[i];
-//   $scope.markers[tempName].draggable = true;
-//   $scope.markers[tempName].icon = document_types[i].icon;
-//   $scope.markers[tempName].message = document_types[i].message;
-// }
-//
-//
-//
-// };
-
 
 function action (feature, layer){
   $scope.viewData = feature;
@@ -237,8 +169,6 @@ function action (feature, layer){
 
   layer.on('mouseover', function (e) {
     $scope.viewData = feature.properties;
-    // layer.setStyle(styles.paidStyle);
-    // document_fx($scope.centroid);
  });
  layer.on('mouseout', function(){
   //  layer.setStyle(styles.expiredStyle);
@@ -259,7 +189,6 @@ $scope.autoFillProjects = function (typed) {
   $scope.searchStatus = false;
   $scope.project_docs = false;
   angular.element('.angular-leaflet-map').removeClass('map-move');
-  //Uses the Project Search Servies
   //Uses the Project Search Servies
   $scope.projects = [];
   var newProject = projectSearch.autoFill(typed);
@@ -331,27 +260,33 @@ $scope.searchControl = function (typed){
       removeEmptyFields($scope.project_info);
 
       //Add geojosn to map
-      angular.extend($scope, {
-        geojson: {
-          data: data,
-          style: {
-              fillColor: 'rgba(253, 165, 13, 0.0)',
-              weight: 3,
-              opacity: 1,
-              color: 'rgba(253, 165, 13, 0.71)',
-              dashArray: '4'
-          },
-          onEachFeature: action,
-          resetStyleOnMouseout: true
-        }
-      });
+      // angular.extend($scope, {
+      //   geojson: {
+      //     data: data,
+      //     style: {
+      //         fillColor: 'rgba(253, 165, 13, 0.0)',
+      //         weight: 3,
+      //         opacity: 1,
+      //         color: 'rgba(253, 165, 13, 0.71)',
+      //         dashArray: '4'
+      //     },
+      //     onEachFeature: action,
+      //     resetStyleOnMouseout: true
+      //   }
+      // });
       //Turns on the map resulsts table
       $scope.searchStatus = true;
 
       //Get bounds from geojson
+      drawnItems.addLayer(L.geoJson(data));
+
       leafletData.getMap().then(function(map) {
-        map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
+        // map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
+        map.fitBounds(drawnItems.getBounds());
+        drawnItems.addTo(map);
       });
+
+      //Get Document Information for carousel
       scope.mapstest.request(documentOptions)
         .then(function(data){
           if (data.features.length !== 0){
