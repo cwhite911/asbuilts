@@ -260,20 +260,20 @@ $scope.searchControl = function (typed){
       removeEmptyFields($scope.project_info);
 
       //Add geojosn to map
-      // angular.extend($scope, {
-      //   geojson: {
-      //     data: data,
-      //     style: {
-      //         fillColor: 'rgba(253, 165, 13, 0.0)',
-      //         weight: 3,
-      //         opacity: 1,
-      //         color: 'rgba(253, 165, 13, 0.71)',
-      //         dashArray: '4'
-      //     },
-      //     onEachFeature: action,
-      //     resetStyleOnMouseout: true
-      //   }
-      // });
+      angular.extend($scope, {
+        geojson: {
+          data: data,
+          style: {
+              fillColor: 'rgba(253, 165, 13, 0.0)',
+              weight: 3,
+              opacity: 1,
+              color: 'rgba(253, 165, 13, 0.71)',
+              dashArray: '4'
+          },
+          onEachFeature: action,
+          resetStyleOnMouseout: true
+        }
+      });
       //Turns on the map resulsts table
       $scope.searchStatus = true;
 
@@ -281,7 +281,7 @@ $scope.searchControl = function (typed){
       drawnItems.addLayer(L.geoJson(data));
 
       leafletData.getMap().then(function(map) {
-        // map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
+        map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
         map.fitBounds(drawnItems.getBounds());
         drawnItems.addTo(map);
       });
