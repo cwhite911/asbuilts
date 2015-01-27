@@ -291,6 +291,8 @@ $scope.searchControl = function (typed){
       //Turns on the map resulsts table
       $scope.searchStatus = true;
 
+      //Empties exisiting feature group
+      drawnItems = new L.FeatureGroup();
       //Get bounds from geojson
       drawnItems.addLayer(L.geoJson(data));
 
