@@ -15,8 +15,8 @@ angular.module('asbuiltsApp')
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
       center: {
-        lat: 35.843768,
-        lng: -78.6450559,
+        lat: 35.77882840327371,
+        lng: -78.63945007324219,
         zoom: 13
       },
       layers: {
@@ -30,6 +30,18 @@ angular.module('asbuiltsApp')
                   name: 'Open Street Map',
                   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                   type: 'xyz'
+                },
+                esriImagery:{
+
+                  name: "esri Imagery",
+                  type: "dynamic",
+                  url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+                  visible: false,
+                  layerOptions: {
+                    layers: [0, 1, 2, 3],
+                    opacity: 1,
+                    attribution: "Copyright:© 2014 Esri, DeLorme, HERE, TomTom"
+                  }
                 },
                 raleigh:{
 
