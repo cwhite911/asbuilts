@@ -15,7 +15,7 @@
 <div class="mapSearch">
   <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete>
 </div>
-<table class="table mapTable" ng-show="searchStatus">
+<!-- <table class="table mapTable" ng-show="searchStatus">
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
@@ -26,7 +26,9 @@
       <td>{{value}}</td>
     </tr>
   </tbody>
-</table>
+</table> -->
+
+<project-table project="project_info" ng-show="searchStatus"></project-table>
 
 <!-- Map -->
     <leaflet center="center" legend="legend" layers="layers" geojson="geojson" paths="paths" markers="markers" controls="controls"></leaflet>
