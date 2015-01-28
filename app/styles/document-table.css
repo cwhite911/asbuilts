@@ -58,6 +58,11 @@ table tbody tr{
   padding-left: 5px;
 }
 
+.nofile {
+  color: #ff0000;
+  padding-left: 5px;
+}
+
 .water {
   color: #3777d6;
 }

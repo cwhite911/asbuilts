@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $filter) {
+  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', '$http', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $filter, $http) {
     return {
       restrict: 'E',
       transclude: true,
@@ -68,7 +68,17 @@ angular.module('asbuiltsApp')
               //Probably should make this a method of ags service
               var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
                 project.forEach(function(data){
+                  //Sets all edit states to false
                   data.edit = false;
+                  //Checks if file currently exisits
+                  checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID + '.pdf').then(function(res){
+                    data.upload = res.data;
+                    data.upload.isSuccess = false;
+                  },
+                  function (error){
+                    console.log(error);
+                  });
+                  //Sets boolean values for utility options
                   for (var _i = 0, _len = utils.length; _i < _len; _i++){
                    data.attributes[utils[_i]] ? data.attributes[utils[_i]] = 'true' : data.attributes[utils[_i]] = 'false';
                   }
@@ -155,6 +165,16 @@ angular.module('asbuiltsApp')
           //Deletes document object from array
           scope.project.splice(index, 1);
         };
+
+        function checkUpload (filename){
+          var config = {
+            params: {
+              filename: filename
+            }
+          };
+          return $http.get('http://localhost:9080/upload', config);
+        }
+    
 
       }
     };
