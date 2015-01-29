@@ -263,7 +263,7 @@ $scope.searchControl = function (typed){
     }
   }
 
-  scope.mapstest.request(scope.pt_fs, projectOptions)
+  scope.pt_fs.request(projectOptions)
     .then(function(data){
       console.log(data);
       //Prepare Results Table
@@ -303,7 +303,7 @@ $scope.searchControl = function (typed){
       });
 
       //Get Document Information for carousel
-      scope.mapstest.request(scope.pt_fs, documentOptions)
+      scope.pt_fs.request(documentOptions)
         .then(function(data){
           if (data.features.length !== 0){
                 angular.element('.angular-leaflet-map').addClass('map-move');

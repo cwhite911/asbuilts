@@ -29,7 +29,7 @@ angular.module('asbuiltsApp')
                 orderByFields: 'CARTONAME ASC'
               }
             };
-            return scope.maps.request(streets_ms, streetOptions);
+            return streets_ms.request(streetOptions);
           };
 
 }]);

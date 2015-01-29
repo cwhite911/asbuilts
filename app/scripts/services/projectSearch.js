@@ -26,7 +26,7 @@ angular.module('asbuiltsApp')
             orderByFields: 'PROJECTNAME ASC'
           }
         };
-        return scope.mapstest.request(scope.pt_ms, projectOptions);
+        return scope.pt_ms.request(projectOptions);
       };
       this.getSet = function (array){
         var temp = [];
