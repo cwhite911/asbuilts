@@ -133,12 +133,11 @@ angular.module('asbuiltsApp')
         scope.addDoc = true;
         scope.add = function(){
           // scope.addDoc = false;
-
           scope.newDocument = new DocumentFactory({
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
             DEVPLANID: scope.project[0].attributes.DEVPLANID,
-            DOCID: scope.project.length + 1
+            DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1
           });
 
           //POSTS new document to AGS server
@@ -174,7 +173,7 @@ angular.module('asbuiltsApp')
           };
           return $http.get('http://localhost:9080/upload', config);
         }
-    
+
 
       }
     };
