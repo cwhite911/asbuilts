@@ -8,9 +8,16 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope', 'CookieService',
-    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService) {
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope', 'CookieService', 'Ags',
+    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService, Ags) {
       var scope = $rootScope;
+      var mapServer = new Ags({host: 'maps.raleighnc.gov'});
+      scope.pt_ms = scope.mapstest.setService({
+        folder:'PublicUtility',
+        service: 'ProjectTracking',
+        server: 'MapServer'
+      });
+
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
@@ -100,6 +107,28 @@ angular.module('asbuiltsApp')
                       opacity: 1,
                       attribution: "Copyright:© 2014 City of Raleigh"
                 }
+            },
+            detailsIntersections: {
+              name: "Detailed Intersections",
+              type: "dynamic",
+              url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/",
+              visible: false,
+              layerOptions: {
+                layers: [0],
+                opacity: 1,
+                attribution: "Copyright:© 2014 City of Raleigh"
+              }
+            },
+            parcels: {
+              name: "Parcels",
+              type: "dynamic",
+              url: "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer",
+              visible: false,
+              layerOptions: {
+                layers: ['*'],
+                opacity: 1,
+                attribution: "Copyright:© 2014 City of Raleigh"
+              }
             }
 
           }
@@ -146,28 +175,104 @@ var options = {
    }
  }
  );
+
 leafletData.getMap().then(function(map) {
 
-              // $scope.controls.draw.edit.featureGroup = new L.FeatureGroup();
-              // drawnItems = $scope.controls.draw.edit.featureGroup;
+  //Gets layer info from map
+  map.on('click', function(e){
+    // console.log(e)
+    map.eachLayer(function(layer){
+      console.log(layer);
+      if (layer.options.layers && layer._layerParams.bbox) {
+      var onClickOptions = {
+        params: {
+          f: 'json',
+          geometry: {x: e.latlng.lng, y: e.latlng.lat},
+          mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
+          tolerance: 2,
+          imageDisplay: '600, 550, 96',
+          layers: layer.options.layers.toString(),
+          sr: 4326
+        },
+        actions: 'identify',
+        geojson: true
+      };
+      switch (layer.url){
+        case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
+          scope.pt_ms.request(onClickOptions)
+          .then(function(data){
+            console.log(data);
+          });
+          break;
+        case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
+          scope.gis.setService({
+            folder:'PublicUtility',
+            service: 'ReclaimedDistribution',
+            server: 'MapServer'
+          }).request(onClickOptions)
+          .then(function(data){
+            console.log(data);
+          });
+          break;
+        case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
+          scope.gis.setService({
+            folder:'PublicUtility',
+            service: 'WaterDistribution',
+            server: 'MapServer'
+          }).request(onClickOptions)
+          .then(function(data){
+            console.log(data);
+          });
+          break;
+        case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
+          mapServer.setService({
+            folder:'PublicUtility',
+            service: 'SewerExternal',
+            server: 'MapServer'
+          }).request(onClickOptions)
+            .then(function(data){
+              console.log(data);
+            });
+          break;
+        case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
+          mapServer.setService({
+            folder:'',
+            service: 'Parcels',
+            server: 'MapServer'
+          }).request(onClickOptions)
+          .then(function(data){
+            console.log(data);
+          });
+          break;
+        default:
+          return;
+      }
 
-              // console.log($scope.controls.draw);
-              map.on('draw:created', function (e) {
-                var layer = e.layer;
-                drawnItems.addLayer(layer);
-                  drawnItems.addTo(map);
-                  console.log(drawnItems);
-                console.log(JSON.stringify(layer.toGeoJSON()));
-              });
-              map.on('draw:edited', function (e) {
-                  var layers = e.layers;
 
-                  layers.eachLayer(function (layer) {
-                    console.log(layer);
-        //do whatever you want, most likely save back to db
-                  });
-              });
-           });
+      }
+      console.log(onClickOptions);
+      // console.log(scope.pt_ms);
+
+    });
+  });
+  console.log(map);
+
+  map.on('draw:created', function (e) {
+      var layer = e.layer;
+      drawnItems.addLayer(layer);
+      drawnItems.addTo(map);
+      console.log(drawnItems);
+      console.log(JSON.stringify(layer.toGeoJSON()));
+  });
+  map.on('draw:edited', function (e) {
+      var layers = e.layers;
+      layers.eachLayer(function (layer) {
+        console.log(layer);
+      //do whatever you want, most likely save back to db
+      });
+  });
+
+});
 
 
 angular.extend($scope, {
