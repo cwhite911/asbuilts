@@ -5,6 +5,7 @@ angular.module('asbuiltsApp')
       var scope = $rootScope;
       scope.mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
       scope.gis = new Ags({host: 'gis.raleighnc.gov'});
+      
       scope.pt_ms = scope.mapstest.setService({
         folder:'PublicUtility',
         service: 'ProjectTracking',

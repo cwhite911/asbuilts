@@ -103,12 +103,14 @@ angular.module('asbuiltsApp')
           var newSearch = StreetSearch.autoFill(typed);
             newSearch.then(function(res){
               var street;
+
                 for (var s in res.features){
                   street = res.features[s].attributes.CARTONAME;
                   if (scope.streets.indexOf(street) === -1 && scope.streets.length < 5){
                     scope.streets.push(street);
                   }
                 }
+                
               }, function (error){
                   console.log(error);
               });
