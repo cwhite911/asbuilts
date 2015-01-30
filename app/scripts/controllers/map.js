@@ -180,10 +180,14 @@ leafletData.getMap().then(function(map) {
 
   //Gets layer info from map
   map.on('click', function(e){
-    // console.log(e)
+    //Empties exisiting feature group
+
+    var selectedFeatures = new L.FeatureGroup();
+
+
     map.eachLayer(function(layer){
-      console.log(layer);
-      if (layer.options.layers && layer._layerParams.bbox) {
+      // console.log(layer);
+      if (layer.options !== undefined && layer.options.layers) {
       var onClickOptions = {
         params: {
           f: 'json',
@@ -201,7 +205,7 @@ leafletData.getMap().then(function(map) {
         case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
           scope.pt_ms.request(onClickOptions)
           .then(function(data){
-            console.log(data);
+            selectedFeatures.addLayer(L.geoJson(data));
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
@@ -211,7 +215,7 @@ leafletData.getMap().then(function(map) {
             server: 'MapServer'
           }).request(onClickOptions)
           .then(function(data){
-            console.log(data);
+            selectedFeatures.addLayer(L.geoJson(data));
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
@@ -221,7 +225,7 @@ leafletData.getMap().then(function(map) {
             server: 'MapServer'
           }).request(onClickOptions)
           .then(function(data){
-            console.log(data);
+            selectedFeatures.addLayer(L.geoJson(data));
           });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
@@ -231,7 +235,7 @@ leafletData.getMap().then(function(map) {
             server: 'MapServer'
           }).request(onClickOptions)
             .then(function(data){
-              console.log(data);
+              selectedFeatures.addLayer(L.geoJson(data));
             });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
@@ -241,17 +245,23 @@ leafletData.getMap().then(function(map) {
             server: 'MapServer'
           }).request(onClickOptions)
           .then(function(data){
-            console.log(data);
+            selectedFeatures.addLayer(L.geoJson(data));
           });
           break;
         default:
           return;
       }
+      selectedFeatures.setStyle({
+        fill: false,
+        weight: 3,
+        opacity: 1,
+        color: 'rgba(12, 235, 255, 0.71)',
+        dashArray: '4'
+      }).addTo(map);
+      // selectedFeatures.addTo(map);
+      console.log(selectedFeatures);
+    }
 
-
-      }
-      console.log(onClickOptions);
-      // console.log(scope.pt_ms);
 
     });
   });
