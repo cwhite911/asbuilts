@@ -176,14 +176,16 @@ var options = {
  }
  );
 
+ var selectedFeatures = new L.FeatureGroup();
+
 leafletData.getMap().then(function(map) {
 
   //Gets layer info from map
   map.on('click', function(e){
     //Empties exisiting feature group
 
-    var selectedFeatures = new L.FeatureGroup();
-
+    // var selectedFeatures = new L.FeatureGroup();
+    selectedFeatures.clearLayers();
 
     map.eachLayer(function(layer){
       // console.log(layer);
@@ -201,6 +203,7 @@ leafletData.getMap().then(function(map) {
         actions: 'identify',
         geojson: true
       };
+
       switch (layer.url){
         case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
           scope.pt_ms.request(onClickOptions)
@@ -257,8 +260,8 @@ leafletData.getMap().then(function(map) {
         opacity: 1,
         color: 'rgba(12, 235, 255, 0.71)',
         dashArray: '4'
-      }).addTo(map);
-      // selectedFeatures.addTo(map);
+      });
+      selectedFeatures.addTo(map);
       console.log(selectedFeatures);
     }
 
