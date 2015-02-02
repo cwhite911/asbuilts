@@ -12,9 +12,41 @@ angular.module('asbuiltsApp')
     function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService, Ags) {
       var scope = $rootScope;
       var mapServer = new Ags({host: 'maps.raleighnc.gov'});
+
+      //Set Services
+
+      //Project Tracking Map Server
       scope.pt_ms = scope.mapstest.setService({
         folder:'PublicUtility',
         service: 'ProjectTracking',
+        server: 'MapServer'
+      });
+
+      //Reclaimed Map Server
+      var reclaimed_ms = scope.gis.setService({
+        folder:'PublicUtility',
+        service: 'ReclaimedDistribution',
+        server: 'MapServer'
+      });
+
+      //Water Map Server
+      var water_ms = scope.gis.setService({
+        folder:'PublicUtility',
+        service: 'WaterDistribution',
+        server: 'MapServer'
+      });
+
+      //Sewer Map Server
+      var sewer_ms = mapServer.setService({
+        folder:'PublicUtility',
+        service: 'SewerExternal',
+        server: 'MapServer'
+      });
+
+      //Parcels Map Server
+      var parcels_ms = mapServer.setService({
+        folder:'',
+        service: 'Parcels',
         server: 'MapServer'
       });
 
@@ -176,15 +208,24 @@ var options = {
  }
  );
 
+//Create features group to add identify result too
  var selectedFeatures = new L.FeatureGroup();
+
+//Set feature style
+ var selectionStyle = {
+  fill: false,
+  weight: 5,
+  opacity: 1,
+  color: 'rgba(12, 235, 255, 0.71)',
+  dashArray: '4'
+};
+
 
 leafletData.getMap().then(function(map) {
 
   //Gets layer info from map
   map.on('click', function(e){
     //Empties exisiting feature group
-
-    // var selectedFeatures = new L.FeatureGroup();
     selectedFeatures.clearLayers();
 
     map.eachLayer(function(layer){
@@ -203,64 +244,51 @@ leafletData.getMap().then(function(map) {
         actions: 'identify',
         geojson: true
       };
-
       switch (layer.url){
         case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
           scope.pt_ms.request(onClickOptions)
           .then(function(data){
-            selectedFeatures.addLayer(L.geoJson(data));
+            var newGeojson = L.geoJson(data)
+            newGeojson.setStyle(selectionStyle);
+            selectedFeatures.addLayer(newGeojson);
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
-          scope.gis.setService({
-            folder:'PublicUtility',
-            service: 'ReclaimedDistribution',
-            server: 'MapServer'
-          }).request(onClickOptions)
+          reclaimed_ms.request(onClickOptions)
           .then(function(data){
-            selectedFeatures.addLayer(L.geoJson(data));
+            var newGeojson = L.geoJson(data)
+            newGeojson.setStyle(selectionStyle);
+            selectedFeatures.addLayer(newGeojson);
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
-          scope.gis.setService({
-            folder:'PublicUtility',
-            service: 'WaterDistribution',
-            server: 'MapServer'
-          }).request(onClickOptions)
+          water_ms.request(onClickOptions)
           .then(function(data){
-            selectedFeatures.addLayer(L.geoJson(data));
+            var newGeojson = L.geoJson(data)
+            newGeojson.setStyle(selectionStyle);
+            selectedFeatures.addLayer(newGeojson);
           });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
-          mapServer.setService({
-            folder:'PublicUtility',
-            service: 'SewerExternal',
-            server: 'MapServer'
-          }).request(onClickOptions)
+          sewer_ms.request(onClickOptions)
             .then(function(data){
-              selectedFeatures.addLayer(L.geoJson(data));
+              var newGeojson = L.geoJson(data)
+              newGeojson.setStyle(selectionStyle);
+              selectedFeatures.addLayer(newGeojson);
             });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
-          mapServer.setService({
-            folder:'',
-            service: 'Parcels',
-            server: 'MapServer'
-          }).request(onClickOptions)
+          parcels_ms.request(onClickOptions)
           .then(function(data){
-            selectedFeatures.addLayer(L.geoJson(data));
+            var newGeojson = L.geoJson(data)
+            newGeojson.setStyle(selectionStyle);
+            selectedFeatures.addLayer(newGeojson);
           });
           break;
         default:
           return;
       }
-      selectedFeatures.setStyle({
-        fill: false,
-        weight: 3,
-        opacity: 1,
-        color: 'rgba(12, 235, 255, 0.71)',
-        dashArray: '4'
-      });
+
       selectedFeatures.addTo(map);
       console.log(selectedFeatures);
     }
