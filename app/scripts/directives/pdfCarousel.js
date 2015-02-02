@@ -21,13 +21,7 @@ angular.module('asbuiltsApp')
               scope.docs.unshift(last);
             }
           });
-          // var navBoxLeft = angular.element('.nav-box-left');
-          // console.log(navBoxLeft);
-          // navBoxLeft.on('click', function(){
-          //   angular.element(this).toggleClass('nav-arrow1');
-          // });
-
-
+      
       }
     }
 });

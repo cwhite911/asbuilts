@@ -209,7 +209,8 @@ var options = {
  );
 
 //Create features group to add identify result too
- var selectedFeatures = new L.FeatureGroup();
+ var selectedFeatures = new L.FeatureGroup(),
+     selectedGeojson;
 
 //Set feature style
  var selectionStyle = {
@@ -220,6 +221,17 @@ var options = {
   dashArray: '4'
 };
 
+//Ugly set popup hack, tried ng-repeat did work, so I am using this as a place holder
+function createPopup (feature, layer) {
+  var ele = '<ul>';
+  for (var i in feature.properties){
+    feature.properties[i] !== 'Null' ? ele+='<li><i>' + i + '</i>: ' + feature.properties[i] + '</li>' : ele;
+  }
+  ele+='</ul>';
+  layer.bindPopup(ele, {
+    maxHeight: 300
+  });
+}
 
 leafletData.getMap().then(function(map) {
 
@@ -248,41 +260,51 @@ leafletData.getMap().then(function(map) {
         case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
           scope.pt_ms.request(onClickOptions)
           .then(function(data){
-            var newGeojson = L.geoJson(data)
-            newGeojson.setStyle(selectionStyle);
-            selectedFeatures.addLayer(newGeojson);
+            selectedGeojson = L.geoJson(data, {
+              onEachFeature: createPopup,
+              style: selectionStyle
+            });
+            selectedFeatures.addLayer(selectedGeojson);
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
           reclaimed_ms.request(onClickOptions)
           .then(function(data){
-            var newGeojson = L.geoJson(data)
-            newGeojson.setStyle(selectionStyle);
-            selectedFeatures.addLayer(newGeojson);
+            selectedGeojson = L.geoJson(data, {
+              onEachFeature: createPopup,
+              style: selectionStyle
+            });
+            selectedFeatures.addLayer(selectedGeojson);
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
           water_ms.request(onClickOptions)
           .then(function(data){
-            var newGeojson = L.geoJson(data)
-            newGeojson.setStyle(selectionStyle);
-            selectedFeatures.addLayer(newGeojson);
+            selectedGeojson = L.geoJson(data, {
+              onEachFeature: createPopup,
+              style: selectionStyle
+            });
+            selectedFeatures.addLayer(selectedGeojson);
           });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
           sewer_ms.request(onClickOptions)
             .then(function(data){
-              var newGeojson = L.geoJson(data)
-              newGeojson.setStyle(selectionStyle);
-              selectedFeatures.addLayer(newGeojson);
+              selectedGeojson = L.geoJson(data, {
+                onEachFeature: createPopup,
+                style: selectionStyle
+              });
+              selectedFeatures.addLayer(selectedGeojson);
             });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
           parcels_ms.request(onClickOptions)
           .then(function(data){
-            var newGeojson = L.geoJson(data)
-            newGeojson.setStyle(selectionStyle);
-            selectedFeatures.addLayer(newGeojson);
+            selectedGeojson = L.geoJson(data, {
+              onEachFeature: createPopup,
+              style: selectionStyle
+            });
+            selectedFeatures.addLayer(selectedGeojson);
           });
           break;
         default:
