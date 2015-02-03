@@ -312,7 +312,7 @@ leafletData.getMap().then(function(map) {
       }
 
       selectedFeatures.addTo(map);
-      console.log(selectedFeatures);
+      selectedFeatures.bringToFront();
     }
 
 
