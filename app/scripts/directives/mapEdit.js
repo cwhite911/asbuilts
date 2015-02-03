@@ -17,7 +17,10 @@ angular.module('asbuiltsApp')
         console.log(scope.active);
         if (scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
-        };
+        }
+        else {
+          angular.element('.angular-leaflet-map').removeClass('map-move-left');
+        }
         if (scope.data){
 
 

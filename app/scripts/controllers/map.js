@@ -196,7 +196,9 @@ var options = {
     polygon: {
       shapeOptions: {
         color: 'blue'
-      }
+      },
+      repeatMode: false,
+      allowIntersection: false
     },
     marker: false,
     circle: false,
@@ -347,6 +349,14 @@ leafletData.getMap().then(function(map) {
         console.log(layer);
       //do whatever you want, most likely save back to db
       });
+  });
+  map.on('draw:editstart', function (e){
+    var layers = e.layers;
+    $scope.active = true;
+  });
+  map.on('draw:editstop', function (e){
+    var layers = e.layers;
+    $scope.active = false;
   });
 
 });
