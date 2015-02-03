@@ -193,11 +193,15 @@ var options = {
     featureGroup: drawnItems
   },
   draw: {
-        polygon: {
-            shapeOptions: {
-                color: 'blue'
-            }
-        }
+    polygon: {
+      shapeOptions: {
+        color: 'blue'
+      }
+    },
+    marker: false,
+    circle: false,
+    polyline: false,
+    rectangle: false
   }
  };
  var drawControl = new L.Control.Draw(options);
