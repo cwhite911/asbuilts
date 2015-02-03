@@ -6,7 +6,7 @@ angular.module('asbuiltsApp')
     restrict: 'E',
     transclude: true,
     scope: {
-      project: '=',
+      data: '=',
       active: '='
     },
     templateUrl: 'views/map-edit.html',
@@ -14,11 +14,28 @@ angular.module('asbuiltsApp')
       //Gets correct REST endpoints form ArcGIS server
       var url;
       scope.$watchCollection('active', function(oldVal, newVal){
-        if (scope.project){
-          
+        console.log(scope.active);
+        if (scope.active){
+          angular.element('.angular-leaflet-map').addClass('map-move-left');
+        };
+        if (scope.data){
+
 
         }
       });
+
+      scope.master = {};
+
+      scope.update = function(user) {
+        scope.master = angular.copy(user);
+      };
+
+      scope.reset = function() {
+        scope.user = angular.copy(scope.master);
+      };
+
+      scope.reset();
+
 
 
     }

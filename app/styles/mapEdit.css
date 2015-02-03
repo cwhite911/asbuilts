@@ -1,0 +1,17 @@
+.map-move-left {
+  transition:All 1s ease;
+  -webkit-transition:All 1s ease;
+  -moz-transition:All 1s ease;
+  -o-transition:All 1s ease;
+  width: 80%;
+}
+
+.map-edit-container {
+  display: block;
+  width: 10%;
+  float: right;
+  position: fixed;
+  top: 10%;
+  left: 86%;
+  border: 2px solid red;
+}

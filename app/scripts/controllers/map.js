@@ -229,7 +229,7 @@ var options = {
 function createPopup (feature, layer) {
   var ele = '<ul>';
   for (var i in feature.properties){
-    feature.properties[i] !== 'Null' ? ele+='<li><i>' + i + '</i>: ' + feature.properties[i] + '</li>' : ele;
+    feature.properties[i] !== 'Null' && feature.properties[i] !== ''  ? ele+='<li><i>' + i + '</i>: ' + feature.properties[i] + '</li>' : ele;
   }
   ele+='</ul>';
   layer.bindPopup(ele, {
@@ -327,13 +327,18 @@ leafletData.getMap().then(function(map) {
 
   map.on('draw:created', function (e) {
       var layer = e.layer;
+      $scope.active = true;
+      console.log(layer)
+      $scope.editLayer = layer;
       drawnItems.addLayer(layer);
       drawnItems.addTo(map);
       console.log(drawnItems);
       console.log(JSON.stringify(layer.toGeoJSON()));
   });
   map.on('draw:edited', function (e) {
+      console.log(e);
       var layers = e.layers;
+      $scope.active = true;
       layers.eachLayer(function (layer) {
         console.log(layer);
       //do whatever you want, most likely save back to db
@@ -447,31 +452,37 @@ $scope.searchControl = function (typed){
       removeEmptyFields($scope.project_info);
 
       //Add geojosn to map
-      angular.extend($scope, {
-        geojson: {
-          data: data,
-          style: {
-              fillColor: 'rgba(253, 165, 13, 0.0)',
-              weight: 3,
-              opacity: 1,
-              color: 'rgba(253, 165, 13, 0.71)',
-              dashArray: '4'
-          },
-          onEachFeature: action,
-          resetStyleOnMouseout: true
-        }
-      });
+      // angular.extend($scope, {
+      //   geojson: {
+      //     data: data,
+      //     style: {
+      //         fillColor: 'rgba(253, 165, 13, 0.0)',
+      //         weight: 3,
+      //         opacity: 1,
+      //         color: 'rgba(253, 165, 13, 0.71)',
+      //         dashArray: '4'
+      //     },
+      //     onEachFeature: action,
+      //     resetStyleOnMouseout: true
+      //   }
+      // });
       //Turns on the map resulsts table
       $scope.searchStatus = true;
 
       //Empties exisiting feature group
-      drawnItems = new L.FeatureGroup();
-      //Get bounds from geojson
-      drawnItems.addLayer(L.geoJson(data));
+      drawnItems.clearLayers();
+
+      //Sets geojson object and adds each layer to featureGroup as a layer, so it can be edited
+      L.geoJson(data, {
+        onEachFeature: function (feature, layer) {
+          drawnItems.addLayer(layer);
+        }
+      });
 
       leafletData.getMap().then(function(map) {
-        map.fitBounds(L.featureGroup([L.geoJson(data)]).getBounds());
+        //Get bounds from geojson and fits to map
         map.fitBounds(drawnItems.getBounds());
+        //add project to map
         drawnItems.addTo(map);
       });
 
