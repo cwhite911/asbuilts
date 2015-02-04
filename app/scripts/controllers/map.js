@@ -169,18 +169,18 @@ angular.module('asbuiltsApp')
       },
       // controls: {
       // },
-      legend: {
-            position: 'bottomleft',
-            colors: [ '#FFF', '#28c9ff', '#0000ff', '#ecf386', '#28c9ff', '#0000ff', '#FFF'],
-            labels: [
-                '<img src="../images/ab.png" height="20px" width="20px" /> AS-Built',
-                '<img src="../images/cp.png" height="20px" width="20px" /> Construction Plan',
-                '<img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter',
-                '<img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter',
-                '<img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost',
-                '<img src="../images/pr.png" height="20px" width="20px" /> Permits',
-                '<img src="../images/pl.png" height="20px" width="20px" /> Plats' ]
-        },
+      // legend: {
+      //       position: 'bottomleft',
+      //       colors: [ '#FFF', '#28c9ff', '#0000ff', '#ecf386', '#28c9ff', '#0000ff', '#FFF'],
+      //       labels: [
+      //           '<img src="../images/ab.png" height="20px" width="20px" /> AS-Built',
+      //           '<img src="../images/cp.png" height="20px" width="20px" /> Construction Plan',
+      //           '<img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter',
+      //           '<img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter',
+      //           '<img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost',
+      //           '<img src="../images/pr.png" height="20px" width="20px" /> Permits',
+      //           '<img src="../images/pl.png" height="20px" width="20px" /> Plats' ]
+      //   },
 
 
 

@@ -87,8 +87,18 @@
                 <li ng-repeat="rec_prj in recent"><a href="#/project/{{rec_prj.split(':')[2]}}">{{rec_prj}}</a></li>
               </ol>
             </li>
-
           </ul>
+          <ul class="nav nav-sidebar icon-legend">
+            <li>Document Legend</li>
+            <li><img src="../images/ab.png" height="20px" width="20px" /> AS-Built</li>
+            <li><img src="../images/cp.png" height="20px" width="20px" /> Construction Plan</li>
+            <li><img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter</li>
+            <li><img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter</li>
+            <li><img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost</li>
+            <li><img src="../images/pr.png" height="20px" width="20px" /> Permit</li>
+            <li><img src="../images/pl.png" height="20px" width="20px" /> Plat</li>
+          </ul>
+
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div ng-view=""></div>

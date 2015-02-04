@@ -152,3 +152,14 @@
   display: inline-block;
   border-radius: 50%;
 }
+
+.icon-legend {
+  list-style-type: none;
+  background-color: #a500b7;
+  padding: 30px;
+}
+
+.icon-legend li {
+  padding-bottom: 5px;
+  font-size: 16px;
+}
