@@ -11,6 +11,19 @@ angular.module('asbuiltsApp')
     },
     templateUrl: 'views/map-edit.html',
     link: function (scope, element) {
+
+
+      scope.master = {};
+
+      scope.update = function(update) {
+        scope.master = angular.copy(update);
+      };
+
+      scope.reset = function() {
+        scope.update = angular.copy(scope.master);
+      };
+
+      scope.reset();
       //Gets correct REST endpoints form ArcGIS server
       $rootScope.pt_fs = $rootScope.mapstest.setService({
         folder:'PublicUtility',
@@ -58,18 +71,17 @@ angular.module('asbuiltsApp')
 
       scope.$watchCollection('data', function(oldVal, newVal){
         if (scope.data){
-          console.log(scope.data);
+          scope.reset();
           for (var e in datesList){
             scope.data.properties[datesList[e]] ? scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]) :   console.log(scope.data.properties[datesList[e]]);
           }
-          console.log(scope.data);
+          // console.log(scope.data);
           // if (scope.data.properties)
-          // $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
           angular.extend(scope.update, scope.data.properties);
             $rootScope.pt_fs.request(options).then(function(data){
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
-              scope.update.PROJECTID = scope.newMaxProjectId;
+              scope.update.PROJECTID = scope.update.PROJECTID || scope.newMaxProjectId;
               console.log(data);
               scope.newProject = {
                 "geometry" : scope.data.geometry,
@@ -84,17 +96,7 @@ angular.module('asbuiltsApp')
 
       });
 
-      scope.master = {};
 
-      scope.update = function(user) {
-        scope.master = angular.copy(update);
-      };
-
-      scope.reset = function() {
-        scope.update = angular.copy(scope.master);
-      };
-
-      scope.reset();
 
 
 
