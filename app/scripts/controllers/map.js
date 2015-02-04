@@ -329,7 +329,10 @@ leafletData.getMap().then(function(map) {
     });
   });
   console.log(map);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////Edit Controlls/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   map.on('draw:created', function (e) {
       var layer = e.layer;
@@ -344,14 +347,16 @@ leafletData.getMap().then(function(map) {
   map.on('draw:edited', function (e) {
       console.log(e);
       var layers = e.layers;
-      $scope.active = true;
+      // $scope.active = true;
       layers.eachLayer(function (layer) {
         console.log(layer);
+        $scope.editLayer = layer;
       //do whatever you want, most likely save back to db
       });
   });
   map.on('draw:editstart', function (e){
     var layers = e.layers;
+    console.log('editstart')
     $scope.active = true;
   });
   map.on('draw:editstop', function (e){

@@ -1,11 +1,30 @@
 <div ng-show="active" class="map-edit-container">
 <form novalidate>
-  Name: <input type="text" ng-model="user.name" /><br />
-  E-mail: <input type="email" ng-model="user.email" /><br />
-  Gender: <input type="radio" ng-model="user.gender" value="male" />male
-  <input type="radio" ng-model="user.gender" value="female" />female<br />
-  <input type="button" ng-click="reset()" value="Reset" />
-  <input type="submit" ng-click="update(user)" value="Save" />
+  DEVPLANID: <input  ng-model="update.DEVPLANID" class="form-control form-inputs" /><br />
+  PROJECT NAME: <input type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" /><br />
+  FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
+  ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
+  CIP: <input type="radio" ng-model="update.CIP" value="1" />True
+  <input type="radio" ng-model="update.CIP" value="0" />False<br />
+  WATER: <input type="radio" ng-model="update.WATER" value="1" />True
+  <input type="radio" ng-model="update.WATER" value="0" />False<br />
+  SEWER: <input type="radio" ng-model="update.SEWER" value="1" />True
+  <input type="radio" ng-model="update.SEWER" value="0" />False<br />
+  REUSE: <input type="radio" ng-model="update.REUSE" value="1" />True
+  <input type="radio" ng-model="update.REUSE" value="0" />False<br />
+  WATER UPDATED BY: <input type="text" ng-model="update.WATERUPDATEDBY" class="form-control form-inputs"/><br />
+  WATER UPDATED WHEN: <input type="date" ng-model="update.WATERUPDATEDWHEN" class="form-control form-inputs"/><br />
+  SEWER UPDATED BY: <input type="text" ng-model="update.SEWERUPDATEDBY" class="form-control form-inputs"/><br />
+  SEWER UPDATED WHEN: <input type="date" ng-model="update.SEWERUPDATEDWHEN" class="form-control form-inputs"class="form-control form-inputs"/><br />
+  REUSE UPDATE DBY: <input type="text" ng-model="update.REUSEUPDATEDBY" class="form-control form-inputs"/><br />
+  REUSE UPDATED WHEN: <input type="date" ng-model="update.REUSEUPDATEDWHEN" class="form-control form-inputs"/><br />
+  ACCEPTANCE DATE: <input type="date" ng-model="update.ACCEPTANCEDATE" class="form-control form-inputs"/><br />
+  WARRANTY END DATE: <input type="date" ng-model="update.WARRANTYENDDATE" class="form-control form-inputs"/><br />
+  DEVPLAN APPROVAL: <input type="date" ng-model="update.DEVPLAN_APPROVAL" class="form-control form-inputs"/><br />
+  TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
+  NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
+  <input type="button" ng-click="reset()" class="btn btn-primary"  value="Reset" />
+  <input type="submit" ng-click="update(update)" value="Save" class="btn btn-primary"/>
 </form>
 <pre>form = {{user | json}}</pre>
 <pre>master = {{master | json}}</pre>

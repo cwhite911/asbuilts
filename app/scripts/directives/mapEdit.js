@@ -38,25 +38,31 @@ angular.module('asbuiltsApp')
       };
       scope.$watchCollection('active', function(oldVal, newVal){
         console.log(scope.active);
-        if (scope.active){
+        if(scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
-          $rootScope.pt_fs.request(options).then(function(data){
-            scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
-            scope.newMaxProjectId = scope.currentMaxProjectId + 1;
-            console.log(scope.currentMaxProjectId);
-            console.log(scope.newMaxProjectId);
-          },
-          function (err){
-            console.log(err);
-          }); //.request()
         }
         else {
           angular.element('.angular-leaflet-map').removeClass('map-move-left');
         }
-        if (scope.data){
+      });
 
+      scope.$watchCollection('data', function(oldVal, newVal){
+        if (scope.data){
+          console.log(scope.data);
+          if (!scope.data.properties){
+            $rootScope.pt_fs.request(options).then(function(data){
+              scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
+              scope.newMaxProjectId = scope.currentMaxProjectId + 1;
+              console.log(data);
+            },
+            function (err){
+              console.log(err);
+            });
+
+          }
 
         }
+
       });
 
       scope.master = {};

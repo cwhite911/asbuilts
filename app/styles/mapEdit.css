@@ -8,10 +8,11 @@
 
 .map-edit-container {
   display: block;
-  width: 10%;
+  width: 14%;
   float: right;
   position: fixed;
-  top: 10%;
-  left: 86%;
+  overflow-y: scroll;
+  top: 6%;
+  left: 84%;
   border: 2px solid red;
 }
