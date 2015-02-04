@@ -68,11 +68,11 @@ angular.module('asbuiltsApp')
       scope.master = {};
 
       scope.update = function(user) {
-        scope.master = angular.copy(user);
+        scope.master = angular.copy(update);
       };
 
       scope.reset = function() {
-        scope.user = angular.copy(scope.master);
+        scope.update = angular.copy(scope.master);
       };
 
       scope.reset();

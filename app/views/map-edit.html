@@ -4,7 +4,8 @@
   PROJECT NAME: <input type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" /><br />
   FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
   ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
-  CIP: <input type="radio" ng-model="update.CIP" value="1" />True
+  <div class="map-edit-radio">
+  CIP: <input type="radio" ng-model="update.CIP" value="1"  />True
   <input type="radio" ng-model="update.CIP" value="0" />False<br />
   WATER: <input type="radio" ng-model="update.WATER" value="1" />True
   <input type="radio" ng-model="update.WATER" value="0" />False<br />
@@ -12,6 +13,7 @@
   <input type="radio" ng-model="update.SEWER" value="0" />False<br />
   REUSE: <input type="radio" ng-model="update.REUSE" value="1" />True
   <input type="radio" ng-model="update.REUSE" value="0" />False<br />
+</div>
   WATER UPDATED BY: <input type="text" ng-model="update.WATERUPDATEDBY" class="form-control form-inputs"/><br />
   WATER UPDATED WHEN: <input type="date" ng-model="update.WATERUPDATEDWHEN" class="form-control form-inputs"/><br />
   SEWER UPDATED BY: <input type="text" ng-model="update.SEWERUPDATEDBY" class="form-control form-inputs"/><br />
@@ -26,7 +28,6 @@
   <input type="button" ng-click="reset()" class="btn btn-primary"  value="Reset" />
   <input type="submit" ng-click="update(update)" value="Save" class="btn btn-primary"/>
 </form>
-<pre>form = {{user | json}}</pre>
+<pre>form = {{update | json}}</pre>
 <pre>master = {{master | json}}</pre>
 </div>
-{{active}}
