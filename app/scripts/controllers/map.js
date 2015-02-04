@@ -65,6 +65,11 @@ angular.module('asbuiltsApp')
                   url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
                   type: 'xyz'
                 },
+                darkRaleigh: {
+                  name: 'Raleigh - Dark',
+                  url: 'https://{s}.tiles.mapbox.com/v3/ctwhite.l4hma6jb/{z}/{x}/{y}.png',
+                  type: 'xyz'
+                },
                 osm: {
                   name: 'Open Street Map',
                   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
@@ -364,6 +369,7 @@ leafletData.getMap().then(function(map) {
 
     })
     $scope.active = true;
+    $scope.searchStatus = false;
   });
   map.on('draw:editstop', function (e){
     var layers = e.layers;

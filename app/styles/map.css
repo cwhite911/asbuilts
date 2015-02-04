@@ -50,13 +50,14 @@
 
 .mapTable {
   position:absolute;
-  top:10%;
-  left: 7%;
+  top:4%;
+  left: 65%;
   width:25%;
   height: 4%;
   z-index: 1;
   background-color: rgba(0,0,0, 0.70);
   border-radius: 0px;
+  overflow-y: scroll;
 }
 
 tbody.mapTableBody {
