@@ -13,10 +13,19 @@
   float: right;
   position: fixed;
   overflow-y: scroll;
-  top: 6%;
+  top: 8%;
   left: 84%;
   padding-right: 10px;
   /*border: 2px solid red;*/
+}
+
+.map-edit-container-move {
+  transition:All 1s ease;
+  -webkit-transition:All 1s ease;
+  -moz-transition:All 1s ease;
+  -o-transition:All 1s ease;
+  height: 67%;
+  margin-bottom: 10px;
 }
 
 .map-edit-radio {

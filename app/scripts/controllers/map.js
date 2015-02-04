@@ -328,7 +328,7 @@ leafletData.getMap().then(function(map) {
 
     });
   });
-  console.log(map);
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////Edit Controlls/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -337,12 +337,10 @@ leafletData.getMap().then(function(map) {
   map.on('draw:created', function (e) {
       var layer = e.layer;
       $scope.active = true;
-      console.log(layer)
-      $scope.editLayer = layer;
+      $scope.editLayer = layer.toGeoJSON();
       drawnItems.addLayer(layer);
       drawnItems.addTo(map);
-      console.log(drawnItems);
-      console.log(JSON.stringify(layer.toGeoJSON()));
+
   });
   map.on('draw:edited', function (e) {
       console.log(e);
@@ -350,13 +348,21 @@ leafletData.getMap().then(function(map) {
       // $scope.active = true;
       layers.eachLayer(function (layer) {
         console.log(layer);
-        $scope.editLayer = layer;
+        $scope.editLayer = layer.toGeoJSON();
       //do whatever you want, most likely save back to db
       });
   });
   map.on('draw:editstart', function (e){
-    var layers = e.layers;
-    console.log('editstart')
+    var layers = e.target;
+    console.log('editstart');
+    console.log(layers);
+    layers.eachLayer(function(layer){
+      console.log(layer);
+      if (layer.feature){
+        $scope.editLayer = layer.toGeoJSON();
+      }
+
+    })
     $scope.active = true;
   });
   map.on('draw:editstop', function (e){
@@ -510,6 +516,7 @@ $scope.searchControl = function (typed){
         .then(function(data){
           if (data.features.length !== 0){
                 angular.element('.angular-leaflet-map').addClass('map-move');
+                angular.element('.map-edit-container').addClass('map-edit-container-move');
                 var _docType;
                 $scope.project_docs = data.features.map(function (each){
 

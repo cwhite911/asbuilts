@@ -49,17 +49,23 @@ angular.module('asbuiltsApp')
       scope.$watchCollection('data', function(oldVal, newVal){
         if (scope.data){
           console.log(scope.data);
-          if (!scope.data.properties){
+          angular.extend(scope.update, scope.data.properties);
             $rootScope.pt_fs.request(options).then(function(data){
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
+              scope.update.PROJECTID = scope.newMaxProjectId;
               console.log(data);
+              scope.newProject = {
+                "geometry" : scope.data.geometry,
+                "attributes" : scope.update
+              };
+              console.log(scope.newProject);
             },
             function (err){
               console.log(err);
             });
 
-          }
+
 
         }
 
