@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('mapEdit', ['Ags', '$rootScope', function (Ags, $rootScope) {
+.directive('mapEdit', ['Ags', '$rootScope', '$filter', function (Ags, $rootScope, $filter) {
   return {
     restrict: 'E',
     transclude: true,
@@ -36,6 +36,16 @@ angular.module('asbuiltsApp')
         }
 
       };
+      var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'];
+
+      function convertDate (date){
+        var original = date.split('/'),
+            yyyy = original[2],
+            MM = original[0],
+            dd = original[1];
+        return new Date(yyyy, MM, dd);
+      }
+
       scope.$watchCollection('active', function(oldVal, newVal){
         console.log(scope.active);
         if(scope.active){
@@ -49,6 +59,12 @@ angular.module('asbuiltsApp')
       scope.$watchCollection('data', function(oldVal, newVal){
         if (scope.data){
           console.log(scope.data);
+          for (var e in datesList){
+            scope.data.properties[datesList[e]] ? scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]) :   console.log(scope.data.properties[datesList[e]]);
+          }
+          console.log(scope.data);
+          // if (scope.data.properties)
+          // $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
           angular.extend(scope.update, scope.data.properties);
             $rootScope.pt_fs.request(options).then(function(data){
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
