@@ -80,9 +80,6 @@ angular.module('asbuiltsApp')
             function (err){
               console.log(err);
             });
-
-
-
         }
 
       });
