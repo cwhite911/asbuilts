@@ -1,7 +1,8 @@
 <div ng-show="active" class="map-edit-container">
-<form novalidate>
-  DEVPLANID: <input  ng-model="update.DEVPLANID" class="form-control form-inputs" /><br />
-  PROJECT NAME: <input type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" /><br />
+<form novalidate name="edit-form" class="map-edit-form">
+  DEVPLANID: <input type="text" ng-model="update.DEVPLANID" name="DEVPLANID" class="form-control form-inputs" ng-pattern="/[A-Z]{1,2}-[0-9]*-[0-9]{4}/"/><br />
+  <span ng-show="edit-form.DEVPLANID.$error.text">Please enter development plan id like 'AB-2-2015'</span>
+  PROJECT NAME: <input type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" ng-minlength="2" required/><br />
   FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
   ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
   <div class="map-edit-radio">
@@ -14,11 +15,17 @@
   REUSE: <input type="radio" ng-model="update.REUSE" value="1" />True
   <input type="radio" ng-model="update.REUSE" value="0" />False<br />
 </div>
-  WATER UPDATED BY: <input type="text" ng-model="update.WATERUPDATEDBY" class="form-control form-inputs"/><br />
+  WATER UPDATED BY: <select ng-model="update.WATERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                      <option value="">-- choose editor --</option>
+                    </select><br />
   WATER UPDATED WHEN: <input type="date" ng-model="update.WATERUPDATEDWHEN" class="form-control form-inputs"/><br />
-  SEWER UPDATED BY: <input type="text" ng-model="update.SEWERUPDATEDBY" class="form-control form-inputs"/><br />
+  SEWER UPDATED BY: <select ng-model="update.SEWERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                      <option value="">-- choose editor --</option>
+                    </select><br />
   SEWER UPDATED WHEN: <input type="date" ng-model="update.SEWERUPDATEDWHEN" class="form-control form-inputs"/><br />
-  REUSE UPDATE DBY: <input type="text" ng-model="update.REUSEUPDATEDBY" class="form-control form-inputs"/><br />
+  REUSE UPDATED BY: <select ng-model="update.REUSEUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                      <option value="">-- choose editor --</option>
+                    </select><br />
   REUSE UPDATED WHEN: <input type="date" ng-model="update.REUSEUPDATEDWHEN" class="form-control form-inputs"/><br />
   ACCEPTANCE DATE: <input type="date" ng-model="update.ACCEPTANCEDATE" class="form-control form-inputs"/><br />
   WARRANTY END DATE: <input type="date" ng-model="update.WARRANTYENDDATE" class="form-control form-inputs"/><br />
@@ -31,3 +38,4 @@
 <pre>form = {{update | json}}</pre>
 <pre>master = {{master | json}}</pre>
 </div>
+editorList

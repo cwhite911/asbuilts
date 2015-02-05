@@ -51,6 +51,8 @@ angular.module('asbuiltsApp')
       };
       var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'];
 
+      scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];
+
       function convertDate (date){
         var original = date.split('/'),
             yyyy = original[2],

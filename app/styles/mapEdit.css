@@ -29,6 +29,14 @@
   margin-bottom: 10px;
 }
 
+.map-edit-form input.ng-invalid.ng-touched {
+  border-color: #ff0317;
+}
+
+.map-edit-form input.ng-valid.ng-touched {
+  border-color: #00ff11;
+}
+
 .map-edit-radio {
   font-size: 14px;
 }
