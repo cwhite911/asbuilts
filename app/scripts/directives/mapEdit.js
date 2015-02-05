@@ -16,6 +16,9 @@ angular.module('asbuiltsApp')
       scope.master = {};
 
       scope.saveToMaster = function(update) {
+        for (var i in update){
+          update[i] = typeof update[i] === 'string' ? update[i].toUpperCase() : update[i];
+        }
         scope.master = angular.copy(update);
         scope.active = false;
       };
@@ -68,7 +71,7 @@ angular.module('asbuiltsApp')
       angular.extend(scope, {
         defaults: {
           // tileLayer: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
-          scrollWheelZoom: false
+          scrollWheelZoom: true
         }
       });
 
@@ -113,7 +116,6 @@ angular.module('asbuiltsApp')
                 leafletData.getMap('mini-map').then(function(map) {
                   map.fitBounds(layer.getBounds());
                 });
-
               }
             }
           });
