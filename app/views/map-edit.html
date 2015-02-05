@@ -3,9 +3,11 @@
   <!-- Map -->
   <leaflet defaults="defaults" geojson="geojson" height="200px" width="100%" id="mini-map"></leaflet></br>
 <form  name="form" class="map-edit-form" novalidate>
+  PROJECT NAME: <input name="PROJECTNAME" type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" ng-minlength="2" required/><br />
+  <span ng-show="edit-form.PROJECTNAME.$error.required" class="map-edit-error">Please Provide a Project Name</span>
+  <span ng-show="edit-form.PROJECTNAME.$error.minlength" class="map-edit-error">Please Provide a Project Name Greater than 2 Characters</span>
   DEVELOPMENT PLAN ID: <input type="text" ng-model="update.DEVPLANID" name="DEVPLANID" class="form-control form-inputs" ng-pattern="/[A-Z]{1,2}-[0-9]*-[0-9]{4}/" /><br />
-  <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please enter development plan id like 'AB-2-2015'</span>
-  PROJECT NAME: <input type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" ng-minlength="2" required/><br />
+  <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></span>
   FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
   ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
   <div class="map-edit-radio">
@@ -35,11 +37,13 @@
   DEVPLAN APPROVAL: <input type="date" ng-model="update.DEVPLAN_APPROVAL" class="form-control form-inputs"/><br />
   TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
   NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
+  <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></span>
+  <span ng-show="edit-form.PROJECTNAME.$error.required" class="map-edit-error">Please Provide a Project Name</span>
+  <span ng-show="edit-form.PROJECTNAME.$error.minlength" class="map-edit-error">Please Provide a Project Name Greater than 2 Characters</span>
   <input type="button" ng-click="reset(form)" class="btn btn-primary"  value="Reset" />
-  <input type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-success"/>
+  <input ng-show="form.$valid" type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-success"/>
   <input type="button" ng-click="cancel(form)" class="btn btn-danger"  value="Cancel" />
 </form>
 <pre>form = {{update | json}}</pre>
 <pre>master = {{master | json}}</pre>
 </div>
-editorList

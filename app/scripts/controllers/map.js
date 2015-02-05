@@ -594,7 +594,7 @@ var web_map_specs = {
   // "layoutOptions": { }
 };
 
-leafletData.getMap().then(function(map) {
+leafletData.getMap('map').then(function(map) {
     // web_map_specs.operationalLayers = [];
     map.on('move', function(){
       $scope.mapbounds = map.getBounds();
