@@ -27,6 +27,14 @@ angular.module('asbuiltsApp')
         }
         scope.update = angular.copy(scope.master);
       };
+      scope.cancel = function(form) {
+        if (form) {
+          form.$setPristine();
+          form.$setUntouched();
+        }
+        scope.update = angular.copy(scope.master);
+        scope.active = false;
+      };
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
       $rootScope.pt_fs = $rootScope.mapstest.setService({

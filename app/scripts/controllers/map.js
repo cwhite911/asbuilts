@@ -351,7 +351,7 @@ leafletData.getMap('map').then(function(map) {
 
   });
   map.on('draw:edited', function (e) {
-      console.log(e);
+      console.log('draw:edited');
       var layers = e.layers;
       // $scope.active = true;
       layers.eachLayer(function (layer) {
@@ -376,6 +376,8 @@ leafletData.getMap('map').then(function(map) {
   });
   map.on('draw:editstop', function (e){
     var layers = e.layers;
+    console.log(e);
+    console.log('draw:editstop');
     // $scope.active = false;
   });
 

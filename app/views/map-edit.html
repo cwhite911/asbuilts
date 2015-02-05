@@ -36,7 +36,8 @@
   TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
   NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
   <input type="button" ng-click="reset(form)" class="btn btn-primary"  value="Reset" />
-  <input type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-primary"/>
+  <input type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-success"/>
+  <input type="button" ng-click="cancel(form)" class="btn btn-danger"  value="Cancel" />
 </form>
 <pre>form = {{update | json}}</pre>
 <pre>master = {{master | json}}</pre>
