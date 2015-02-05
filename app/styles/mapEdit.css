@@ -36,6 +36,14 @@
 .map-edit-form input.ng-valid.ng-touched {
   border-color: #00ff11;
 }
+.map-edit-error{
+    display: block;
+    color: #ce3b3b;
+    background: #fbbfbf;
+    padding: 2px;
+    margin-bottom: 10px;
+    border: 1px solid #ce3b3b;
+}
 
 .map-edit-radio {
   font-size: 14px;

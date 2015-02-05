@@ -19,7 +19,12 @@ angular.module('asbuiltsApp')
         scope.master = angular.copy(update);
       };
 
-      scope.reset = function() {
+      scope.reset = function(form) {
+        console.log(form);
+        // if (form) {
+        //   form.$setPristine();
+        //   form.$setUntouched();
+        // }
         scope.update = angular.copy(scope.master);
       };
 
