@@ -248,7 +248,7 @@ function createPopup (feature, layer) {
   });
 }
 
-leafletData.getMap().then(function(map) {
+leafletData.getMap('map').then(function(map) {
 
   //Gets layer info from map
   map.on('click', function(e){
@@ -376,7 +376,7 @@ leafletData.getMap().then(function(map) {
   });
   map.on('draw:editstop', function (e){
     var layers = e.layers;
-    $scope.active = false;
+    // $scope.active = false;
   });
 
 });
@@ -513,11 +513,12 @@ $scope.searchControl = function (typed){
         }
       });
 
-      leafletData.getMap().then(function(map) {
+      leafletData.getMap('map').then(function(map) {
         //Get bounds from geojson and fits to map
         map.fitBounds(drawnItems.getBounds());
         //add project to map
         drawnItems.addTo(map);
+        console.log('made it');
       });
 
       //Get Document Information for carousel

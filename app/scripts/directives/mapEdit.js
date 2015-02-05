@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('mapEdit', ['Ags', '$rootScope', '$filter', function (Ags, $rootScope, $filter) {
+.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', function (Ags, $rootScope, $filter, leafletData) {
   return {
     restrict: 'E',
     transclude: true,
@@ -15,20 +15,19 @@ angular.module('asbuiltsApp')
 
       scope.master = {};
 
-      scope.update = function(update) {
+      scope.saveToMaster = function(update) {
         scope.master = angular.copy(update);
+        scope.active = false;
       };
 
       scope.reset = function(form) {
-        console.log(form);
-        // if (form) {
-        //   form.$setPristine();
-        //   form.$setUntouched();
-        // }
+        if (form) {
+          form.$setPristine();
+          form.$setUntouched();
+        }
         scope.update = angular.copy(scope.master);
       };
-
-      scope.reset();
+      scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
       $rootScope.pt_fs = $rootScope.mapstest.setService({
         folder:'PublicUtility',
@@ -58,7 +57,21 @@ angular.module('asbuiltsApp')
 
       scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];
 
+      angular.extend(scope, {
+        defaults: {
+          // tileLayer: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
+          scrollWheelZoom: false
+        }
+      });
+
+      leafletData.getMap('mini-map').then(function(map) {
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
+      });
+
+
+
       function convertDate (date){
+        console.log(date);
         var original = date.split('/'),
             yyyy = original[2],
             MM = original[0],
@@ -67,7 +80,6 @@ angular.module('asbuiltsApp')
       }
 
       scope.$watchCollection('active', function(oldVal, newVal){
-        console.log(scope.active);
         if(scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
         }
@@ -78,7 +90,26 @@ angular.module('asbuiltsApp')
 
       scope.$watchCollection('data', function(oldVal, newVal){
         if (scope.data){
-          scope.reset();
+          //Add geojosn to map
+          angular.extend(scope, {
+            geojson: {
+              data: scope.data,
+              style: {
+                  fillColor: 'rgba(253, 165, 13)',
+                  weight: 3,
+                  opacity: 1,
+                  color: 'rgba(253, 165, 13, 0.71)',
+                  dashArray: '4'
+              },
+              onEachFeature: function (feature, layer){
+                leafletData.getMap('mini-map').then(function(map) {
+                  map.fitBounds(layer.getBounds());
+                });
+
+              }
+            }
+          });
+          scope.reset(scope.form);
           for (var e in datesList){
             scope.data.properties[datesList[e]] ? scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]) :   console.log(scope.data.properties[datesList[e]]);
           }

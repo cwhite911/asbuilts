@@ -1,4 +1,7 @@
+
 <div ng-show="active" class="map-edit-container">
+  <!-- Map -->
+  <leaflet defaults="defaults" geojson="geojson" height="200px" width="100%" id="mini-map"></leaflet></br>
 <form  name="form" class="map-edit-form" novalidate>
   DEVELOPMENT PLAN ID: <input type="text" ng-model="update.DEVPLANID" name="DEVPLANID" class="form-control form-inputs" ng-pattern="/[A-Z]{1,2}-[0-9]*-[0-9]{4}/" /><br />
   <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please enter development plan id like 'AB-2-2015'</span>
@@ -33,7 +36,7 @@
   TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
   NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
   <input type="button" ng-click="reset(form)" class="btn btn-primary"  value="Reset" />
-  <input type="submit" ng-click="update(update)" value="Save" class="btn btn-primary"/>
+  <input type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-primary"/>
 </form>
 <pre>form = {{update | json}}</pre>
 <pre>master = {{master | json}}</pre>
