@@ -12,13 +12,24 @@ angular.module('asbuiltsApp')
     templateUrl: 'views/map-edit.html',
     link: function (scope, element) {
 
+      $rootScope.pt_fs = $rootScope.mapstest.setService({
+        folder:'PublicUtility',
+        service: 'ProjectTracking',
+        server: 'FeatureServer'
+      });
 
       scope.master = {};
+      var postOptions = {
+        params: {
+
+        }
+      };
 
       scope.saveToMaster = function(update) {
         for (var i in update){
           update[i] = typeof update[i] === 'string' ? update[i].toUpperCase() : update[i];
         }
+        $rootScope.pt_fs.request();
         scope.master = angular.copy(update);
         scope.active = false;
       };
@@ -40,11 +51,7 @@ angular.module('asbuiltsApp')
       };
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
-      $rootScope.pt_fs = $rootScope.mapstest.setService({
-        folder:'PublicUtility',
-        service: 'ProjectTracking',
-        server: 'FeatureServer'
-      });
+
       var options = {
         actions: 'query',
         layer: 'Project Tracking',
@@ -90,7 +97,7 @@ angular.module('asbuiltsApp')
         return new Date(yyyy, MM, dd);
       }
 
-      scope.$watchCollection('active', function(oldVal, newVal){
+      scope.$watchCollection('active', function(){
         if(scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
         }
@@ -99,7 +106,7 @@ angular.module('asbuiltsApp')
         }
       });
 
-      scope.$watchCollection('data', function(oldVal, newVal){
+      scope.$watchCollection('data', function(){
         if (scope.data){
           //Add geojosn to map
           angular.extend(scope, {
@@ -121,7 +128,9 @@ angular.module('asbuiltsApp')
           });
           scope.reset(scope.form);
           for (var e in datesList){
-            scope.data.properties[datesList[e]] ? scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]) :   console.log(scope.data.properties[datesList[e]]);
+            if (scope.data.properties[datesList[e]]){
+              scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]);
+            }
           }
           // console.log(scope.data);
           // if (scope.data.properties)
@@ -130,6 +139,7 @@ angular.module('asbuiltsApp')
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
               scope.update.PROJECTID = scope.update.PROJECTID || scope.newMaxProjectId;
+              postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
               console.log(data);
               scope.newProject = {
                 "geometry" : scope.data.geometry,
@@ -149,5 +159,5 @@ angular.module('asbuiltsApp')
 
 
     }
-  }
+  };
 }]);
