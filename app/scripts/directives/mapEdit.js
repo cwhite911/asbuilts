@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', function (Ags, $rootScope, $filter, leafletData) {
+.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', '$activityIndicator', '$timeout', function (Ags, $rootScope, $filter, leafletData, $activityIndicator, $timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -25,6 +25,13 @@ angular.module('asbuiltsApp')
         }
       };
 
+      // $activityIndicator.startAnimating();
+      // $timeout(function () {
+      //   console.log($activityIndicator);
+      //   $activityIndicator.stopAnimating();
+      // }, 3000);
+
+
       scope.saveToMaster = function(update) {
         for (var i in update){
           update[i] = typeof update[i] === 'string' ? update[i].toUpperCase() : update[i];
@@ -41,6 +48,7 @@ angular.module('asbuiltsApp')
           form.$setUntouched();
         }
         scope.update = angular.copy(scope.master);
+
       };
       scope.cancel = function(form) {
         if (form) {
@@ -50,6 +58,10 @@ angular.module('asbuiltsApp')
         scope.update = angular.copy(scope.master);
         scope.active = false;
       };
+
+      scope.generateProjectId = function () {
+
+      }
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
 
@@ -76,13 +88,6 @@ angular.module('asbuiltsApp')
 
       scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];
 
-      angular.extend(scope, {
-        defaults: {
-          // tileLayer: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
-          scrollWheelZoom: true
-        }
-      });
-
       leafletData.getMap('mini-map').then(function(map) {
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
       });
@@ -101,6 +106,7 @@ angular.module('asbuiltsApp')
       scope.$watchCollection('active', function(){
         if(scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
+          // $activityIndicator.startAnimating();
         }
         else {
           angular.element('.angular-leaflet-map').removeClass('map-move-left');
@@ -108,7 +114,12 @@ angular.module('asbuiltsApp')
       });
 
       scope.$watchCollection('data', function(){
+        // $activityIndicator.startAnimating();
+        // scope.spinner = $rootScope.AILoading;
+        // console.log($rootScope);
+        scope.master = {};
         if (scope.data){
+          scope.reset(scope.form);
           //Add geojosn to map
           angular.extend(scope, {
             geojson: {
@@ -127,7 +138,7 @@ angular.module('asbuiltsApp')
               }
             }
           });
-          scope.reset(scope.form);
+          // scope.reset(scope.form);
           for (var e in datesList){
             if (scope.data.properties[datesList[e]]){
               scope.data.properties[datesList[e]] = convertDate(scope.data.properties[datesList[e]]);
@@ -135,11 +146,12 @@ angular.module('asbuiltsApp')
           }
           // console.log(scope.data);
           // if (scope.data.properties)
+
           angular.extend(scope.update, scope.data.properties);
             $rootScope.pt_fs.request(options).then(function(data){
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
-              scope.update.PROJECTID = scope.update.PROJECTID || scope.newMaxProjectId;
+              scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
               postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
               console.log(data);
               scope.newProject = {
@@ -147,10 +159,12 @@ angular.module('asbuiltsApp')
                 "attributes" : scope.update
               };
               console.log(scope.newProject);
+              // $activityIndicator.stopAnimating();
             },
             function (err){
               console.log(err);
-              scope.update.PROJECTID = false;
+
+              // $activityIndicator.stopAnimating();
             });
         }
 

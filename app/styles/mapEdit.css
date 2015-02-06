@@ -45,6 +45,10 @@
     border: 1px solid #ce3b3b;
 }
 
+.map-edit-disabled {
+  color: #000000;
+}
+
 .map-edit-radio {
   font-size: 14px;
 }

@@ -20,13 +20,14 @@ angular
     'agsserver',
     'leaflet-directive',
     'ngDragDrop',
-    'angularFileUpload'
+    'angularFileUpload',
+    'ngActivityIndicator'
   ])
   .value('projectConstants', {
     version: 0.1,
     documentBaseUrl: 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/'
   })
-  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+  .config(['$routeProvider', '$httpProvider', '$activityIndicatorProvider', function ($routeProvider, $httpProvider, $activityIndicatorProvider) {
     $routeProvider
       .when('/', {
         redirectTo: '/map'
@@ -67,7 +68,5 @@ angular
 
       $httpProvider.defaults.useXDomain = true;
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
-      console.log($httpProvider);
-
-
+      $activityIndicatorProvider.setActivityIndicatorStyle('CircledWhite');
   }]);
