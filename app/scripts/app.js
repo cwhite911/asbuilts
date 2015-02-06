@@ -67,6 +67,7 @@ angular
 
       $httpProvider.defaults.useXDomain = true;
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
+      console.log($httpProvider);
 
 
   }]);

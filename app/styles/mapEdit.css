@@ -72,3 +72,54 @@
       ::-webkit-scrollbar-corner {
         background-color: black;
         } /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+
+        .generate-project-id-button {
+          background-color: #004A7F;
+          -webkit-border-radius: 10px;
+          border-radius: 10px;
+          border: none;
+          color: #FFFFFF;
+          cursor: pointer;
+          display: inline-block;
+          font-family: Arial;
+          font-size: 20px;
+          padding: 5px 10px;
+          text-align: center;
+          text-decoration: none;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 10px;
+        }
+
+        @-webkit-keyframes glowing {
+          0% { background-color: #004A7F; -webkit-box-shadow: 0 0 3px #004A7F; }
+          50% { background-color: #0094FF; -webkit-box-shadow: 0 0 10px #0094FF; }
+          100% { background-color: #004A7F; -webkit-box-shadow: 0 0 3px #004A7F; }
+        }
+
+        @-moz-keyframes glowing {
+          0% { background-color: #004A7F; -moz-box-shadow: 0 0 3px #004A7F; }
+          50% { background-color: #0094FF; -moz-box-shadow: 0 0 10px #0094FF; }
+          100% { background-color: #004A7F; -moz-box-shadow: 0 0 3px #004A7F; }
+        }
+
+        @-o-keyframes glowing {
+          0% { background-color: #004A7F; box-shadow: 0 0 3px #004A7F; }
+          50% { background-color: #0094FF; box-shadow: 0 0 10px #0094FF; }
+          100% { background-color: #004A7F; box-shadow: 0 0 3px #004A7F; }
+        }
+
+        @keyframes glowing {
+          0% { background-color: #004A7F; box-shadow: 0 0 3px #004A7F; }
+          50% { background-color: #0094FF; box-shadow: 0 0 10px #0094FF; }
+          100% { background-color: #004A7F; box-shadow: 0 0 3px #004A7F; }
+        }
+
+        .generate-project-id-button {
+          -webkit-animation: glowing 1500ms infinite;
+          -moz-animation: glowing 1500ms infinite;
+          -o-animation: glowing 1500ms infinite;
+          animation: glowing 1500ms infinite;
+        }

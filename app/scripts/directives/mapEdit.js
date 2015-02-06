@@ -29,7 +29,8 @@ angular.module('asbuiltsApp')
         for (var i in update){
           update[i] = typeof update[i] === 'string' ? update[i].toUpperCase() : update[i];
         }
-        $rootScope.pt_fs.request();
+        // $rootScope.pt_fs.request();
+        console.log(postOptions);
         scope.master = angular.copy(update);
         scope.active = false;
       };
@@ -149,6 +150,7 @@ angular.module('asbuiltsApp')
             },
             function (err){
               console.log(err);
+              scope.update.PROJECTID = false;
             });
         }
 
