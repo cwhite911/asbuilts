@@ -31,6 +31,25 @@ angular.module('asbuiltsApp')
       //   $activityIndicator.stopAnimating();
       // }, 3000);
 
+      var options = {
+        actions: 'query',
+        layer: 'Project Tracking',
+        params: {
+          f: 'json',
+          outFields: 'PROJECTID',
+          orderByFields: 'PROJECTID DESC',
+          returnGeometry: false,
+          where: 'PROJECTID IS NOT NULL',
+          // groupByFieldsForStatistics: 'PROJECTID',
+          // outStatistics: {
+          //     "statisticType": "max",
+          //     "onStatisticField": "PROJECTID",
+          //     "outStatisticFieldName": "maxid"
+          // }
+
+        }
+
+      };
 
       scope.saveToMaster = function(update) {
         for (var i in update){
@@ -60,30 +79,29 @@ angular.module('asbuiltsApp')
       };
 
       scope.generateProjectId = function () {
+        $rootScope.pt_fs.request(options).then(function(data){
+          scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
+          scope.newMaxProjectId = scope.currentMaxProjectId + 1;
+          scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
+          postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
+          // console.log(data);
+          // scope.newProject = {
+          //   "geometry" : scope.data.geometry,
+          //   "attributes" : scope.update
+          // };
+          // console.log(scope.newProject);
 
+        },
+        function (err){
+          console.log(err);
+
+
+        });
       }
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
 
-      var options = {
-        actions: 'query',
-        layer: 'Project Tracking',
-        params: {
-          f: 'json',
-          outFields: 'PROJECTID',
-          orderByFields: 'PROJECTID DESC',
-          returnGeometry: false,
-          where: 'PROJECTID IS NOT NULL',
-          // groupByFieldsForStatistics: 'PROJECTID',
-          // outStatistics: {
-          //     "statisticType": "max",
-          //     "onStatisticField": "PROJECTID",
-          //     "outStatisticFieldName": "maxid"
-          // }
 
-        }
-
-      };
       var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'];
 
       scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];
