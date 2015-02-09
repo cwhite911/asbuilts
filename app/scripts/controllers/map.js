@@ -340,6 +340,10 @@ leafletData.getMap('map').then(function(map) {
 
   map.on('draw:drawstart', function (e) {
     //Empties exisiting feature group
+    $scope.project_docs = false;
+    $scope.searchStatus = false;
+    angular.element('.angular-leaflet-map').removeClass('map-move');
+    angular.element('.map-edit-container').removeClass('map-edit-container-move');
     drawnItems.clearLayers();
   });
   map.on('draw:created', function (e) {
@@ -380,7 +384,10 @@ leafletData.getMap('map').then(function(map) {
     console.log('draw:editstop');
     // $scope.active = false;
   });
-
+  map.on('draw:deleted', function (e){
+    //Turn off edit table
+    $scope.active = false;
+  });
 });
 
 
