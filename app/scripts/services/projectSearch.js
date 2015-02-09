@@ -5,7 +5,7 @@ angular.module('asbuiltsApp')
       var scope = $rootScope;
       scope.mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
       scope.gis = new Ags({host: 'gis.raleighnc.gov'});
-      
+
       scope.pt_ms = scope.mapstest.setService({
         folder:'PublicUtility',
         service: 'ProjectTracking',
@@ -33,7 +33,7 @@ angular.module('asbuiltsApp')
       this.getSet = function (array){
         var temp = [];
         for (var i = 0, x = array.length; i < x; i++){
-          temp.indexOf(temp[i]) ? array : temp.push(array[i]);
+          temp.indexOf(temp[i]) !== -1 ? array : temp.push(array[i]);
         }
         return temp;
       }

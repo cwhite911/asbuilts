@@ -420,6 +420,7 @@ $scope.autoFillProjects = function (typed) {
   var newProject = projectSearch.autoFill(typed);
   newProject.then(function(data){
     if (data.features){
+      data.features = projectSearch.getSet(data.features);
       for (var i = 0, x = data.features.length; i < x; i++){
         if ($scope.projects.length < 5){
           $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
