@@ -84,12 +84,12 @@ angular.module('asbuiltsApp')
           scope.newMaxProjectId = scope.currentMaxProjectId + 1;
           scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
           postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
-          // console.log(data);
-          // scope.newProject = {
-          //   "geometry" : scope.data.geometry,
-          //   "attributes" : scope.update
-          // };
-          // console.log(scope.newProject);
+          console.log(data);
+          scope.newProject = {
+            "geometry" : scope.data.geometry,
+            "attributes" : scope.update
+          };
+          console.log(scope.newProject);
 
         },
         function (err){
@@ -131,6 +131,7 @@ angular.module('asbuiltsApp')
         }
       });
 
+      //Update mini map with edited data
       scope.$watchCollection('data', function(){
         // $activityIndicator.startAnimating();
         // scope.spinner = $rootScope.AILoading;
@@ -173,16 +174,14 @@ angular.module('asbuiltsApp')
               postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
               console.log(data);
               scope.newProject = {
-                "geometry" : scope.data.geometry,
+                "geometry" : Terraformer.ArcGIS.convert(scope.data.geometry),
                 "attributes" : scope.update
               };
               console.log(scope.newProject);
-              // $activityIndicator.stopAnimating();
+
             },
             function (err){
               console.log(err);
-
-              // $activityIndicator.stopAnimating();
             });
         }
 
