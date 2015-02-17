@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', '$activityIndicator', '$timeout', function (Ags, $rootScope, $filter, leafletData, $activityIndicator, $timeout) {
+.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', function (Ags, $rootScope, $filter, leafletData) {
   return {
     restrict: 'E',
     transclude: true,
@@ -10,7 +10,7 @@ angular.module('asbuiltsApp')
       active: '='
     },
     templateUrl: 'views/map-edit.html',
-    link: function (scope, element) {
+    link: function (scope) {
 
       $rootScope.pt_fs = $rootScope.mapstest.setService({
         folder:'PublicUtility',
@@ -40,14 +40,11 @@ angular.module('asbuiltsApp')
 
       };
 
-      scope.saveToMaster = function(update) {
+      scope.saveToMaster = function() {
         angular.extend(postOptions.params.features, scope.newProject);
         var getReady = postOptions.params.features.attributes;
         for (var i in getReady){
-          console.log(i);
           getReady[i] = typeof getReady[i] === 'string' ? getReady[i].toUpperCase() : getReady[i];
-
-          getReady[i] !== null || undefined || NaN || 'null' ? getReady[i] : delete getReady[i];
         }
         // postOptions.params = scope.newProject;
         postOptions.params.features.attributes = getReady;
@@ -80,8 +77,8 @@ angular.module('asbuiltsApp')
           postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
           // console.log(data);
           scope.newProject = {
-            "geometry" : scope.data.geometry,
-            "attributes" : scope.update
+            'geometry' : scope.data.geometry,
+            'attributes' : scope.update
           };
           console.log(scope.newProject);
 
@@ -91,7 +88,7 @@ angular.module('asbuiltsApp')
 
 
         });
-      }
+      };
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
 
@@ -165,8 +162,8 @@ angular.module('asbuiltsApp')
               postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
 
               scope.newProject = {
-                "geometry" : Terraformer.ArcGIS.convert(scope.data.geometry),
-                "attributes" : scope.update
+                'geometry' : Terraformer.ArcGIS.convert(scope.data.geometry),
+                'attributes' : scope.update
               };
 
             },
