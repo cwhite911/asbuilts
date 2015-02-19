@@ -46,7 +46,27 @@ angular.module('asbuiltsApp')
 
       };
 
-      scope.saveToMaster = function(update) {
+      //Function that returns projectid
+      scope.generateProjectId = function () {
+        $rootScope.pt_fs.request(options).then(function(data){
+          scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
+          scope.newMaxProjectId = scope.currentMaxProjectId + 1;
+          scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
+          postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
+          // console.log(data);
+          scope.newProject = {
+            'geometry' : scope.data.geometry,
+            'attributes' : scope.update
+          };
+        },
+        function (err){
+          console.log(err);
+        });
+      };
+
+
+
+      scope.saveToMaster = function() {
         postOptions.params.features = [scope.newProject];
         var getReady = postOptions.params.features[0].attributes;
         //Loops throught the get ready object, so changes can be made to data before being sent to the server
@@ -58,14 +78,38 @@ angular.module('asbuiltsApp')
           //Converts date for database
           getReady[i] = getReady[i] instanceof Date ? $filter('date')(getReady[i], 'MM/dd/yyyy') : getReady[i]; //Date.parse(getReady[i])
         }
-      
-        $rootScope.pt_fs.request(postOptions)
+        //Checks if adding new features a check to make sure projectid is still current
+        if (postOptions.actions === 'addFeatures'){
+          $rootScope.pt_fs.request(options)
+            .then(function(data){
+              scope.newMaxProjectId = data.features[0].attributes.PROJECTID + 1;
+              getReady.PROJECTID = parseInt(scope.newMaxProjectId, 10);
+              //Post new feature data to server
+              $rootScope.pt_fs.request(postOptions)
+                .then(function(data){
+                  console.log(data);
+                },
+                //Error if post to server fails
+                function(err){
+                  console.log(err);
+              });
+            },
+            //Error if get projectid fails
+            function (err){
+              console.log(err);
+            });
+        }
+        else {
+          //Post update data to server
+          $rootScope.pt_fs.request(postOptions)
           .then(function(data){
             console.log(data);
           },
           function(err){
             console.log(err);
           });
+        }
+
         scope.active = false;
       };
 
@@ -86,26 +130,7 @@ angular.module('asbuiltsApp')
         scope.active = false;
       };
 
-      scope.generateProjectId = function () {
-        $rootScope.pt_fs.request(options).then(function(data){
-          scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
-          scope.newMaxProjectId = scope.currentMaxProjectId + 1;
-          scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
-          postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
-          // console.log(data);
-          scope.newProject = {
-            'geometry' : scope.data.geometry,
-            'attributes' : scope.update
-          };
-          console.log(scope.newProject);
 
-        },
-        function (err){
-          console.log(err);
-
-
-        });
-      };
       scope.reset(scope.form);
       //Gets correct REST endpoints form ArcGIS server
 
@@ -131,7 +156,6 @@ angular.module('asbuiltsApp')
       scope.$watchCollection('active', function(){
         if(scope.active){
           angular.element('.angular-leaflet-map').addClass('map-move-left');
-          // $activityIndicator.startAnimating();
         }
         else {
           angular.element('.angular-leaflet-map').removeClass('map-move-left');
