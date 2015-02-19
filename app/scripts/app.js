@@ -27,6 +27,20 @@ angular
     version: 0.1,
     documentBaseUrl: 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/'
   })
+  .constant('AUTH_EVENTS', {
+    loginSuccess: 'auth-login-success',
+    loginFailed: 'auth-login-failed',
+    logoutSuccess: 'auth-logout-success',
+    sessionTimeout: 'auth-session-timeout',
+    notAuthenticated: 'auth-not-authenticated',
+    notAuthorized: 'auth-not-authorized'
+  })
+  .constant('USER_ROLES', {
+    all: '*',
+    admin: 'admin',
+    editor: 'editor',
+    guest: 'guest'
+  })
   .config(['$routeProvider', '$httpProvider', '$activityIndicatorProvider', function ($routeProvider, $httpProvider, $activityIndicatorProvider) {
     $routeProvider
       .when('/', {
@@ -58,6 +72,10 @@ angular
       .when('/document/:documentid', {
         templateUrl: 'views/documents.html',
         controller: 'DocCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
       })
       .when('/error', {
         templateUrl: '404.html'

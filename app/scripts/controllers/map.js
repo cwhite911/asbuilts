@@ -478,21 +478,6 @@ $scope.searchControl = function (typed){
       $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
       removeEmptyFields($scope.project_info);
 
-      //Add geojosn to map
-      // angular.extend($scope, {
-      //   geojson: {
-      //     data: data,
-      //     style: {
-      //         fillColor: 'rgba(253, 165, 13, 0.0)',
-      //         weight: 3,
-      //         opacity: 1,
-      //         color: 'rgba(253, 165, 13, 0.71)',
-      //         dashArray: '4'
-      //     },
-      //     onEachFeature: action,
-      //     resetStyleOnMouseout: true
-      //   }
-      // });
       //Turns on the map resulsts table
       $scope.searchStatus = true;
 

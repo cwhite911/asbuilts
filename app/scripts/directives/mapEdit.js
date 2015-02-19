@@ -17,6 +17,8 @@ angular.module('asbuiltsApp')
         service: 'ProjectTracking',
         server: 'FeatureServer'
       });
+
+      //Constants
       var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'],
           numberList = ['CIP', 'WATER', 'SEWER', 'REUSE', 'STORM'];
       scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="styles/map.css">
     <link rel="stylesheet" href="styles/pdf-carousel.css">
     <link rel="stylesheet" href="styles/mapEdit.css">
+    <link rel="stylesheet" href="styles/login.css">
     <!-- endbuild -->
   </head>
   <body ng-app="asbuiltsApp">
@@ -60,6 +61,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Main</a></li>
             <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li>
+            <li ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Help</a></li>
           </ul>
@@ -160,8 +162,10 @@
         <script src="scripts/services/cookieService.js"></script>
         <script src="scripts/services/projectSearch.js"></script>
         <script src="scripts/services/streetSearch.js"></script>
+        <script src="scripts/services/session.js"></script>
 
         <!--Factories-->
+        <script src="scripts/factories/authFactory.js"></script>
         <script src="scripts/factories/optionsFactory.js"></script>
         <script src="scripts/factories/documentFactory.js"></script>
         <script src="scripts/factories/iconFactory.js"></script>
@@ -173,6 +177,7 @@
         <script src="scripts/directives/mapEdit.js"></script>
 
         <!--Controllers-->
+        <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/head.js"></script>
         <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/controllers/recent.js"></script>
