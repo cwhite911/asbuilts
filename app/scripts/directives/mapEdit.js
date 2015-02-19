@@ -67,7 +67,8 @@ angular.module('asbuiltsApp')
 
 
       scope.saveToMaster = function() {
-        postOptions.params.features = [scope.newProject];
+        // postOptions.params.features = [scope.newProject];
+        angular.copy([scope.newProject], postOptions.params.features);
         var getReady = postOptions.params.features[0].attributes;
         //Loops throught the get ready object, so changes can be made to data before being sent to the server
         for (var i in getReady){
@@ -150,6 +151,12 @@ angular.module('asbuiltsApp')
           MM = original[0],
           dd = original[1];
           return new Date(yyyy, MM, dd);
+        }
+        else if (date){
+          $filter('date')(date, 'yyyy/MM/dd');
+        }
+        else {
+          console.log(date);
         }
       }
 
