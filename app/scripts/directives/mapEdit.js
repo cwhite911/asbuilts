@@ -17,16 +17,22 @@ angular.module('asbuiltsApp')
         service: 'ProjectTracking',
         server: 'FeatureServer'
       });
-      var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'];
+      var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'],
+          numberList = ['CIP', 'WATER', 'SEWER', 'REUSE', 'STORM'];
       scope.editorList =['kellerj', 'mazanekm', 'rickerl', 'sorrellj', 'stearnsc', 'whitec'];
       scope.master = {};
+
+      //Options to post to server
       var postOptions = {
+        layer: 'Project Tracking',
         params: {
           f: 'json',
-          features: {}
+          gdbVersion: 'SDE.DEFAULT',
+          features: [{}]
         }
       };
 
+      //Seach options for getting projectid
       var options = {
         actions: 'query',
         layer: 'Project Tracking',
@@ -40,15 +46,26 @@ angular.module('asbuiltsApp')
 
       };
 
-      scope.saveToMaster = function() {
-        angular.extend(postOptions.params.features, scope.newProject);
-        var getReady = postOptions.params.features.attributes;
+      scope.saveToMaster = function(update) {
+        postOptions.params.features = [scope.newProject];
+        var getReady = postOptions.params.features[0].attributes;
+        //Loops throught the get ready object, so changes can be made to data before being sent to the server
         for (var i in getReady){
+          //Makes all string fields uppercase
           getReady[i] = typeof getReady[i] === 'string' ? getReady[i].toUpperCase() : getReady[i];
+          //Turns boolean to integers from strings
+          getReady[i] = getReady[i] === '0' || getReady[i] && numberList.indexOf(i) !== -1 ? parseInt(getReady[i], 10) : getReady[i];
+          //Converts date for database
+          getReady[i] = getReady[i] instanceof Date ? $filter('date')(getReady[i], 'MM/dd/yyyy') : getReady[i]; //Date.parse(getReady[i])
         }
-        // postOptions.params = scope.newProject;
-        postOptions.params.features.attributes = getReady;
-        console.log(postOptions);
+      
+        $rootScope.pt_fs.request(postOptions)
+          .then(function(data){
+            console.log(data);
+          },
+          function(err){
+            console.log(err);
+          });
         scope.active = false;
       };
 
@@ -102,7 +119,7 @@ angular.module('asbuiltsApp')
 
 
       function convertDate (date){
-        if(date){
+        if(!date instanceof Date){
           var original = date.split('/'),
           yyyy = original[2],
           MM = original[0],
@@ -160,6 +177,7 @@ angular.module('asbuiltsApp')
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
               scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
               postOptions.actions = scope.update.OBJECTID ? 'updateFeatures' : 'addFeatures';
+
 
               scope.newProject = {
                 'geometry' : Terraformer.ArcGIS.convert(scope.data.geometry),
