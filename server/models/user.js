@@ -6,6 +6,11 @@ passportLocalMongoose = require('passport-local-mongoose');
 
 var User = new Schema({});
 
-User.plugin(passportLocalMongoose);
+var options = {
+  attemptsField: 'attempts',
+  lastLoginField: 'lastLogin'
+}
+
+User.plugin(passportLocalMongoose, options);
 
 module.exports = mongoose.model('User', User);

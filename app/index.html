@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="styles/login.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="asbuiltsApp">
+  <body ng-app="asbuiltsApp" ng-controller="ApplicationController">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -59,10 +59,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-controller="HeaderController">
           <ul class="nav navbar-nav navbar-right">
-            <li ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Main</a></li>
+            <li ng-if="isAuthorized(userRoles.editor)" ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Add Document</a></li>
             <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li>
             <li ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
-            <li><a href="#">Profile</a></li>
+            <li ng-if="currentUser"  ng-class="{ active: isActive('/profile')}"><a href="#/profile">{{ currentUser.id }}</a></li>
             <li><a href="#">Help</a></li>
           </ul>
         </div>
@@ -72,16 +72,16 @@
     <div class="container-fluid fill">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
+          <!-- <ul ng-if="isAuthorized(userRoles.editor)" class="nav nav-sidebar">
             <a class="mylink" href="#/map"><li class="active btn-sidebar">
               <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Project
             </li></a>
           </ul>
-          <ul class="nav nav-sidebar">
+          <ul ng-if="isAuthorized(userRoles.editor)" class="nav nav-sidebar">
             <a class="mylink" href="#/addDocument"><li class="active btn-sidebar">
               <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Document
             </li></a>
-          </ul>
+          </ul> -->
           <ul class="nav nav-sidebar">
             <li class="active recent-sidebar" ng-controller="RecentCtrl">
               Recent Projects

@@ -41,8 +41,17 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  res.redirect('/');
+  var sid = req.session;
+  console.log(req.session);
+  res.json({
+    id: req.session,
+    user: {
+      id: req.body.username,
+      role: 'editor'
+    }
+  });
 });
+
 
 router.get('/logout', function(req, res) {
   req.logout();

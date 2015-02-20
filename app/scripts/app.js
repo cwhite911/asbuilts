@@ -41,36 +41,34 @@ angular
     editor: 'editor',
     guest: 'guest'
   })
-  .run(function ($rootScope, AUTH_EVENTS, AuthService) {
-    $rootScope.$on('$stateChangeStart', function (event, next) {
-      var authorizedRoles = next.data.authorizedRoles;
-      if (!AuthService.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (AuthService.isAuthenticated()) {
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+  .factory('AuthInterceptor', function ($rootScope, $q,
+    AUTH_EVENTS) {
+      return {
+        responseError: function (response) {
+          $rootScope.$broadcast({
+            401: AUTH_EVENTS.notAuthenticated,
+            403: AUTH_EVENTS.notAuthorized,
+            419: AUTH_EVENTS.sessionTimeout,
+            440: AUTH_EVENTS.sessionTimeout
+          }[response.status], response);
+          return $q.reject(response);
         }
-      }
-    });
-  })
-  .config(['$routeProvider', '$httpProvider', '$activityIndicatorProvider', function ($routeProvider, $httpProvider, $activityIndicatorProvider) {
+      };
+    })
+  .config(['$routeProvider', '$httpProvider', '$activityIndicatorProvider', 'USER_ROLES', function ($routeProvider, $httpProvider, $activityIndicatorProvider, USER_ROLES) {
     $routeProvider
       .when('/', {
         redirectTo: '/map'
       })
       .when('/addDocument', {
         templateUrl: 'views/addDoc.html',
-        controller: 'addDocCtrl'
+        controller: 'addDocCtrl',
+        data: {
+          authorizedRoles: [USER_ROLES.admin, USER_ROLES.editor]
+        }
       })
       .when('/instructions', {
         templateUrl: 'views/instructions.html'
-      })
-      .when('/form', {
-        templateUrl: 'views/form.html',
-        controller: 'FormCtrl'
       })
       .when('/stats', {
         templateUrl: 'views/stats.html',
@@ -109,17 +107,18 @@ angular
         ]);
       $activityIndicatorProvider.setActivityIndicatorStyle('CircledWhite');
   }])
-  .factory('AuthInterceptor', function ($rootScope, $q,
-    AUTH_EVENTS) {
-      return {
-        responseError: function (response) {
-          $rootScope.$broadcast({
-            401: AUTH_EVENTS.notAuthenticated,
-            403: AUTH_EVENTS.notAuthorized,
-            419: AUTH_EVENTS.sessionTimeout,
-            440: AUTH_EVENTS.sessionTimeout
-          }[response.status], response);
-          return $q.reject(response);
+  .run(function ($rootScope, AUTH_EVENTS, AuthService) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+      var authorizedRoles = next.data.authorizedRoles;
+      if (!AuthService.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+        if (AuthService.isAuthenticated()) {
+          // user is not allowed
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+        } else {
+          // user is not logged in
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
         }
-      };
+      }
     });
+  });
