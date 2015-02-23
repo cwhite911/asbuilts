@@ -2,17 +2,21 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .factory('AuthService', function ($http, Session, $cookieStore) {
+  .factory('AuthService', function ($http, Session, $cookieStore, $window) {
   var authService = {};
   authService.login = function (credentials) {
     return $http
     .post('http://localhost:8000/login', credentials)
     .then(function (res) {
-      console.log(res);
       Session.create(res.data.id, res.data.user.id,
         res.data.user.role);
+        $window.location.href = 'http://localhost:9000/#/map';
         return res.data.user;
+      },
+      function (err){
+        console.log(err);
       });
+
     };
 
     authService.isAuthenticated = function () {

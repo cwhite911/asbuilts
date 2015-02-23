@@ -50,6 +50,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
       role: 'editor'
     }
   });
+  // res.redirect('http://localhost:9000/#/map');
 });
 
 
