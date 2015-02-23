@@ -20,8 +20,7 @@ angular
     'agsserver',
     'leaflet-directive',
     'ngDragDrop',
-    'angularFileUpload',
-    'ngActivityIndicator'
+    'angularFileUpload'
   ])
   .value('projectConstants', {
     version: 0.1,
@@ -55,7 +54,7 @@ angular
         }
       };
     })
-  .config(['$routeProvider', '$httpProvider', '$activityIndicatorProvider', 'USER_ROLES', function ($routeProvider, $httpProvider, $activityIndicatorProvider, USER_ROLES) {
+  .config(['$routeProvider', '$httpProvider', 'USER_ROLES', function ($routeProvider, $httpProvider, USER_ROLES) {
     $routeProvider
       .when('/', {
         redirectTo: '/map'
@@ -105,7 +104,6 @@ angular
           return $injector.get('AuthInterceptor');
         }
         ]);
-      $activityIndicatorProvider.setActivityIndicatorStyle('CircledWhite');
   }])
   .run(function ($rootScope, AUTH_EVENTS, AuthService) {
     $rootScope.$on('$stateChangeStart', function (event, next) {

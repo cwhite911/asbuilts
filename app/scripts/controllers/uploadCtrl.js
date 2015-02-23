@@ -13,7 +13,7 @@ angular.module('asbuiltsApp')
   $scope.uploadSuccess = '';
 
   $scope.uploader = $scope.uploader = new FileUploader({
-    url: 'http://localhost:9080/upload',
+    url: 'http://localhost:8000/upload',
     removeAfterUpload: true
   });
 

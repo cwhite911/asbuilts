@@ -110,7 +110,7 @@ angular.module('asbuiltsApp')
                     scope.streets.push(street);
                   }
                 }
-                
+
               }, function (error){
                   console.log(error);
               });
@@ -173,7 +173,7 @@ angular.module('asbuiltsApp')
               filename: filename
             }
           };
-          return $http.get('http://localhost:9080/upload', config);
+          return $http.get('http://localhost:8000/upload', config);
         }
 
 
