@@ -54,7 +54,7 @@ angular
         }
       };
     })
-  .config(['$routeProvider', '$httpProvider', 'USER_ROLES', function ($routeProvider, $httpProvider, USER_ROLES) {
+  .config(['$routeProvider', '$httpProvider', 'USER_ROLES', '$locationProvider', function ($routeProvider, $httpProvider, USER_ROLES, $locationProvider) {
     $routeProvider
       .when('/', {
         redirectTo: '/map'
@@ -104,6 +104,9 @@ angular
           return $injector.get('AuthInterceptor');
         }
         ]);
+
+        // $locationProvider.html5Mode(true);
+
   }])
   .run(function ($rootScope, AUTH_EVENTS, AuthService) {
     $rootScope.$on('$stateChangeStart', function (event, next) {

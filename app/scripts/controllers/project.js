@@ -56,7 +56,7 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
   });
 
   //Sets up pie chart
-  var ctx = document.getElementById("myChart").getContext("2d");
+  // var ctx = document.getElementById("myChart").getContext("2d");
 
   //Get project data from server
   projectService.request(searchOptions).then(function(res){
@@ -135,6 +135,6 @@ var options = {
   legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
 
 };
-var myPieChart = new Chart(ctx).Pie(data,options);
+// var myPieChart = new Chart(ctx).Pie(data,options);
 
 }]);

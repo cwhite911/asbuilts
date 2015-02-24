@@ -22,13 +22,20 @@
 }
 
 .project-nav li{
-  text-align: center;
-  background: rgba(26, 136, 210, 0.97);
-  border-radius: 25px;
+  /*text-align: center;*/
+  background: rgba(18, 18, 18, 0.97);
+  /*border-radius: 25px;*/
   border: 1px #b0b0b0 solid;
+  padding: 5px 5px;
 }
 
 
 .project-nav li:hover {
   background: rgba(76, 182, 242, 0.97);
+  cursor: pointer;
+}
+
+.project-nav li span {
+    float: right;
+    margin-right: 5px;
 }
