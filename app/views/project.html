@@ -1,17 +1,20 @@
-<div class="container-fluid">
-  <h1 class="page-header">{{projectid}}</h1>
+<div class="container-fluid animated fadeInDown">
+  <h1 class="page-header">{{projectid}}: {{projectInfo['Project Name']}} </h1>
   <div class="row project-view">
-
-    <div class="col-md-4">
-    <!--Document Chart-->
-    <h1>Documents Break Down</h1>
-    <canvas id="myChart"  width="400" height="400"></canvas>
-
+    <div class="col-md-2 animated fadeInDown">
+      <h1 class="text-center">Documents</h1>
+      <ul class="project-nav">
+        <li ng-repeat="doc in projectDocuments | orderBy: doc.attributes.DOCID">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</li>
+      </ul>
+    </div>
+  <div class="col-md-4 animated fadeInDown">
     <!-- Map -->
-    <h1>Project Bounds</h1>
+    <h1 class="text-center">Project Bounds</h1>
     <leaflet id="project-map" width="400" height="400"></leaflet>
+    <h1 class="text-center">Documents Break Down</h1>
+    <canvas id="myChart"  width="400" height="400"></canvas>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6 animated fadeInDown">
     <!-- <h1>Project Information</h1><br> -->
     <!--Basic Info-->
     <project-table project="projectInfo" ></project-table>

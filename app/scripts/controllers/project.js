@@ -33,6 +33,23 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
     actions: 'find',
     geojson: true
   };
+  //Document Search Options
+  var documentOptions = {
+    layer: 'RPUD.PTK_DOCUMENTS',
+    actions: 'query',
+    params: {
+      f: 'json',
+      outFields: '*',
+      where: "PROJECTID =  '" + $scope.projectid + "'",
+    }
+  };
+
+  //Get Project Documents
+  projectService.request(documentOptions).then(function(res){
+    console.log(res);
+    $scope.projectDocuments = res.features;
+  });
+
   //Sets the basemap
   leafletData.getMap('project-map').then(function(map) {
     L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);

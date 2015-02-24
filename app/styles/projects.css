@@ -17,3 +17,18 @@
   display: inline-block;
   width: 33%;
 }
+.project-nav {
+  list-style-type: none;
+}
+
+.project-nav li{
+  text-align: center;
+  background: rgba(26, 136, 210, 0.97);
+  border-radius: 25px;
+  border: 1px #b0b0b0 solid;
+}
+
+
+.project-nav li:hover {
+  background: rgba(76, 182, 242, 0.97);
+}
