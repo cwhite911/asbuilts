@@ -85,14 +85,7 @@ angular.module('asbuiltsApp')
             this.data[_k] ? this.data : delete this.data[_k];
           }
           console.log('Updated: ' + this.data.OBJECTID);
-          // var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
-          // ags.testActions.actions.update.params = options.getOptions();
-          // ags.updateDocument.update().$promise.then(function(data){
-          //   console.log(data);
-          //   // cache.put('updateId', data.updateResults[0].objectId);
-          // });
-
-          // this.data = removeEmptyFields(this.data);
+          
             var options = {
                 layer: 'RPUD.PTK_DOCUMENTS',
                 actions: 'updateFeatures',
@@ -117,12 +110,30 @@ angular.module('asbuiltsApp')
 
         },
         deleteDoc: function (){
-          var options = new DeleteOptionsFactory(this.data);
+
           console.log('Deleted: ' + this.data.objectIds);
-          ags.testActions.actions.delete.params = options.getOptions();
-          ags.deleteFeatures.delete().$promise.then(function(data){
-            console.log(data);
-          });
+
+          var options = {
+              layer: 'RPUD.PTK_DOCUMENTS',
+              actions: 'deleteFeatures',
+              params: {
+                f: 'json',
+                objectIds: this.data.objectIds
+              }
+            };
+
+          serverFactory.pt_fs.request(options)
+            .then(function(data){
+              if (data.error){
+                console.log(data.error);
+              }
+              else{
+                console.log(data);
+              }
+            },
+            function(err){
+              console.log(err);
+            });
         }
       }
       return (Document);
