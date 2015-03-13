@@ -1,12 +1,10 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .factory('DocumentFactory', ['ags', 'serverFactory', 'AddFeatureOptionsFactory', 'DeleteOptionsFactory', '$cacheFactory', function(ags, serverFactory, AddFeatureOptionsFactory, DeleteOptionsFactory, $cacheFactory){
+    .factory('DocumentFactory', ['serverFactory', 'AddFeatureOptionsFactory', 'DeleteOptionsFactory', '$cacheFactory', function(serverFactory, AddFeatureOptionsFactory, DeleteOptionsFactory, $cacheFactory){
       //Creates cache to store touch documents
       var cache = $cacheFactory('docId');
-      var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
-      //TODO move out of factory make all layer ids shared resources
-      var layerId = 4;
+      
 
       function removeEmptyFields (data) {
           for (var a in data){
@@ -85,7 +83,7 @@ angular.module('asbuiltsApp')
             this.data[_k] ? this.data : delete this.data[_k];
           }
           console.log('Updated: ' + this.data.OBJECTID);
-          
+
             var options = {
                 layer: 'RPUD.PTK_DOCUMENTS',
                 actions: 'updateFeatures',

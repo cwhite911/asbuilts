@@ -64,6 +64,17 @@ angular.module('asbuiltsApp')
 
   };
 
+  //Joins tables together based on field
+  //addFieldFromTable(table1, table2, joinField, addFiedl);
+  services.addFieldFromTable = function (t1, t2, joinField, addField){
+   t1.map(function(t1Data){
+     t2.forEach(function(t2Data){
+       t1Data.attributes[joinField] === t2Data.attributes[joinField] ? t1Data.attributes[addField] = t2Data.attributes[addField] : t1Data;
+     });
+   });
+   return t1;
+  }
+
 
   return (services);
 

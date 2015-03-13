@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['Ags', 'ags', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', '$http', '$rootScope', function (Ags, ags, DocumentFactory, StreetSearch, $timeout, $filter, $http, $rootScope) {
+  .directive('documentForm', ['serverFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', '$http', function (serverFactory, DocumentFactory, StreetSearch, $timeout, $filter, $http) {
     return {
       restrict: 'E',
       transclude: true,
@@ -11,14 +11,6 @@ angular.module('asbuiltsApp')
       templateUrl: 'views/document-form.html',
       link: function (scope) {
 
-        var rs = $rootScope,
-            pt_fs = rs.mapstest.setService({
-              folder:'PublicUtility',
-              service: 'ProjectTracking',
-              server: 'FeatureServer'
-            });
-
-          console.log(pt_fs);
             scope.supportTables = [
               {
                   name: 'engTypes',
@@ -48,7 +40,7 @@ angular.module('asbuiltsApp')
             if (project !== undefined){
               scope.supportTables.forEach(function(table){
                 var name = table.name;
-                // var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
+
                 var options = {
                   layer: table.id,
                   actions: 'query',
@@ -60,11 +52,11 @@ angular.module('asbuiltsApp')
                     returnGeometry: false
                   }
                 };
-                pt_fs.request(options).then(function(d){
-                // ags.features.getAll(options).$promise.then(function(d){
+                serverFactory.pt_fs.request(options).then(function(d){
+
                 console.log(d);
                   table.data = d.features;
-                  ags.addFieldFromTable(project, table.data, table.joinField, table.addField);
+                  serverFactory.addFieldFromTable(project, table.data, table.joinField, table.addField);
                   switch (name){
                     case 'engTypes':
                       scope.engTypes = table.data;
@@ -96,7 +88,7 @@ angular.module('asbuiltsApp')
                   });
                   //Sets boolean values for utility options
                   for (var _i = 0, _len = utils.length; _i < _len; _i++){
-                   data.attributes[utils[_i]] ? data.attributes[utils[_i]] = 'true' : data.attributes[utils[_i]] = 'false';
+                   data.attributes[utils[_i]] = data.attributes[utils[_i]] ? 'true' : 'false';
                   }
                 });
             }
@@ -152,7 +144,7 @@ angular.module('asbuiltsApp')
         scope.addDoc = true;
         scope.add = function(){
           // scope.addDoc = false;
-          console.log(scope.project[0].attributes.DOCID)
+
           scope.newDocument = new DocumentFactory({
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
