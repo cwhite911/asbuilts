@@ -7,11 +7,6 @@ angular.module('asbuiltsApp')
       var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
       //TODO move out of factory make all layer ids shared resources
       var layerId = 4;
-      function cleanForPost (dirty){
-        var dirtyData = [{attributes: dirty}];
-        var clean = angular.toJson(dirtyData);
-        return clean;
-      }
 
       function removeEmptyFields (data) {
           for (var a in data){
@@ -90,12 +85,36 @@ angular.module('asbuiltsApp')
             this.data[_k] ? this.data : delete this.data[_k];
           }
           console.log('Updated: ' + this.data.OBJECTID);
-          var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
-          ags.testActions.actions.update.params = options.getOptions();
-          ags.updateDocument.update().$promise.then(function(data){
-            console.log(data);
-            // cache.put('updateId', data.updateResults[0].objectId);
-          });
+          // var options = new AddFeatureOptionsFactory({features: cleanForPost(this.data)});
+          // ags.testActions.actions.update.params = options.getOptions();
+          // ags.updateDocument.update().$promise.then(function(data){
+          //   console.log(data);
+          //   // cache.put('updateId', data.updateResults[0].objectId);
+          // });
+
+          // this.data = removeEmptyFields(this.data);
+            var options = {
+                layer: 'RPUD.PTK_DOCUMENTS',
+                actions: 'updateFeatures',
+                params: {
+                  f: 'json',
+                  features: [{attributes: this.data}]
+                }
+              };
+
+          serverFactory.pt_fs.request(options)
+            .then(function(data){
+              if (data.error){
+                console.log(data.error);
+              }
+              else{
+                console.log(data);
+              }
+            },
+            function(err){
+              console.log(err);
+            })
+
         },
         deleteDoc: function (){
           var options = new DeleteOptionsFactory(this.data);

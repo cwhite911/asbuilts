@@ -42,9 +42,10 @@ angular.module('asbuiltsApp')
 
 
              //Watch for change of project
-            scope.project = '';
+            scope.project = undefined;
             scope.refresh = function (project){
-            if (project){
+            console.log(project);
+            if (project !== undefined){
               scope.supportTables.forEach(function(table){
                 var name = table.name;
                 // var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
@@ -185,7 +186,6 @@ angular.module('asbuiltsApp')
 
           scope.$watchCollection('project',function(){
             console.log(scope.project);
-            console.log(pt_fs);
             //Checks if project exisits
             scope.refresh(scope.project);
             // scope.project = newVal;
@@ -239,7 +239,7 @@ angular.module('asbuiltsApp')
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
             DEVPLANID: scope.project[0].attributes.DEVPLANID || undefined,
-            DOCID: scope.project[0].attributes.DOCID === undefined ?  1 : scope.project[scope.project.length - 1].attributes.DOCID + 1
+            DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1 || 1
           });
 
           //POSTS new document to AGS server

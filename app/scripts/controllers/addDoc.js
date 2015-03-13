@@ -55,6 +55,7 @@ angular.module('asbuiltsApp')
           if (!data.features.length){
 
             $scope.project = [{
+              new: true,
               attributes: {
                 PROJECTID: typed.split(':')[2],
                 PROJECTNAME: typed.split(':')[0]

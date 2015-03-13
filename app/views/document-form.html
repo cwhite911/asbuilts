@@ -19,7 +19,7 @@
   </thead>
   <tbody class="table-body">
     <!--table view -->
-    <tr ng-if="doc.attributes.DOCID" class="table-view" ng-repeat="doc in project">
+    <tr ng-if="!doc.new" class="table-view" ng-repeat="doc in project">
       <td>{{doc.attributes.DOCID}}</td>
       <!--<td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="" ></td>-->
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
