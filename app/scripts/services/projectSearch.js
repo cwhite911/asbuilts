@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .service('projectSearch', ['Ags', 'OptionsFactory','$filter', '$cacheFactory', '$rootScope', function(Ags, OptionsFactory, $filter, $cacheFactory, $rootScope){
+    .service('projectSearch', ['Ags', 'serverFactory', 'OptionsFactory','$filter', '$cacheFactory', '$rootScope', function(Ags, serverFactory, OptionsFactory, $filter, $cacheFactory, $rootScope){
       var scope = $rootScope;
       scope.mapstest = new Ags({host: 'mapstest.raleighnc.gov'});
       scope.gis = new Ags({host: 'gis.raleighnc.gov'});
@@ -28,9 +28,12 @@ angular.module('asbuiltsApp')
             orderByFields: 'PROJECTNAME ASC'
           }
         };
-        return scope.pt_ms.request(projectOptions);
+        return serverFactory.pt_ms.request(projectOptions);
       };
       this.getSet = function (array){
+        if (!array){
+          return [];
+        }
         var temp = [];
         for (var i = 0, x = array.length; i < x; i++){
           temp.indexOf(temp[i]) !== -1 ? array : temp.push(array[i]);

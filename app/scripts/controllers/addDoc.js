@@ -28,6 +28,9 @@ angular.module('asbuiltsApp')
         var newProject = projectSearch.autoFill(typed);
         newProject.then(function(data){
               data.features = projectSearch.getSet(data.features);
+              if (data.features.length === 0){
+                $scope.projects.push('Sorry Project Not Found...');
+              }
               for (var i = 0, x = data.features.length; i < x; i++){
                   if ($scope.projects.length < 5){
                     $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
@@ -44,6 +47,9 @@ angular.module('asbuiltsApp')
       }
       //Function handles the selection
       $scope.searchControl = function (typed){
+        if (typed === 'Sorry Project Not Found...'){
+          return;
+        }
         //Add projects to recent projects cookie
         CookieService.addProjectCookie(typed);
         //Set up GET request options
