@@ -1,39 +1,49 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-    .factory('DocumentFactory', ['ags', 'AddFeatureOptionsFactory', 'DeleteOptionsFactory', '$cacheFactory', function(ags, AddFeatureOptionsFactory, DeleteOptionsFactory, $cacheFactory){
+    .factory('DocumentFactory', ['ags', 'serverFactory', 'AddFeatureOptionsFactory', 'DeleteOptionsFactory', '$cacheFactory', function(ags, serverFactory, AddFeatureOptionsFactory, DeleteOptionsFactory, $cacheFactory){
       //Creates cache to store touch documents
       var cache = $cacheFactory('docId');
-
+      var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
       //TODO move out of factory make all layer ids shared resources
-      var layerId = 5;
+      var layerId = 4;
       function cleanForPost (dirty){
         var dirtyData = [{attributes: dirty}];
         var clean = angular.toJson(dirtyData);
         return clean;
       }
+
+      function removeEmptyFields (data) {
+          for (var a in data){
+            if(data[a] ===  undefined){
+              delete data[a];
+            }
+            data[a] = data[a] === 'false' ? 0 : data[a] === 'true' ? 1 : data[a];
+          }
+          return data
+      }
       //Options constructor
       var Document = function (data){
         this.data = {
-          PROJECTNAME: data.PROJECTNAME || '',
-          PROJECTID: data.PROJECTID || '',
+          PROJECTNAME: data.PROJECTNAME,
+          PROJECTID: data.PROJECTID,
           DOCID: data.DOCID || 0,
           WATER: data.WATER || 0,
           SEWER: data.SEWER || 0,
           REUSE: data.REUSE || 0,
           STORM: data.STORM || 0,
-          FORMERNAME: data.FORMERNAME || '',
-          ALIAS: data.ALIAS || '',
+          FORMERNAME: data.FORMERNAME || undefined,
+          ALIAS: data.ALIAS || undefined,
           DEVPLANID: data.DEVPLANID,
-          STREET_1: data.STREET_1 || '',
-          STREET_2: data.STREET_2 || '',
-          STREET_3: data.STREET_3 || '',
-          STREET_4: data.STREET_4 || '',
-          NOTES: data.NOTES || '',
-          TAGS: data.TAGS || '',
-          ENGID: data.ENGID || '',
-          DOCTYPEID: data.DOCTYPEID || '',
-          SHEETTYPEID: data.SHEETTYPEID || ''
+          STREET_1: data.STREET_1 || undefined,
+          STREET_2: data.STREET_2 || undefined,
+          STREET_3: data.STREET_3 || undefined,
+          STREET_4: data.STREET_4 || undefined,
+          NOTES: data.NOTES || undefined,
+          TAGS: data.TAGS || undefined,
+          ENGID: data.ENGID || undefined,
+          DOCTYPEID: data.DOCTYPEID || undefined,
+          SHEETTYPEID: data.SHEETTYPEID || undefined
         };
         return this;
       };
@@ -47,14 +57,32 @@ angular.module('asbuiltsApp')
         },
         postNewDoc: function (){
           var that = this;
-          var options = new AddFeatureOptionsFactory({features: cleanForPost(that.data)});
-          ags.testActions.actions.newDocument.params = options.getOptions();
-          ags.addDocument.newDocument().$promise.then(function(data){
-            // console.log(data.addResults[0].objectId);
-            cache.put('newId', data.addResults[0].objectId);
-            that.setValue({OBJECTID: data.addResults[0].objectId});
-            console.log(cache.get('newId'));
-          });
+          var copy = {};
+          angular.copy(that.data, copy);
+          copy = removeEmptyFields(copy);
+            var options = {
+                layer: 'RPUD.PTK_DOCUMENTS',
+                actions: 'addFeatures',
+                params: {
+                  f: 'json',
+                  features: [{attributes: copy}]
+                }
+              };
+
+          serverFactory.pt_fs.request(options)
+            .then(function(data){
+              if (data.error){
+                console.log(data.error);
+              }
+              else{
+                cache.put('newId', data.addResults[0].objectId);
+                that.setValue({OBJECTID: data.addResults[0].objectId});
+                console.log(cache.get('newId'));
+              }
+            },
+            function(err){
+              console.log(err);
+            })
         },
         updateDoc: function (){
           //Removes faslsy values

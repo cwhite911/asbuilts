@@ -54,6 +54,7 @@ angular
         }
       };
     })
+  
   .config(['$routeProvider', '$httpProvider', 'USER_ROLES', '$locationProvider', function ($routeProvider, $httpProvider, USER_ROLES, $locationProvider) {
     $routeProvider
       .when('/', {
@@ -108,8 +109,8 @@ angular
         // $locationProvider.html5Mode(true);
 
   }])
-  .run(function ($rootScope, AUTH_EVENTS, AuthService) {
-    $rootScope.$on('$stateChangeStart', function (event, next) {
+  .run(function ($rootScope, AUTH_EVENTS, AuthService, $templateCache) {
+    $rootScope.$on('$stateChangeStart', function (event, next, current) {
       var authorizedRoles = next.data.authorizedRoles;
       if (!AuthService.isAuthorized(authorizedRoles)) {
         event.preventDefault();
@@ -120,6 +121,10 @@ angular
           // user is not logged in
           $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
         }
+      }
+      //Remove template cache
+      if (typeof(current) !== 'undefined'){
+            $templateCache.remove(current.templateUrl);
       }
     });
   });

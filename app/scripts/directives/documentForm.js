@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('documentForm', ['ags','OptionsFactory', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', '$http', function (ags, OptionsFactory, DocumentFactory, StreetSearch, $timeout, $filter, $http) {
+  .directive('documentForm', ['Ags', 'ags', 'DocumentFactory', 'StreetSearch', '$timeout', '$filter', '$http', '$rootScope', function (Ags, ags, DocumentFactory, StreetSearch, $timeout, $filter, $http, $rootScope) {
     return {
       restrict: 'E',
       transclude: true,
@@ -10,43 +10,58 @@ angular.module('asbuiltsApp')
       },
       templateUrl: 'views/document-form.html',
       link: function (scope) {
-        //Gets correct REST endpoints form ArcGIS server
-        ags.testServer.getService().$promise.then(function(res){
-           var layers = new ags.AgsLayers(res.layers.concat(res.tables));
-           //Get Layer Ids
-           var engLayerId = layers.getLayerId('RPUD.ENGINEERINGFIRM');
-           var sheetLayerId = layers.getLayerId('RPUD.SHEETTYPES');
-           var documentLayerId = layers.getLayerId('RPUD.DOCUMENTTYPES');
-           //Get table details
-           scope.supportTables = [
-             {
-                 name: 'engTypes',
-                 id: engLayerId,
-                 joinField: 'ENGID',
-                 addField: 'SIMPLIFIEDNAME',
-             },
-             {
-                 name: 'sheetTypes',
-                 id: sheetLayerId,
-                 joinField: 'SHEETTYPEID',
-                 addField: 'SHEETTYPE',
-             },
-             {
-                 name: 'docTypes',
-                 id: documentLayerId,
-                 joinField: 'DOCTYPEID',
-                 addField: 'DOCUMENTTYPE',
-             }
-            ];
 
-           //Watch for change of project
-          scope.project = '';
-          scope.refresh = function (project){
+        var rs = $rootScope,
+            pt_fs = rs.mapstest.setService({
+              folder:'PublicUtility',
+              service: 'ProjectTracking',
+              server: 'FeatureServer'
+            });
+
+          console.log(pt_fs);
+            scope.supportTables = [
+              {
+                  name: 'engTypes',
+                  id: 'RPUD.ENGINEERINGFIRM',
+                  joinField: 'ENGID',
+                  addField: 'SIMPLIFIEDNAME',
+              },
+              {
+                  name: 'sheetTypes',
+                  id: 'RPUD.SHEETTYPES',
+                  joinField: 'SHEETTYPEID',
+                  addField: 'SHEETTYPE',
+              },
+              {
+                  name: 'docTypes',
+                  id: 'RPUD.DOCUMENTTYPES',
+                  joinField: 'DOCTYPEID',
+                  addField: 'DOCUMENTTYPE',
+              }
+             ];
+
+
+             //Watch for change of project
+            scope.project = '';
+            scope.refresh = function (project){
             if (project){
               scope.supportTables.forEach(function(table){
                 var name = table.name;
-                var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
-                ags.features.getAll(options).$promise.then(function(d){
+                // var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
+                var options = {
+                  layer: table.id,
+                  actions: 'query',
+                  params: {
+                    f: 'json',
+                    where: 'OBJECTID > 0',
+                    outFields: '*',
+                    orderByFields: table.addField + ' ASC',
+                    returnGeometry: false
+                  }
+                };
+                pt_fs.request(options).then(function(d){
+                // ags.features.getAll(options).$promise.then(function(d){
+                console.log(d);
                   table.data = d.features;
                   ags.addFieldFromTable(project, table.data, table.joinField, table.addField);
                   switch (name){
@@ -86,12 +101,96 @@ angular.module('asbuiltsApp')
             }
           };
 
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        //Gets correct REST endpoints form ArcGIS server
+        // ags.testServer.getService().$promise.then(function(res){
+        //    var layers = new ags.AgsLayers(res.layers.concat(res.tables));
+        //    //Get Layer Ids
+        //    var engLayerId = layers.getLayerId('RPUD.ENGINEERINGFIRM');
+        //    var sheetLayerId = layers.getLayerId('RPUD.SHEETTYPES');
+        //    var documentLayerId = layers.getLayerId('RPUD.DOCUMENTTYPES');
+        //    //Get table details
+        //    scope.supportTables = [
+        //      {
+        //          name: 'engTypes',
+        //          id: engLayerId,
+        //          joinField: 'ENGID',
+        //          addField: 'SIMPLIFIEDNAME',
+        //      },
+        //      {
+        //          name: 'sheetTypes',
+        //          id: sheetLayerId,
+        //          joinField: 'SHEETTYPEID',
+        //          addField: 'SHEETTYPE',
+        //      },
+        //      {
+        //          name: 'docTypes',
+        //          id: documentLayerId,
+        //          joinField: 'DOCTYPEID',
+        //          addField: 'DOCUMENTTYPE',
+        //      }
+        //     ];
+        //
+        //
+        //    //Watch for change of project
+        //   scope.project = '';
+        //   scope.refresh = function (project){
+        //     if (project){
+        //       scope.supportTables.forEach(function(table){
+        //         var name = table.name;
+        //         var options = new OptionsFactory('json', '*', '', table.addField + ' ASC', false ).addOptions('id', table.id);
+        //         ags.features.getAll(options).$promise.then(function(d){
+        //           table.data = d.features;
+        //           ags.addFieldFromTable(project, table.data, table.joinField, table.addField);
+        //           switch (name){
+        //             case 'engTypes':
+        //               scope.engTypes = table.data;
+        //               break;
+        //             case 'sheetTypes':
+        //               scope.sheetTypes = table.data;
+        //               break;
+        //             case 'docTypes':
+        //               scope.docTypes = table.data;
+        //               break;
+        //             default:
+        //               console.log('Table not found');
+        //           }
+        //         });
+        //       });
+        //       //Adds new key value pair to data object for edit controls and sets boolean values to text
+        //       //Probably should make this a method of ags service
+        //       var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
+        //         project.forEach(function(data){
+        //           //Sets all edit states to false
+        //           data.edit = false;
+        //           //Checks if file currently exisits
+        //           checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID + '.pdf').then(function(res){
+        //             data.upload = res.data;
+        //             data.upload.isSuccess = false;
+        //           },
+        //           function (error){
+        //             console.log(error);
+        //           });
+        //           //Sets boolean values for utility options
+        //           for (var _i = 0, _len = utils.length; _i < _len; _i++){
+        //            data.attributes[utils[_i]] ? data.attributes[utils[_i]] = 'true' : data.attributes[utils[_i]] = 'false';
+        //           }
+        //         });
+        //     }
+        //   };
+
           scope.$watchCollection('project',function(){
+            console.log(scope.project);
+            console.log(pt_fs);
             //Checks if project exisits
             scope.refresh(scope.project);
             // scope.project = newVal;
           });
-        });
+
         //Setup Boolean option for utilies options..could/should switch to service or provider
         scope.selectionOptions = {
           bool: [{'name': 'true', 'id': 1}, {'name': 'false', 'id': 0}],
@@ -135,11 +234,12 @@ angular.module('asbuiltsApp')
         scope.addDoc = true;
         scope.add = function(){
           // scope.addDoc = false;
+          console.log(scope.project[0].attributes.DOCID)
           scope.newDocument = new DocumentFactory({
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
-            DEVPLANID: scope.project[0].attributes.DEVPLANID,
-            DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1
+            DEVPLANID: scope.project[0].attributes.DEVPLANID || undefined,
+            DOCID: scope.project[0].attributes.DOCID === undefined ?  1 : scope.project[scope.project.length - 1].attributes.DOCID + 1
           });
 
           //POSTS new document to AGS server

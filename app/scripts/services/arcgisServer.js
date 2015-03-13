@@ -33,7 +33,7 @@ angular.module('asbuiltsApp')
           },
           addFeature: {
             name: 'mapstest',
-            id: '5',
+            id: '4',
             folder: 'ProjectTracking',
             serviceType: 'FeatureServer',
           }

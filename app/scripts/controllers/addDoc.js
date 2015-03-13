@@ -50,7 +50,21 @@ angular.module('asbuiltsApp')
         var param = 'PROJECTID = ' + typed.split(':')[2];
         options.updateOptions('where', param);
         ags.features.getAll(options).$promise.then(function(data){
-          $scope.project = data.features;
+
+          //If no project documents have been added
+          if (!data.features.length){
+
+            $scope.project = [{
+              attributes: {
+                PROJECTID: typed.split(':')[2],
+                PROJECTNAME: typed.split(':')[0]
+              }
+            }];
+          }
+          //If project documents have been added
+          else {
+            $scope.project = data.features;
+          }
           //Activates table view
           $scope.searchStatus = true;
           $scope.project_docs = true;
