@@ -24,7 +24,7 @@ angular
   ])
   .value('projectConstants', {
     version: 0.1,
-    documentBaseUrl: 'http://gis.raleighnc.gov/asbuilts/PROJECT_TRACKING/'
+    documentBaseUrl: '/documents/'
   })
   .constant('AUTH_EVENTS', {
     loginSuccess: 'auth-login-success',
@@ -54,7 +54,7 @@ angular
         }
       };
     })
-  
+
   .config(['$routeProvider', '$httpProvider', 'USER_ROLES', '$locationProvider', function ($routeProvider, $httpProvider, USER_ROLES, $locationProvider) {
     $routeProvider
       .when('/', {

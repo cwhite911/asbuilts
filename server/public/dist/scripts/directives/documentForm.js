@@ -184,7 +184,7 @@ angular.module('asbuiltsApp')
               filename: filename
             }
           };
-          return $http.get('http://localhost:8000/upload', config);
+          return $http.get('/upload', config);
         }
 
 
