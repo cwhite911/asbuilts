@@ -1,42 +1,6 @@
-<!doctype html>
-<html >
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <!-- <base href="/"> -->
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="bower_components/allmighty-autocomplete/style/autocomplete.css">
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css"/>
-    <link rel="stylesheet" href="bower_components/leaflet.draw/dist/leaflet.draw.css" />
-    <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/dashboard.css">
-    <link rel="stylesheet" href="styles/document-table.css">
-    <link rel="stylesheet" href="styles/map.css">
-    <link rel="stylesheet" href="styles/pdf-carousel.css">
-    <link rel="stylesheet" href="styles/mapEdit.css">
-    <link rel="stylesheet" href="styles/login.css">
-    <link rel="stylesheet" href="styles/projects.css">
-    <!-- endbuild -->
-  </head>
-  <body ng-app="asbuiltsApp" ng-controller="ApplicationController">
-    <!--[if lt IE 7]>
+<!doctype html> <html> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"> <!-- <base href="/"> --> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.aac88acb.css"> <link rel="stylesheet" href="styles/main.01a64822.css">  <body ng-app="asbuiltsApp" ng-controller="ApplicationController"> <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-
-    <!--NavBar -->
-    <!-- ORIGINAL FORMAT -->
-
-    <!-- <nav class="navbar navbar-inverse mapNavBar" role="navigation" ng-controller="HeaderController">
+    <![endif]--> <!--NavBar --> <!-- ORIGINAL FORMAT --> <!-- <nav class="navbar navbar-inverse mapNavBar" role="navigation" ng-controller="HeaderController">
         <ul class="nav navbar-nav">
           <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Project</a></li>
           <li ng-class="{ active: isActive('/')}"><a ng-href="#">Add Document</a></li>
@@ -44,37 +8,7 @@
           <li ng-class="{ active: isActive('/map')}"><a ng-href="#/map">Map</a></li>
           <li ng-class="{ active: isActive('/stats')}"><a ng-href="#/stats">Stats</a></li>
         </ul>
-    </nav> -->
-
-
-  <!--TEST NEW MAIN FORMAT-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">PUMA 2.0</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse" ng-controller="HeaderController">
-          <ul class="nav navbar-nav navbar-right">
-            <li ng-if="isAuthorized(userRoles.editor)" ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Add Document</a></li>
-            <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li>
-            <li ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
-            <li ng-if="currentUser"  ng-class="{ active: isActive('/profile')}"><a href="#/profile">{{ currentUser.id }}</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container-fluid fill">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <!-- <ul ng-if="isAuthorized(userRoles.editor)" class="nav nav-sidebar">
+    </nav> --> <!--TEST NEW MAIN FORMAT--> <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> <div class="container-fluid"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="#">PUMA 2.0</a> </div> <div id="navbar" class="navbar-collapse collapse" ng-controller="HeaderController"> <ul class="nav navbar-nav navbar-right"> <li ng-if="isAuthorized(userRoles.editor)" ng-class="{ active: isActive('/addDocument')}"><a href="#/addDocument">Add Document</a></li> <li ng-class="{ active: isActive('/map')}"><a href="#/map">Map</a></li> <li ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li> <li ng-if="currentUser" ng-class="{ active: isActive('/profile')}"><a href="#/profile">{{ currentUser.id }}</a></li> <li><a href="#">Help</a></li> </ul> </div> </div> </nav> <div class="container-fluid fill"> <div class="row"> <div class="col-sm-3 col-md-2 sidebar"> <!-- <ul ng-if="isAuthorized(userRoles.editor)" class="nav nav-sidebar">
             <a class="mylink" href="#/map"><li class="active btn-sidebar">
               <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Project
             </li></a>
@@ -83,119 +17,6 @@
             <a class="mylink" href="#/addDocument"><li class="active btn-sidebar">
               <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>Add Document
             </li></a>
-          </ul> -->
-          <ul class="nav nav-sidebar">
-            <li class="active recent-sidebar" ng-controller="RecentCtrl">
-              Recent Projects
-              <ol class="cookie-choices">
-                <li ng-repeat="rec_prj in recent"><a href="#/project/{{rec_prj.split(':')[2]}}">{{rec_prj}}</a></li>
-              </ol>
-            </li>
-          </ul>
-          <ul class="nav nav-sidebar icon-legend">
-            <li>Document Legend</li>
-            <li><img src="../images/ab.png" height="20px" width="20px" /> AS-Built</li>
-            <li><img src="../images/cp.png" height="20px" width="20px" /> Construction Plan</li>
-            <li><img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter</li>
-            <li><img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter</li>
-            <li><img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost</li>
-            <li><img src="../images/pr.png" height="20px" width="20px" /> Permit</li>
-            <li><img src="../images/pl.png" height="20px" width="20px" /> Plat</li>
-          </ul>
-          <img src="../images/City-Seal-BW.png" class="navbar-seal" height="250px" width="250px"/>
-
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
-          <div ng-view="" ></div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- <div login-dialog ng-if="!isLoginPage"></div> -->
-
-
-    <!-- build:js(.) scripts/oldieshim.js -->
-    <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-    <!-- endbuild -->
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/json3/lib/json3.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-dragdrop/src/angular-dragdrop.min.js"></script>
-    <script src="bower_components/d3/d3.min.js"></script>
-    <script src="bower_components/angular-arcgis-server/dist/angular-arcgis-server.js"></script>
-    <script src="bower_components/allmighty-autocomplete/script/autocomplete.js"></script>
-    <script src="bower_components/allmighty-autocomplete/script/app.js"></script>
-    <script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
-    <!-- // <script src="bower_components/ngActivityIndicator/ngActivityIndicator.js"></script> -->
-    <script src="bower_components/terraformer/terraformer.min.js"></script>
-    <script src="bower_components/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script>
-    <!-- // <script src="bower_components/typehead.js/dist/typeahead.bundle.js"></script> -->
-    <!-- // <script src="bower_components/nvd3/nv.d3.js"></script> -->
-    <!-- // <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script> -->
-    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
-    <!-- // <script src="bower_components/chartjs/Chart.js"</script> -->
-    <script src="bower_components/esri-leaflet/dist/esri-leaflet.js"></script>
-    <script src="bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js"></script>
-    <script src="bower_components/leaflet.draw/dist/leaflet.draw.js"></script>
-
-
-
-    <!-- endbower -->
-    <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-
-        <!--Services-->
-        <script src="scripts/services/arcgisServer.js"></script>
-        <script src="scripts/services/cookieService.js"></script>
-        <script src="scripts/services/projectSearch.js"></script>
-        <script src="scripts/services/streetSearch.js"></script>
-        <script src="scripts/services/session.js"></script>
-
-        <!--Factories-->
-        <script src="scripts/factories/authFactory.js"></script>
-        <script src="scripts/factories/optionsFactory.js"></script>
-        <script src="scripts/factories/documentFactory.js"></script>
-        <script src="scripts/factories/iconFactory.js"></script>
-        <script src="scripts/factories/serverFactory.js"></script>
-
-        <!--Directives-->
-        <script src="scripts/directives/documentForm.js"></script>
-        <script src="scripts/directives/pdfCarousel.js"></script>
-        <script src="scripts/directives/projectTable.js"></script>
-        <script src="scripts/directives/mapEdit.js"></script>
-        <script src="scripts/directives/login.js"></script>
-        <script src="scripts/directives/timer.js"></script>
-
-        <!--Controllers-->
-        <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/controllers/applicationCtrl.js"></script>
-        <script src="scripts/controllers/head.js"></script>
-        <script src="scripts/controllers/stats.js"></script>
-        <script src="scripts/controllers/recent.js"></script>
-        <script src="scripts/controllers/map.js"></script>
-        <script src="scripts/controllers/form.js"></script>
-        <script src="scripts/controllers/documents.js"></script>
-        <script src="scripts/controllers/uploadCtrl.js"></script>
-        <script src="scripts/controllers/addDoc.js"></script>
-        <script src="scripts/controllers/project.js"></script>
-
-
-        <!-- endbuild -->
-</body>
-</html>
+          </ul> --> <ul class="nav nav-sidebar"> <li class="active recent-sidebar" ng-controller="RecentCtrl"> Recent Projects <ol class="cookie-choices"> <li ng-repeat="rec_prj in recent"><a href="#/project/{{rec_prj.split(':')[2]}}">{{rec_prj}}</a></li> </ol> </li> </ul> <ul class="nav nav-sidebar icon-legend"> <li>Document Legend</li> <li><img src="../images/ab.2d426e4b.png" height="20px" width="20px"> AS-Built</li> <li><img src="../images/cp.e7f0662c.png" height="20px" width="20px"> Construction Plan</li> <li><img src="../images/al.6a79ee00.png" height="20px" width="20px"> Acceptance Letter</li> <li><img src="../images/wl.d225f34f.png" height="20px" width="20px"> Warranty Letter</li> <li><img src="../images/soc.27b4fdc7.png" height="20px" width="20px"> Statement of Cost</li> <li><img src="../images/pr.1900dfb7.png" height="20px" width="20px"> Permit</li> <li><img src="../images/pl.09e7f80b.png" height="20px" width="20px"> Plat</li> </ul> <img src="../images/City-Seal-BW.a48b2859.png" class="navbar-seal" height="250px" width="250px"> </div> <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> <div ng-view=""></div> </div> </div> </div> <!-- <div login-dialog ng-if="!isLoginPage"></div> --> <!--[if lt IE 9]>
+    <script src="scripts/oldieshim.3d1b3920.js"></script>
+    <![endif]--> <script src="scripts/vendor.9bfa2213.js"></script> <script src="scripts/scripts.7eb2d70e.js"></script>  
