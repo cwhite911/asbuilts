@@ -175,6 +175,7 @@ angular.module('asbuiltsApp')
           scope.deleteDocument.deleteDoc();
           //Deletes document object from array
           scope.project.splice(index, 1);
+          angular.element(target)
         };
 
         function checkUpload (filename){

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('mapEdit', ['Ags', '$rootScope', '$filter', 'leafletData', function (Ags, $rootScope, $filter, leafletData) {
+.directive('mapEdit', ['serverFactory', '$filter', 'leafletData', function (serverFactory, $filter, leafletData) {
   return {
     restrict: 'E',
     transclude: true,
@@ -12,11 +12,6 @@ angular.module('asbuiltsApp')
     templateUrl: 'views/map-edit.html',
     link: function (scope) {
 
-      $rootScope.pt_fs = $rootScope.mapstest.setService({
-        folder:'PublicUtility',
-        service: 'ProjectTracking',
-        server: 'FeatureServer'
-      });
 
       //Constants
       var datesList = ['WATERUPDATEDWHEN', 'SEWERUPDATEDWHEN', 'REUSEUPDATEDWHEN', 'ACCEPTANCEDATE', 'WARRANTYENDDATE', 'DEVPLAN_APPROVAL'],
@@ -50,7 +45,7 @@ angular.module('asbuiltsApp')
 
       //Function that returns projectid
       scope.generateProjectId = function () {
-        $rootScope.pt_fs.request(options).then(function(data){
+        serverFactory.pt_fs.request(options).then(function(data){
           scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
           scope.newMaxProjectId = scope.currentMaxProjectId + 1;
           scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);
@@ -88,7 +83,7 @@ angular.module('asbuiltsApp')
               scope.newMaxProjectId = data.features[0].attributes.PROJECTID + 1;
               getReady.PROJECTID = parseInt(scope.newMaxProjectId, 10);
               //Post new feature data to server
-              $rootScope.pt_fs.request(postOptions)
+              serverFactory.pt_fs.request(postOptions)
                 .then(function(data){
                   console.log(data);
                 },
@@ -104,7 +99,7 @@ angular.module('asbuiltsApp')
         }
         else {
           //Post update data to server
-          $rootScope.pt_fs.request(postOptions)
+          serverFactory.pt_fs.request(postOptions)
           .then(function(data){
             console.log(data);
           },
@@ -205,7 +200,7 @@ angular.module('asbuiltsApp')
           // console.log(scope.data);
           // if (scope.data.properties)
           angular.extend(scope.update, scope.data.properties);
-            $rootScope.pt_fs.request(options).then(function(data){
+          serverFactory.pt_fs.request(options).then(function(data){
               scope.currentMaxProjectId = data.features[0].attributes.PROJECTID;
               scope.newMaxProjectId = scope.currentMaxProjectId + 1;
               scope.update.PROJECTID = parseInt(scope.update.PROJECTID, 10) || parseInt(scope.newMaxProjectId, 10);

@@ -8,47 +8,47 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope', 'CookieService', 'Ags',
-    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService, Ags) {
-      var scope = $rootScope;
-      var mapServer = new Ags({host: 'maps.raleighnc.gov'});
-
-      //Set Services
-
-      //Project Tracking Map Server
-      scope.pt_ms = scope.mapstest.setService({
-        folder:'PublicUtility',
-        service: 'ProjectTracking',
-        server: 'MapServer'
-      });
-
-      //Reclaimed Map Server
-      var reclaimed_ms = scope.gis.setService({
-        folder:'PublicUtility',
-        service: 'ReclaimedDistribution',
-        server: 'MapServer'
-      });
-
-      //Water Map Server
-      var water_ms = scope.gis.setService({
-        folder:'PublicUtility',
-        service: 'WaterDistribution',
-        server: 'MapServer'
-      });
-
-      //Sewer Map Server
-      var sewer_ms = mapServer.setService({
-        folder:'PublicUtility',
-        service: 'SewerExternal',
-        server: 'MapServer'
-      });
-
-      //Parcels Map Server
-      var parcels_ms = mapServer.setService({
-        folder:'',
-        service: 'Parcels',
-        server: 'MapServer'
-      });
+  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'IconFactory', '$rootScope', 'CookieService', 'serverFactory',
+    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, IconFactory, $rootScope, CookieService, serverFactory) {
+      // var scope = $rootScope;
+      // var mapServer = new Ags({host: 'maps.raleighnc.gov'});
+      //
+      // //Set Services
+      //
+      // //Project Tracking Map Server
+      // scope.pt_ms = scope.mapstest.setService({
+      //   folder:'PublicUtility',
+      //   service: 'ProjectTracking',
+      //   server: 'MapServer'
+      // });
+      //
+      // //Reclaimed Map Server
+      // var reclaimed_ms = scope.gis.setService({
+      //   folder:'PublicUtility',
+      //   service: 'ReclaimedDistribution',
+      //   server: 'MapServer'
+      // });
+      //
+      // //Water Map Server
+      // var water_ms = scope.gis.setService({
+      //   folder:'PublicUtility',
+      //   service: 'WaterDistribution',
+      //   server: 'MapServer'
+      // });
+      //
+      // //Sewer Map Server
+      // var sewer_ms = mapServer.setService({
+      //   folder:'PublicUtility',
+      //   service: 'SewerExternal',
+      //   server: 'MapServer'
+      // });
+      //
+      // //Parcels Map Server
+      // var parcels_ms = mapServer.setService({
+      //   folder:'',
+      //   service: 'Parcels',
+      //   server: 'MapServer'
+      // });
 
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -256,7 +256,7 @@ leafletData.getMap('map').then(function(map) {
       };
       switch (layer.url){
         case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
-          scope.pt_ms.request(onClickOptions)
+          serverFactory.pt_ms.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -266,7 +266,7 @@ leafletData.getMap('map').then(function(map) {
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
-          reclaimed_ms.request(onClickOptions)
+          serverFactory.reclaimed_ms.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -276,7 +276,7 @@ leafletData.getMap('map').then(function(map) {
           });
           break;
         case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
-          water_ms.request(onClickOptions)
+          serverFactory.water_ms.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -286,7 +286,7 @@ leafletData.getMap('map').then(function(map) {
           });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
-          sewer_ms.request(onClickOptions)
+          serverFactory.sewer_ms.request(onClickOptions)
             .then(function(data){
               selectedGeojson = L.geoJson(data, {
                 onEachFeature: createPopup,
@@ -296,7 +296,7 @@ leafletData.getMap('map').then(function(map) {
             });
           break;
         case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
-          parcels_ms.request(onClickOptions)
+          serverFactory.parcels_ms.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -437,12 +437,7 @@ $scope.searchControl = function (typed){
   CookieService.addProjectCookie(typed);
   var selection = typed.split(':');
 
-  //Set feautre service
-  scope.pt_fs = scope.mapstest.setService({
-    folder:'PublicUtility',
-    service: 'ProjectTracking',
-    server: 'FeatureServer'
-  });
+
 
 
   var projectOptions = {
@@ -468,7 +463,7 @@ $scope.searchControl = function (typed){
     }
   }
 
-  scope.pt_fs.request(projectOptions)
+  serverFactory.pt_fs.request(projectOptions)
     .then(function(data){
       console.log(data);
       //Prepare Results Table
@@ -500,7 +495,7 @@ $scope.searchControl = function (typed){
       });
 
       //Get Document Information for carousel
-      scope.pt_fs.request(documentOptions)
+      serverFactory.pt_fs.request(documentOptions)
         .then(function(data){
           if (data.features.length !== 0){
                 angular.element('.angular-leaflet-map').addClass('map-move');
