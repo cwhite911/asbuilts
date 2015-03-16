@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .directive('loginDialog', function (AUTH_EVENTS) {
+  .directive('loginDialog', ['AUTH_EVENTS', function (AUTH_EVENTS) {
   return {
     restrict: 'A',
     template: 'view/login-template.html',
@@ -15,4 +15,4 @@ angular.module('asbuiltsApp')
       scope.$on(AUTH_EVENTS.sessionTimeout, showDialog);
     }
   };
-})
+}]);

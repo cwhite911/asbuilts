@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.directive('projectTable', ['Ags', '$filter', function (Ags, $filter) {
+.directive('projectTable', ['serverFactory', '$filter', function (Ags, $filter) {
   return {
     restrict: 'E',
     transclude: true,

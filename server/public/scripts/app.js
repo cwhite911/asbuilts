@@ -40,8 +40,7 @@ angular
     editor: 'editor',
     guest: 'guest'
   })
-  .factory('AuthInterceptor', function ($rootScope, $q,
-    AUTH_EVENTS) {
+  .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', function ($rootScope, $q, AUTH_EVENTS) {
       return {
         responseError: function (response) {
           $rootScope.$broadcast({
@@ -53,8 +52,8 @@ angular
           return $q.reject(response);
         }
       };
-    })
-  
+    }])
+
   .config(['$routeProvider', '$httpProvider', 'USER_ROLES', '$locationProvider', function ($routeProvider, $httpProvider, USER_ROLES, $locationProvider) {
     $routeProvider
       .when('/', {

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-  .factory('AuthService', function ($http, Session, $cookieStore, $window) {
+  .factory('AuthService',['$http', 'Session', '$cookieStore', '$window', function ($http, Session, $cookieStore, $window) {
   var authService = {};
   authService.login = function (credentials) {
     return $http
@@ -32,4 +32,4 @@ angular.module('asbuiltsApp')
     };
 
     return authService;
-  })
+  }])

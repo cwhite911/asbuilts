@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.controller('ApplicationController', function ($scope,
+.controller('ApplicationController', ['$scope', function ($scope,
   USER_ROLES,
   AuthService) {
     $scope.currentUser = null;
@@ -12,4 +12,4 @@ angular.module('asbuiltsApp')
     $scope.setCurrentUser = function (user) {
       $scope.currentUser = user;
     };
-  });
+  }]);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('asbuiltsApp')
-.controller('LoginCtrl', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
+.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
   $scope.credentials = {
     username: '',
     password: ''
@@ -15,4 +15,4 @@ angular.module('asbuiltsApp')
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
   };
-});
+}]);
