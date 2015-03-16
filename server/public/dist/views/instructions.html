@@ -1,3 +1,42 @@
-<div class="container-fluid"> <h1><strong><u>Project Tracking Procedure Manuel</u></strong></h1> <h2>Filling in Project Tracking attributes</h2> <br> <div class="well well-lg" style="background-color: rgba(143, 144, 141, 0.49);-webkit-box-shadow: 10px 10px 10px 10px rgba(143,144,141,1);
-box-shadow: 10px 10px 20px 20px rgba(143,144,141,1)"> <ol class="instructions"> <li>Pick a project to add to the database. Locate the project folder and copy it to <a>\\corfile\Public Utilities\PU_GIS\ProjectTracking\ProjectHoldingPen</a></li> <li>Check in the Project Tracking drop-down list to see if the project is listed. You may want to look in different places in the list to make sure, since project names in our directories may not match the project names in IRIS.</li> <li>If project is not found, add the project to the Project Tracking layer by copying/pasting the parcel to the Project Tracking layer.</li> <li>Fill in project attributes: Reconcile immediately before determining the next-highest Project ID. There is potential for adding duplicate IDs here if we do not communicate or reconcile often enough. Project name must be ALL CAPS. Use Development Plan search tool to find DEVPLANIDs. Other fields to populate:</li> <li>Save, Reconcile &amp; Post so that the project you just added will be in DEFAULT.</li> <li>Sort scans by name descending in the scan folder (windows explorer). Refresh Project Input web form.</li> <li>Select project from drop-down list.</li> <li>Fill out form, starting with the first scan in the directory. If the order is not followed, the scan file names will not be correct. When adding street names, spell out Street, Avenue, Lane, etc. fully – no abbreviations. All drop-down menus are required fields.</li> <li>Click Submit.</li> <li>If you have more scans to add for that project, click Continue, if not, get another project folder and repeat steps 1-10.</li> </ol> </div> <br> <h2>Adding Scans to Database</h2> <br> <div class="well well-lg" style="background-color: rgba(143, 144, 141, 0.49);-webkit-box-shadow: 10px 10px 10px 10px rgba(143,144,141,1);
-box-shadow: 10px 10px 20px 20px rgba(143,144,141,1)"> <ol class="instructions"> <li>Convert tifs to PDFs.</li><br> <li>Open the tool by double-clicking ptk_add_files.pyw in the ProjectHoldingPen folder.</li><br> <li>Click Choose Directory button and select project folder. <br><br><img src="images/choosedir.PNG" alt="dir" class="img-thumbnail"> </li><br> <li>Enter Project ID in text box.<br><br><div class="well well-md" style="background-color: rgba(143, 144, 141, 0.75)"><h4 class="caveat">Caveat:</h4> we need to be careful we are not duplicating ProjectIDs. If there are other editors adding records to the database, ask them what their last ID was. Reconcile often, especially immediately before sorting the Project Tracking table to determine the next highest ProjectID.<br><strong class="text-danger"> Save, Reconcile &amp; Post immediately</strong> after filling in attributes for a project you just added to the Project Tracking layer.</div> <br><br><img src="images/projectid.PNG" alt="projectid" class="img-thumbnail"></li><br> <li>Click Get Project Details button.<br> A list will pop up with new file names for each scan. Review to make sure your sheet count and project ID are correct. <br><br><img src="images/details.PNG" alt="details" class="img-thumbnail"> </li> <br> <li>Click Run.<br> The tool will show Complete when done <br><br><img src="images/run.PNG" alt="run" class="img-thumbnail"></li> </ol> </div> </div>
+<div class="container-fluid">
+<h1><strong><u>Project Tracking Procedure Manuel</u></strong></h1>
+<h2>Filling in Project Tracking attributes</h2>
+<br>
+<div class="well well-lg" style="background-color: rgba(143, 144, 141, 0.49);-webkit-box-shadow: 10px 10px 10px 10px rgba(143,144,141,1);
+box-shadow: 10px 10px 20px 20px rgba(143,144,141,1);">
+  <ol class="instructions">
+    <li>Pick a project to add to the database. Locate the project folder and copy it to <a>\\corfile\Public Utilities\PU_GIS\ProjectTracking\ProjectHoldingPen</a></li>
+    <li>Check in the Project Tracking drop-down list to see if the project is listed. You may want to look in different places in the list to make sure, since project names in our directories may not match the project names in IRIS.</li>
+    <li>If project is not found, add the project to the Project Tracking layer by copying/pasting the parcel to the Project Tracking layer.</li>
+    <li>Fill in project attributes: Reconcile immediately before determining the next-highest Project ID. There is potential for adding duplicate IDs here if we do not communicate or reconcile often enough. Project name must be ALL CAPS. Use Development Plan search tool to find DEVPLANIDs. Other fields to populate:</li>
+    <li>Save, Reconcile &amp; Post so that the project you just added will be in DEFAULT.</li>
+    <li>Sort scans by name descending in the scan folder (windows explorer). Refresh Project Input web form.</li>
+    <li>Select project from drop-down list.</li>
+    <li>Fill out form, starting with the first scan in the directory. If the order is not followed, the scan file names will not be correct. When adding street names, spell out Street, Avenue, Lane, etc. fully – no abbreviations. All drop-down menus are required fields.</li>
+    <li>Click Submit.</li>
+    <li>If you have more scans to add for that project, click Continue, if not, get another project folder and repeat steps 1-10.</li>
+  </ol>
+</div>
+<br>
+<h2>Adding Scans to Database</h2>
+<br>
+<div class="well well-lg" style="background-color: rgba(143, 144, 141, 0.49);-webkit-box-shadow: 10px 10px 10px 10px rgba(143,144,141,1);
+box-shadow: 10px 10px 20px 20px rgba(143,144,141,1);">
+  <ol class="instructions">
+    <li>Convert tifs to PDFs.</a></li><br>
+    <li>Open the tool by double-clicking ptk_add_files.pyw in the ProjectHoldingPen folder.</li><br>
+    <li>Click Choose Directory button and select project folder.
+      <br><br><img src="images/choosedir.PNG" alt="dir" class="img-thumbnail">
+    </li><br>
+    <li>Enter Project ID in text box.<br><br><div class="well well-md" style="background-color: rgba(143, 144, 141, 0.75);"><h4 class="caveat">Caveat:</h4> we need to be careful we are not duplicating ProjectIDs. If there are other editors adding records to the database, ask them what their last ID was. Reconcile often, especially immediately before sorting the Project Tracking table to determine the next highest ProjectID.<br><strong class="text-danger"> Save, Reconcile &amp; Post immediately</strong> after filling in attributes for a project you just added to the Project Tracking layer.</div>
+      <br><br><img src="images/projectid.PNG" alt="projectid" class="img-thumbnail"></li><br>
+    <li>Click Get Project Details button.<br> A list will pop up with new file names for each scan. Review to make sure your sheet count and project ID are correct.
+        <br><br><img src="images/details.PNG" alt="details" class="img-thumbnail">
+    </li>
+    <br>
+    <li>Click Run.<br>
+      The tool will show Complete when done
+      <br><br><img src="images/run.PNG" alt="run" class="img-thumbnail"></li>
+  </ol>
+</div>
+</div>

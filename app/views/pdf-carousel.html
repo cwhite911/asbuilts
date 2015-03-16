@@ -1,6 +1,6 @@
 <div class="row carousel-row">
   <div class="col-md-1 nav-box-left">
-    <div class="nav-arrow" ng-click="moveFoward()"><<</div>
+    <div class="nav-arrow" ng-click="moveFoward()">+</div>
     </div>
     <div class="col-md-10 pdf-carousel">
       <div class="pdf-box" ng-repeat="doc in docs | limitTo: 5" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
@@ -11,6 +11,6 @@
       </div>
     </div>
     <div class="col-md-1 nav-box-right">
-      <div class="nav-arrow" ng-click="moveBackward()">>></div>
+      <div class="nav-arrow" ng-click="moveBackward()">-</div>
       </div>
 </div>

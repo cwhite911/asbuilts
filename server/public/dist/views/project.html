@@ -1,1 +1,40 @@
-<div class="container-fluid animated fadeInDown"> <h1 class="page-header">{{projectid}}: {{projectInfo['Project Name']}} </h1> <div class="row project-view"> <div class="col-md-2 animated fadeInUp"> <h1 class="text-center">Documents</h1> <ul class="project-nav"> <li><img src="../images/ab.2d426e4b.png" height="20px" width="20px"> AS-Built <span>42</span></li> <li><img src="../images/cp.e7f0662c.png" height="20px" width="20px"> Construction Plan</li> <li><img src="../images/al.6a79ee00.png" height="20px" width="20px"> Acceptance Letter</li> <li><img src="../images/wl.d225f34f.png" height="20px" width="20px"> Warranty Letter</li> <li><img src="../images/soc.27b4fdc7.png" height="20px" width="20px"> Statement of Cost</li> <li><img src="../images/pr.1900dfb7.png" height="20px" width="20px"> Permit</li> <li><img src="../images/pl.09e7f80b.png" height="20px" width="20px"> Plat</li> <!-- <li ng-repeat="doc in projectDocuments | orderBy: doc.attributes.DOCID">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</li> --> </ul> </div> <div class="col-md-4 animated fadeInUp"> <!-- Map --> <h1 class="text-center">Project Bounds</h1> <leaflet id="project-map" width="400" height="400"></leaflet> <h1 class="text-center">Documents Break Down</h1> <canvas id="myChart" width="400" height="400"></canvas> </div> <div class="col-md-6 animated fadeInUp"> <!-- <h1>Project Information</h1><br> --> <!--Basic Info--> <project-table project="projectInfo"></project-table> </div> </div> <br> <div class="row project-view" id="ab"> <h1>As-Builts</h1> <div class="col-md-3 animated fadeInUp"> <h1>Document Details </h1></div> <div class="col-md-9 animated fadeInUp"> <h1>Document</h1> </div> </div> </div>
+<div class="container-fluid animated fadeInDown">
+  <h1 class="page-header">{{projectid}}: {{projectInfo['Project Name']}} </h1>
+  <div class="row project-view">
+    <div class="col-md-2 animated fadeInUp">
+      <h1 class="text-center">Documents</h1>
+      <ul class="project-nav">
+        <li><img src="../images/ab.png" height="20px" width="20px" /> AS-Built <span>42</span></li>
+        <li><img src="../images/cp.png" height="20px" width="20px" /> Construction Plan</li>
+        <li><img src="../images/al.png" height="20px" width="20px" /> Acceptance Letter</li>
+        <li><img src="../images/wl.png" height="20px" width="20px" /> Warranty Letter</li>
+        <li><img src="../images/soc.png" height="20px" width="20px" /> Statement of Cost</li>
+        <li><img src="../images/pr.png" height="20px" width="20px" /> Permit</li>
+        <li><img src="../images/pl.png" height="20px" width="20px" /> Plat</li>
+        <!-- <li ng-repeat="doc in projectDocuments | orderBy: doc.attributes.DOCID">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</li> -->
+      </ul>
+    </div>
+  <div class="col-md-4 animated fadeInUp">
+    <!-- Map -->
+    <h1 class="text-center">Project Bounds</h1>
+    <leaflet id="project-map" width="400" height="400"></leaflet>
+    <h1 class="text-center">Documents Break Down</h1>
+    <canvas id="myChart"  width="400" height="400"></canvas>
+  </div>
+  <div class="col-md-6 animated fadeInUp">
+    <!-- <h1>Project Information</h1><br> -->
+    <!--Basic Info-->
+    <project-table project="projectInfo" ></project-table>
+  </div>
+  </div>
+  <br>
+  <div class="row project-view" id="ab">
+    <h1>As-Builts</h1>
+    <div class="col-md-3 animated fadeInUp">
+      <h1>Document Details
+    </div>
+    <div class="col-md-9 animated fadeInUp">
+      <h1>Document</h1>
+    </div>
+  </div>
+</div>
