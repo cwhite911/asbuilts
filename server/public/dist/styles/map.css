@@ -1,0 +1,107 @@
+.angular-leaflet-map {
+  width: auto;
+  height: 100%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 0;
+  /*margin: 1em;
+  background-color: rgba(107, 116, 109, 0.6);*/
+}
+
+.mapNavBar {
+  position:absolute;
+  top:1%;
+  left:60%;
+  width:28%;
+  height: 2%;
+  /*padding: 25px;*/
+  z-index: 1;
+  background-color: rgba(0,0,0, 0.70);
+}
+
+.mapSearch {
+  position:absolute;
+  top:4%;
+  left:7%;
+  width:25%;
+  height: 10%;
+  z-index: 1;
+  /*background-color: rgba(0,0,0, 0.70);*/
+
+}
+.mapSearch .autocomplete input{
+  background-color: rgba(0,0,0, 0.7);
+}
+
+.mapSearch .autocomplete ul{
+  /*-webkit-box-shadow: 10px 10px 5px 4px rgba(0,100,225,0.5);
+  box-shadow: 10px 10px 5px 4px rgba(0,100,225,0.5);*/
+  width: 100%;
+  border-color: rgba(0,100,225,0.5);
+  border-radius: 5px;
+}
+
+.mapSearch .autocomplete li{
+  background-color: rgba(0,0,0, 0.7);
+  z-index: 2;
+}
+.mapSearch .autocomplete li:hover {
+  background-color: rgba(0,100,225,0.5);
+}
+
+.mapTable {
+  position:absolute;
+  top:9%;
+  left: 7%;
+  width:25%;
+  height: 4%;
+  z-index: 1;
+  background-color: rgba(0,0,0, 0.70);
+  border-radius: 0px;
+  overflow-y: scroll;
+}
+
+tbody.mapTableBody {
+  max-height: 200px;
+  overflow-y:scroll;
+}
+
+.mapDocs {
+  position:absolute;
+  top:7%;
+  left: 77%;
+  width:20%;
+  height: 4%;
+  z-index: 0;
+  background-color: rgba(0,0,0, 0.0);
+  border-radius: 0px;
+
+}
+
+.leaflet-control-layers-toggle {
+  background-color: rgba(0,0,0, 0.90);
+  top:6%;
+  z-index: 2000;
+}
+.leaflet-control-layers-list {
+  z-index: 1000;
+  background-color: rgba(70, 67, 67, 0.73);
+  color: white;
+}
+
+.mapPrint{
+  background-color: rgba(0,0,0, 0.90);
+  border-color: rgba(0,0,0, 0.90);
+}
+
+
+/*background-color: rgba(0,0,0, 0.70);
+border-color: rgba(0,0,0, 0.50);;
+}*/
+
+.leaflet-right .leaflet-control {
+  background-color: rgba(70, 67, 67, 0.73);
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+  background: rgb(84, 79, 73);
+}

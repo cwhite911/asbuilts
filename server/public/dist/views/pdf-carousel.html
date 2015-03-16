@@ -4,7 +4,7 @@
     </div>
     <div class="col-md-10 pdf-carousel">
       <div class="pdf-box" ng-repeat="doc in docs | limitTo: 5" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
-        <img class="carousel_icon" ng-src={{doc.icon}} width="20px" height="20px" alt="{{}}" />
+        <img class="carousel_icon" ng-src={{doc.icon}} width="20px" height="20px" alt="no icon" />
         <h5>{{doc.name}}</h5>
         <!-- <embed src="{{doc.url}}" width="200px" alt='{{doc.name}}'> -->
         <iframe class="pdf-frame" name="{{doc.name}}" width="100%" ng-src="{{doc.url}}"><a  href="{{doc.url}}>">Full View</a></iframe>
