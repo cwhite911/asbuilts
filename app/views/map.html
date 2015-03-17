@@ -12,9 +12,9 @@
 <!-- </div> -->
 
 <!--Map Project Seach Bar and Table -->
-<div class="mapSearch">
-  <autocomplete ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete>
-</div>
+<!-- <div class="mapSearch"> -->
+  <autocomplete id="searchBar" class="mapSearch" ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete>
+<!-- </div> -->
 
 <project-table project="project_info" ng-show="searchStatus"></project-table>
 

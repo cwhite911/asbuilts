@@ -195,6 +195,43 @@ function createPopup (feature, layer) {
 
 leafletData.getMap('map').then(function(map) {
 
+  //Adds timer to map
+    var searchBar = L.Control.extend({
+      options: {
+        position: 'topcenter'
+      },
+
+      onAdd: function (map) {
+        console.log(map._controlContainer.childNodes);
+        var $controlContainer = map._controlContainer,
+            nodes = $controlContainer.childNodes,
+            topCenter = false;
+
+        for (var i = 0, len = nodes.length; i < len; i++) {
+            var klass = nodes[i].className;
+            console.log(klass);
+            if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
+                console.log(/leaflet-top/.test(klass));
+                topCenter = true;
+                break;
+            }
+        }
+        if (!topCenter) {
+            var tc = document.createElement('div');
+            tc.className += 'leaflet-top leaflet-center';
+            $controlContainer.appendChild(tc);
+            map._controlCorners.topcenter = tc;
+        }
+        this._map = map;
+        this._container = L.DomUtil.get('searchBar');
+          // var container = L.DomUtil.get('searchBar');
+              // container.setPosition('searchBar', [0, 0]);
+          return this._container;
+      }
+  });
+
+  map.addControl(new searchBar());
+
   //Gets layer info from map
   map.on('click', function(e){
     //Empties exisiting feature group

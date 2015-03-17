@@ -18,13 +18,22 @@
   background-color: rgba(0,0,0, 0.70);
 }
 
+.leaflet-center {
+  width: 20%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+
+}
+
+
 .mapSearch {
-  position:absolute;
+  /*position:absolute;
   top:4%;
   left:7%;
   width:25%;
   height: 10%;
-  z-index: 1;
+  z-index: 1;*/
   /*background-color: rgba(0,0,0, 0.70);*/
 
 }
