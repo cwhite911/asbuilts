@@ -75,12 +75,19 @@ body {
 }
 
 .autocomplete ul{
-  background-color: rgba(143, 144, 141, 0.80);
-  border-color:#7a7c78;
+  background: rgba(0,0,0, 0.7);
+  list-style-type: none;
 }
 .autocomplete li{
-  background-color: rgba(143, 144, 141, 0.80);
+  /*background-color: rgba(143, 144, 141, 0.80);
   border-color:#7a7c78;
+  width: 100%;*/
+  background: rgba(0,0,0, 0.7);
+  padding: 4px 2px;
+}
+
+.autocomplete li:hover {
+  background: rgba(0,100,225,0.5);
   width: 100%;
 }
 
