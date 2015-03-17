@@ -8,9 +8,9 @@
  * Controller of the asbuiltsApp
  */
 angular.module('asbuiltsApp')
-  .controller('MapCtrl', ['$scope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', '$rootScope', 'CookieService', 'serverFactory',
-    function ($scope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, $rootScope, CookieService, serverFactory) {
-    
+  .controller('MapCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'CookieService', 'serverFactory',
+    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, CookieService, serverFactory) {
+    var scope = $rootScope;
 
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
