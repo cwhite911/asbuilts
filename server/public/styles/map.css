@@ -46,6 +46,12 @@
 }
 .mapSearch .autocomplete li:hover {
   background-color: rgba(0,100,225,0.5);
+  cursor: pointer;
+}
+
+.mapSearch .autocomplete li:focus {
+  background-color: rgba(0,100,225,0.5);
+  cursor: pointer;
 }
 
 .mapTable {

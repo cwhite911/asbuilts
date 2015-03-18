@@ -86,6 +86,7 @@ body {
 
 .autocomplete .highlight {
   background-color: rgba(239,255,6, 0.50);
+  cursor: pointer;
 }
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,

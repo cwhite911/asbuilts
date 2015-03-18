@@ -84,10 +84,11 @@ body {
   width: 100%;*/
   background: rgba(0,0,0, 0.7);
   padding: 4px 2px;
+
 }
 
 .autocomplete li:hover {
-  background: rgba(0,100,225,0.5);
+  background: rgba(30, 136, 250, 0.5);
   width: 100%;
 }
 
