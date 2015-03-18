@@ -78,7 +78,7 @@ angular.module('asbuiltsApp')
         }
         //Checks if adding new features a check to make sure projectid is still current
         if (postOptions.actions === 'addFeatures'){
-          $rootScope.pt_fs.request(options)
+          serverFactory.pt_fs.request(options)
             .then(function(data){
               scope.newMaxProjectId = data.features[0].attributes.PROJECTID + 1;
               getReady.PROJECTID = parseInt(scope.newMaxProjectId, 10);

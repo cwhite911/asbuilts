@@ -10,6 +10,8 @@
 angular.module('asbuiltsApp')
   .controller('MapCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'projectConstants', 'CookieService', 'serverFactory',
     function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, projectConstants, CookieService, serverFactory) {
+
+    //Add root scope to set recent projects
     var scope = $rootScope;
 
   $scope.searchStatus = false;
@@ -69,7 +71,7 @@ angular.module('asbuiltsApp')
                 url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer",
                 visible: false,
                 layerOptions: {
-                    layers: [2],
+                    layers: [1],
                       opacity: 0.5,
                       attribution: "Copyright:© 2014 City of Raleigh"
                 },

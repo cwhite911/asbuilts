@@ -73,8 +73,26 @@ angular.module('asbuiltsApp')
      });
    });
    return t1;
-  }
+ };
 
+ services.getDocCounts = function(projectid){
+   var options = {
+     layer: 'RPUD.PTK_DOCUMENTS',
+     actions: 'query',
+     params: {
+       f: 'json',
+      //  where: "PROJECTID =  " + projectid + "",
+       outStatistics: [{
+         "statisticType": "count",
+         "onStatisticField": "DOCTYPEID",
+         "outStatisticFieldName": "DOC_COUNT"
+       }],
+       groupByFieldsForStatistics: 'DOCTYPEID'
+     }
+   };
+
+   return this.pt_ms.request(options);
+ };
 
   return (services);
 

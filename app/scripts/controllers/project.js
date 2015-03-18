@@ -2,8 +2,8 @@
 
 
 angular.module('asbuiltsApp')
-.controller('projectCtrl', ['$scope','$cookieStore', '$rootScope', '$routeParams', 'Ags', 'leafletData',
-function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
+.controller('projectCtrl', ['$scope','$cookieStore', '$routeParams', 'serverFactory', 'leafletData',
+function ($scope, $cookieStore, $routeParams, serverFactory, leafletData) {
   function removeEmptyFields (data) {
     for (var a in data){
       data[a] === 'Null' ? delete data[a] : data[a];
@@ -11,16 +11,10 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
     console.log(data);
     return data;
   }
-  var scope = $rootScope;
-  var mapServer = new Ags({host: 'mapstest.raleighnc.gov'});
+
   $scope.projectid = $routeParams.projectid
 
-  //Project Tracking Map Server
-  var projectService = mapServer.setService({
-    folder:'PublicUtility',
-    service: 'ProjectTracking',
-    server: 'MapServer'
-  });
+
   //Options for search
   var searchOptions = {
     params: {
@@ -43,10 +37,16 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
       where: "PROJECTID =  '" + $scope.projectid + "'",
     }
   };
-
-  //Get Project Documents
-  projectService.request(documentOptions).then(function(res){
+  serverFactory.getDocCounts($scope.projectid).then(function(res){
     console.log(res);
+  });
+  //Get Project Documents
+  serverFactory.pt_ms.request(documentOptions).then(function(res){
+    console.log(res);
+    $scope.docTypeCount = [];
+    res.features.forEach(function(each){
+      $scope.docTypeCount.push({type: each.attributes.DOCTYPEID, count: 1})
+    });
     $scope.projectDocuments = res.features;
   });
 
@@ -59,7 +59,7 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
   // var ctx = document.getElementById("myChart").getContext("2d");
 
   //Get project data from server
-  projectService.request(searchOptions).then(function(res){
+  serverFactory.pt_ms.request(searchOptions).then(function(res){
     console.log(res);
 
     $scope.projectInfo = res.features[0].properties;
@@ -77,64 +77,5 @@ function ($scope, $cookieStore, $rootScope, $routeParams, Ags, leafletData) {
   });
 
 
-function generatePieData (data) {
-    var output = []
-    switch (data.type){
-      case AB:
-        output.push()
-    }
-  };
-  var data = [
-{
-  value: 300,
-  color:"#38962E",
-  highlight: "#24CE12",
-  label: "Red"
-},
-{
-  value: 50,
-  color: "#31407D",
-  highlight: "#223DAB",
-  label: "Green"
-},
-{
-  value: 100,
-  color: "#B6383B",
-  highlight: "#F9161C ",
-  label: '<img src="../../images/pr.png"/>'
-}
-];
-
-
-var options = {
-  //Boolean - Whether we should show a stroke on each segment
-  segmentShowStroke : true,
-
-  //String - The colour of each segment stroke
-  segmentStrokeColor : "#fff",
-
-  //Number - The width of each segment stroke
-  segmentStrokeWidth : 2,
-
-  //Number - The percentage of the chart that we cut out of the middle
-  percentageInnerCutout : 50, // This is 0 for Pie charts
-
-  //Number - Amount of animation steps
-  animationSteps : 100,
-
-  //String - Animation easing effect
-  animationEasing : "easeOutBounce",
-
-  //Boolean - Whether we animate the rotation of the Doughnut
-  animateRotate : true,
-
-  //Boolean - Whether we animate scaling the Doughnut from the centre
-  animateScale : false,
-
-  //String - A legend template
-  legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-
-};
-// var myPieChart = new Chart(ctx).Pie(data,options);
 
 }]);
