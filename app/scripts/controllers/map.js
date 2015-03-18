@@ -202,16 +202,13 @@ leafletData.getMap('map').then(function(map) {
       },
 
       onAdd: function (map) {
-        console.log(map._controlContainer.childNodes);
         var $controlContainer = map._controlContainer,
             nodes = $controlContainer.childNodes,
             topCenter = false;
 
         for (var i = 0, len = nodes.length; i < len; i++) {
             var klass = nodes[i].className;
-            console.log(klass);
             if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
-                console.log(/leaflet-top/.test(klass));
                 topCenter = true;
                 break;
             }
@@ -427,17 +424,9 @@ $scope.autoFillProjects = function (typed) {
 $scope.searchControl = function (typed){
   console.log(typed);
 
-
-
-
-
-
   //Add projects to recent projects cookie
   CookieService.addProjectCookie(typed);
   var selection = typed.split(':');
-
-
-
 
   var projectOptions = {
     layer: 'Project Tracking',
