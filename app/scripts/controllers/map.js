@@ -73,7 +73,8 @@ angular.module('asbuiltsApp')
                 layerOptions: {
                     layers: [1],
                       opacity: 0.5,
-                      attribution: "Copyright:© 2014 City of Raleigh"
+                      attribution: "Copyright:© 2014 City of Raleigh",
+                      position: 'back'
                 },
               },
                 sewer: {
@@ -84,7 +85,8 @@ angular.module('asbuiltsApp')
                   layerOptions: {
                       layers: [0,1,2,3,4],
                         opacity: 1,
-                        attribution: "Copyright:© 2014 City of Raleigh"
+                        attribution: "Copyright:© 2014 City of Raleigh",
+                        position: 'back'
                   }
             },
             water: {
@@ -95,7 +97,8 @@ angular.module('asbuiltsApp')
                 layerOptions: {
                     layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
                       opacity: 1,
-                      attribution: "Copyright:© 2014 City of Raleigh"
+                      attribution: "Copyright:© 2014 City of Raleigh",
+                      position: 'back'
                 }
             },
             reuse: {
@@ -106,7 +109,8 @@ angular.module('asbuiltsApp')
                 layerOptions: {
                     layers: [0,1,2,3,4,5,6,7,8,9,10,11],
                       opacity: 1,
-                      attribution: "Copyright:© 2014 City of Raleigh"
+                      attribution: "Copyright:© 2014 City of Raleigh",
+                      position: 'back'
                 }
             },
             detailsIntersections: {
@@ -117,7 +121,8 @@ angular.module('asbuiltsApp')
               layerOptions: {
                 layers: [0],
                 opacity: 1,
-                attribution: "Copyright:© 2014 City of Raleigh"
+                attribution: "Copyright:© 2014 City of Raleigh",
+                position: 'back'
               }
             },
             parcels: {
@@ -128,7 +133,8 @@ angular.module('asbuiltsApp')
               layerOptions: {
                 layers: ['*'],
                 opacity: 1,
-                attribution: "Copyright:© 2014 City of Raleigh"
+                attribution: "Copyright:© 2014 City of Raleigh",
+                position: 'back'
               }
             }
 
