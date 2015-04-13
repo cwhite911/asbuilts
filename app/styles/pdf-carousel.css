@@ -74,6 +74,15 @@
   background-color: rgba(107, 116, 109, 0.6);
   cursor:pointer;
 }
+
+.nav-box-left:hover: {
+  background-color: rgba(107, 116, 109, 0.6);
+  cursor: pointer;
+}
+
+.nav-arrow:hover{
+  cursor: pointer;
+}
 /* when hiding the picture */
 
 /*.ng-hide-add {
